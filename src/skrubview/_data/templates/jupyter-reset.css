@@ -1,0 +1,17 @@
+#{{ report_id }}.skrubview-report dt {
+    float: none;
+    margin: 0;
+    width: auto;
+}
+
+#{{ report_id }}.skrubview-report code {
+    background-color: inherit;
+    padding: 0;
+    color: inherit;
+    line-height: inherit;
+}
+
+#{{ report_id }}.skrubview-report h2 {
+    line-height: inherit;
+    font-weight: bold;
+}

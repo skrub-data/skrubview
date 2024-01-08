@@ -1,0 +1,66 @@
+<div class="skrubview-card skrubview-column-summary {{"skrubview-constant-column" if column.value_is_constant else "" }}" id="{{ col_id }}" data-name-repr="{{ column.name.__repr__() }}">
+    <div class="skrubview-card-header">
+        <h2>
+            <code class="skrubview-select-all">{{ column.name }}</code>
+        </h2>
+        <input class="dataview-select-column-checkbox" type="checkbox" onchange="updateColSelection(event)" data-column-id="{{ col_id }}" data-report-id="{{ report_id }}" />
+        <code class="skrubview-float-end">{{ column.dtype }}</code>
+    </div>
+    <div class="skrubview-column-summary-content skrubview-wrapper">
+        <div>
+            <dl>
+                <dt>Null values</dt>
+                <dd class="skrubview-{{ column.nulls_level }}">{{ column.null_count }} ({{ column.null_proportion | format_percent }})</dd>
+                {% if column.n_unique %}
+                <dt>Unique values</dt>
+                <dd>{{ column.n_unique }} ({{ column.unique_proportion | format_percent }})</dd>
+                {% endif %}
+
+                {% if column.value_is_constant %}
+                <dt>(constant) Value</dt>
+                <dd>{{ column.constant_value.__repr__() }}</dd>
+                {% else %}
+                {% for key in ["mean", "standard_deviation", "min", "max"] %}
+                {% if key in column %}
+                <dt>{{ key.replace("_", " ").capitalize() }}</dt>
+                <dd>{{ column[key] | format_number }}</dd>
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+
+                {% if column.string_length_is_constant %}
+                <dt>(constant) String length</dt>
+                <dd>{{ column.constant_string_length }}</dd>
+                {% endif %}
+            </dl>
+        </div>
+
+        {% for plot_name in column.plot_names %}
+        <div>
+            {{ column[plot_name] | safe }}
+        </div>
+        {% endfor %}
+
+        {% if column.quantiles and not column.value_is_constant %}
+        <div>
+            <table class="pure-table">
+                <caption>value quantiles</caption>
+                <thead>
+                    <tr>
+                        {% for q in column.quantiles.keys() %}
+                        <th>{{ {0.0: "min", 1.0: "max"}.get(q, "{0:.0%}".format(q)) }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        {% for q in column.quantiles.values() %}
+                        <td>{{ q | format_number }}</td>
+                        {% endfor %}
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+    </div>
+</div>
