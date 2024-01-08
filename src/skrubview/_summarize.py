@@ -1,6 +1,7 @@
 from pathlib import Path
 
 import numpy as np
+import polars as pl
 
 from . import _plotting, _utils
 
@@ -8,6 +9,9 @@ _HIGH_CARDINALITY_THRESHOLD = 10
 
 
 def summarize_dataframe(dataframe, *, order_by=None, file_path=None, with_plots=False):
+    # TODO: pandas support
+    if not isinstance(dataframe, pl.DataFrame):
+        dataframe = pl.DataFrame(dataframe)
     if file_path is not None:
         file_path = Path(file_path)
     df = dataframe.__dataframe_consortium_standard__()
