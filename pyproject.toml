@@ -27,11 +27,19 @@ classifiers = [
 dependencies = [
   "polars",
   "pandas",
+  "pyarrow",
   "jinja2",
   "rich",
   "matplotlib",
   "numpy",
   "dataframe-api-compat",
+]
+
+[project.optional-dependencies]
+test = [
+  "pytest",
+  "beautifulsoup4",
+  "tox",
 ]
 
 

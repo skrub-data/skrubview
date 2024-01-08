@@ -1,3 +1,4 @@
+import re
 from pathlib import Path
 
 import polars as pl
@@ -38,14 +39,34 @@ def get_dtype_name(column):
         return str(column.column.dtype)
 
 
+def _to_html_via_pandas(df):
+    return df.to_pandas().to_html(index=False)
+
+
+def _to_html_polars_native(df):
+    html = df._repr_html_()
+    start = re.search("<table", html).start()
+    end = re.search("</table>", html).end()
+    html = html[start:end]
+    return html
+
+
 def to_html(dataframe):
-    html = dataframe.dataframe.to_pandas().to_html(index=False)
+    try:
+        html = _to_html_via_pandas(dataframe.dataframe)
+    except Exception:
+        # TODO more precise exception list
+        # - pandas not installed
+        # - pyarrow casting µs to ns
+        html = _to_html_polars_native(dataframe.dataframe)
     html = html.replace('class="dataframe"', 'class="pure-table-striped pure-table"')
     return html
+
 
 def first_row_dict(dataframe):
     first_row = dataframe.slice_rows(0, 1, 1)
     return {c: first_row.col(c).to_array().tolist()[0] for c in first_row.column_names}
+
 
 def value_counts(column, high_cardinality_threshold):
     series = column.column
