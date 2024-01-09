@@ -25,6 +25,8 @@ def to_text(summary):
 
 
 def _print_summary(summary, console):
+    if summary.get("title") is not None:
+        console.rule(f"[bold blue]{summary['title']}[/bold blue]")
     overview = (
         f"Dataframe with [blue]{summary['n_rows']} rows[/blue] "
         f"and [blue]{summary['n_columns']} columns[/blue]."

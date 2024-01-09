@@ -8,7 +8,9 @@ from . import _plotting, _utils
 _HIGH_CARDINALITY_THRESHOLD = 10
 
 
-def summarize_dataframe(dataframe, *, order_by=None, file_path=None, with_plots=False):
+def summarize_dataframe(
+    dataframe, *, order_by=None, file_path=None, with_plots=False, title=None
+):
     # TODO: pandas support
     if not isinstance(dataframe, pl.DataFrame):
         dataframe = pl.DataFrame(dataframe)
@@ -25,6 +27,8 @@ def summarize_dataframe(dataframe, *, order_by=None, file_path=None, with_plots=
         "tail_html": _utils.to_html(df.slice_rows(-5, None, 1)),
         "first_row_dict": _utils.first_row_dict(df),
     }
+    if title is not None:
+        summary["title"] = title
     if file_path is not None:
         summary["file_path"] = str(file_path.resolve())
         summary["file_name"] = file_path.name

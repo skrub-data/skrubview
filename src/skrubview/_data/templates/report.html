@@ -1,5 +1,8 @@
 <div class="skrubview-report" id="{{ report_id }}">
     <div class="skrubview-dataframe-summary skrubview-wrapper skrubview-text">
+        {% if summary.title %}
+        <h1>{{ summary.title }}</h1>
+        {% endif %}
         {% if summary.file_path %}
         <p><span class="skrubview-select-none">File: </span><code>{{ summary.file_path }}</code></p>
         {% endif %}

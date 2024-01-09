@@ -26,5 +26,8 @@ def to_html(summary, standalone=True):
     else:
         template = jinja_env.get_template("inline-report.html")
     return template.render(
-        {"summary": summary, "report_id": f"report_{secrets.token_hex()[:8]}"}
+        {
+            "summary": summary,
+            "report_id": f"report_{secrets.token_hex()[:8]}",
+        }
     )

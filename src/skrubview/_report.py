@@ -28,6 +28,8 @@ class Report:
         Column name to use for sorting. Other numerical columns will be plotted
         as function of the sorting column. Must be of numerical or datetime
         type.
+    title : str
+        Title for the report.
 
     Attributes
     ----------
@@ -47,8 +49,10 @@ class Report:
     summary_without_plots : dict
         Same as ``summary_with_plots`` without the plots.
     """
-    def __init__(self, data, order_by=None):
+
+    def __init__(self, data, order_by=None, title=None):
         self._summary_kwargs = {"order_by": order_by}
+        self.title = title
         if hasattr(data, "__dataframe__"):
             self.dataframe = data
         else:
@@ -59,13 +63,13 @@ class Report:
     @functools.cached_property
     def summary_with_plots(self):
         return summarize_dataframe(
-            self.dataframe, with_plots=True, **self._summary_kwargs
+            self.dataframe, with_plots=True, title=self.title, **self._summary_kwargs
         )
 
     @functools.cached_property
     def summary_without_plots(self):
         return summarize_dataframe(
-            self.dataframe, with_plots=False, **self._summary_kwargs
+            self.dataframe, with_plots=False, title=self.title, **self._summary_kwargs
         )
 
     @property
@@ -107,8 +111,7 @@ class Report:
             in a "Not found" error.
         """
         if file_path is None:
-            html = to_html(self.summary_with_plots, standalone=True)
-            open_html_in_browser(html)
+            open_html_in_browser(self.html)
             return
         file_path = Path(file_path).resolve()
         file_path.write_text(self.html, "UTF-8")
