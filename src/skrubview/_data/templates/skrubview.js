@@ -32,11 +32,27 @@ function selectAllCols(reportId) {
     updateSelectedColsSnippet(reportId);
 }
 
+
 function copyTextToClipboard(elementID) {
-    var elem = document.getElementById(elementID);
+    const elem = document.getElementById(elementID);
     elem.setAttribute("data-is-being-copied", "");
-    navigator.clipboard.writeText(elem.textContent);
-    setTimeout(function() {
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(elem.textContent || "");
+    }
+    else {
+        const selection = window.getSelection();
+        if (selection == null) {
+            return;
+        }
+        selection.removeAllRanges();
+        const range = document.createRange();
+        range.selectNodeContents(elem);
+        selection.addRange(range);
+        document.execCommand("copy");
+        selection.removeAllRanges();
+    }
+
+    setTimeout(() => {
         elem.removeAttribute("data-is-being-copied");
     }, 200);
 }
