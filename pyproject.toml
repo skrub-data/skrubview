@@ -41,7 +41,9 @@ test = [
   "beautifulsoup4",
   "tox",
 ]
-
+doc = [
+  "skrub",
+]
 
 [project.scripts]
 skrubview = "skrubview:run"

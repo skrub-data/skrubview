@@ -3,6 +3,7 @@
 This package exists to experiment with ideas and features that could be included in [skrub](https://github.com/skrub-data/skrub).
 As the goal is quick prototyping and experimentation, some features are likely to be incomplete or dysfunctional.
 
+See [some example reports](https://skrub-data.org/skrubview/).
 Any feedback is very welcome.
 
 ## Installing

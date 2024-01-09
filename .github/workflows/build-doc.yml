@@ -1,0 +1,34 @@
+name: build
+
+permissions:
+  contents: write
+
+on:
+  push:
+    branches:
+    - main
+
+jobs:
+  deploy-doc:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        pip install -e ".[doc]"
+
+    - name: Build the doc
+      run: |
+        python doc/make_doc.py
+
+    - name: GitHub Pages action
+      uses: peaceiris/actions-gh-pages@v3.6.1
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: doc/_build
