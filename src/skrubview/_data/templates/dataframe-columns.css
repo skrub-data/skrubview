@@ -1,4 +1,4 @@
-{% from "utils.j2" import compact_id, collapse_const_id, report_id_selector %}
+{% from "utils.j2" import compact_id, collapse_const_id %}
 
 {{ report_id_selector }}.skrubview-report .skrubview-float-end {
     margin-inline-start: auto;

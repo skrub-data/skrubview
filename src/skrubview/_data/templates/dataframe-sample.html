@@ -1,0 +1,13 @@
+<div class="skrubview-wrapper">
+    <details>
+        <summary><h2>Sample</h2></summary>
+        <h3>First 5 rows</h3>
+        <div class="skrubview-horizontal-scroll">
+            {{ summary.head_html | safe }}
+        </div>
+        <h3>Last 5 rows</h3>
+        <div class="skrubview-horizontal-scroll">
+            {{ summary.tail_html | safe }}
+        </div>
+    </details>
+</div>

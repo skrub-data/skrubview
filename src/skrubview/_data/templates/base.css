@@ -1,10 +1,13 @@
-{% from "utils.j2" import report_id_selector %}
 :root {
     --skrubview-tiny: 0.5rem;
     --skrubview-small: 1.0rem;
     --skrubview-large: 1.2rem;
     --skrubview-huge: 1.5rem;
     --skrubview-max-content-width: 45rem;
+}
+
+{{ report_id_selector }}.skrubview-report summary > * {
+    display: inline;
 }
 
 {{ report_id_selector }}.skrubview-report p {
@@ -48,22 +51,7 @@
     font: inherit;
 }
 
-{{ report_id_selector }}.skrubview-report details:not({{ "[" }} open {{ "]" }}) {
-    display: inline;
-}
-
-{{ report_id_selector }}.skrubview-report * + details:not({{ "[" }} open {{ "]" }}) {
-    margin-inline-start: var(--skrubview-tiny);
-}
-
-{{ report_id_selector }}.skrubview-report details{{ "[" }} open {{ "]" }} {
-    padding-block-end: var(--skrubview-tiny);
-}
-
-
-
 {{ report_id_selector }}.skrubview-report .skrubview-horizontal-scroll {
-    max-width: 100%;
     overflow-x: auto;
 }
 

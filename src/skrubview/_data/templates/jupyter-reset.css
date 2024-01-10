@@ -1,17 +1,19 @@
-#{{ report_id }}.skrubview-report dt {
+{% set report_id_selector="#{}".format(report_id) if report_id else "" %}
+
+{{ report_id_selector }}.skrubview-report dt {
     float: none;
     margin: 0;
     width: auto;
 }
 
-#{{ report_id }}.skrubview-report code {
+{{ report_id_selector }}.skrubview-report code {
     background-color: inherit;
     padding: 0;
     color: inherit;
     line-height: inherit;
 }
 
-#{{ report_id }}.skrubview-report h2 {
+{{ report_id_selector }}.skrubview-report :is(h2, h3) {
     line-height: inherit;
     font-weight: bold;
 }

@@ -1,0 +1,47 @@
+<div class="skrubview-wrapper">
+    <details open="">
+        <summary><h2>Columns</h2></summary>
+    <div>
+        <p>Selected columns:</p>
+        <code class="dataview-selected-columns" id="{{ report_id }}-selected-columns"></code>
+        <p>
+            <button onclick='clearSelectedCols("{{ report_id }}")'>Clear</button>
+            <button onclick='selectAllCols("{{ report_id }}")'>Select all</button>
+            <button onclick='copyTextToClipboard("{{ report_id }}-selected-columns")'>📋</button>
+        </p>
+    </div>
+    {% if summary.n_constant_columns %}
+    <input type="checkbox" id="{{ collapse_const_id }}" checked="true" />
+    <label for="{{ collapse_const_id }}">Collapse constant columns</label>
+    {% endif %}
+
+    <input type="checkbox" id="{{ compact_id }}" checked="true" />
+    <label for="{{ compact_id }}">Compact display</label>
+
+    <div class="skrubview-column-summary-group">
+        {% if summary.n_constant_columns %}
+        <div class="skrubview-pseudocolumn skrubview-constant-columns-summary skrubview-card">
+            <div class="skrubview-card-header">
+                <h3>Constant columns</h3>
+            </div>
+            <div class="skrubview-wrapper skrubview-text">
+                <p>
+                <dl>
+                    {% for column in summary.columns %}
+                    {% if column.value_is_constant %}
+                    <dt class="skrubview-select-all">{{ column.name }}</dt>
+                    <dd>{{ column.constant_value.__repr__() }}</dd>
+                    {% endif %}
+                    {% endfor %}
+                </dl>
+                </p>
+            </div>
+        </div>
+        {% endif %}
+        {% for column in summary.columns %}
+        {% set col_id="{}_col_{}".format(report_id, loop.index0) %}
+        {% include "column-summary.html" %}
+        {% endfor %}
+    </div>
+    </details>
+</div>
