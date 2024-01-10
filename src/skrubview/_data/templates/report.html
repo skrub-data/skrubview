@@ -1,3 +1,5 @@
+{% from "utils.j2" import compact_id, collapse_const_id, report_id_selector %}
+
 <div class="skrubview-report" id="{{ report_id }}">
     <div class="skrubview-dataframe-summary skrubview-wrapper skrubview-text">
         {% if summary.title %}
@@ -36,13 +38,11 @@
 
     </div>
 
-    {% set collapse_const_id = "{}-collapse-const-columns-checkbox".format(report_id) %}
     {% if summary.n_constant_columns %}
     <input type="checkbox" id="{{ collapse_const_id }}" checked="true" />
     <label for="{{ collapse_const_id }}">Collapse constant columns</label>
     {% endif %}
 
-    {% set compact_id = "{}-compact-checkbox".format(report_id) %}
     <input type="checkbox" id="{{ compact_id }}" checked="true" />
     <label for="{{ compact_id }}">Compact display</label>
 
