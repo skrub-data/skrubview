@@ -4,7 +4,7 @@
         <summary><h2>Columns</h2></summary>
     <div>
         <p>Selected columns:</p>
-        <code class="dataview-selected-columns" id="{{ report_id }}-selected-columns"></code>
+        <code class="skrubview-selected-columns" id="{{ report_id }}-selected-columns"></code>
         <p>
             <button onclick='clearSelectedCols("{{ report_id }}")'>Clear</button>
             <button onclick='selectAllCols("{{ report_id }}")'>Select all</button>
@@ -13,9 +13,8 @@
     </div>
     {% if summary.n_constant_columns %}
     <input type="checkbox" id="{{ collapse_const_id }}" checked="true" />
-    <label for="{{ collapse_const_id }}">Collapse constant columns</label>
+    <label for="{{ collapse_const_id }}" class="skrubview-margin-r-s">Collapse constant columns</label>
     {% endif %}
-
     <input type="checkbox" id="{{ compact_id }}" checked="true" />
     <label for="{{ compact_id }}">Compact display</label>
 

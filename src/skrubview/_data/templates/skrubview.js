@@ -3,7 +3,7 @@ function updateColSelection(event) {
 }
 
 function isSelectedCol(columnElem) {
-    const checkboxElem = columnElem.querySelector("input.dataview-select-column-checkbox[type='checkbox']");
+    const checkboxElem = columnElem.querySelector("input.skrubview-select-column-checkbox[type='checkbox']");
     return checkboxElem && checkboxElem.checked;
 }
 
@@ -12,13 +12,13 @@ function updateSelectedColsSnippet(reportId) {
     const allCols = reportElem.querySelectorAll(".skrubview-column-summary");
     const selectedCols = Array.from(allCols).filter(c => isSelectedCol(c));
     const snippet = selectedCols.map(col => col.dataset.nameRepr).join(", ");
-    const selectedColsElem = reportElem.querySelector(".dataview-selected-columns");
+    const selectedColsElem = reportElem.querySelector(".skrubview-selected-columns");
     selectedColsElem.textContent = "[" + snippet + "]";
 }
 
 function clearSelectedCols(reportId) {
     const reportElem = document.getElementById(reportId);
-    reportElem.querySelectorAll("input.dataview-select-column-checkbox[type='checkbox']").forEach(
+    reportElem.querySelectorAll("input.skrubview-select-column-checkbox[type='checkbox']").forEach(
         box => {box.checked = false;}
     );
     updateSelectedColsSnippet(reportId);
@@ -26,7 +26,7 @@ function clearSelectedCols(reportId) {
 
 function selectAllCols(reportId) {
     const reportElem = document.getElementById(reportId);
-    reportElem.querySelectorAll("input.dataview-select-column-checkbox[type='checkbox']").forEach(
+    reportElem.querySelectorAll("input.skrubview-select-column-checkbox[type='checkbox']").forEach(
         box => {box.checked = true;}
     );
     updateSelectedColsSnippet(reportId);

@@ -28,7 +28,6 @@
     {{ report_id_selector }}.skrubview-report #{{ compact_id }}:checked ~ .skrubview-column-summary-group {
         display: flex;
         flex-wrap: wrap;
-        column-gap: var(--skrubview-tiny);
     }
 
     {{ report_id_selector }}.skrubview-report #{{ compact_id }}:checked ~ * .skrubview-column-summary-content {

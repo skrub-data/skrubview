@@ -15,8 +15,12 @@
     margin-block-end: var(--skrubview-tiny);
 }
 
-{{ report_id_selector }}.skrubview-report input[type="checkbox"] {
-    margin-inline-start: var(--checkbox-margin, var(--skrubview-small));
+{{ report_id_selector }}.skrubview-report .skrubview-margin-r-s {
+    margin-inline-end: var(--skrubview-small);
+}
+
+{{ report_id_selector }}.skrubview-report .skrubview-margin-r-t {
+    margin-inline-end: var(--skrubview-tiny);
 }
 
 {{ report_id_selector }}.skrubview-report :is(td, th) {

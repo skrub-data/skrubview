@@ -1,9 +1,9 @@
 <div class="skrubview-card skrubview-column-summary {{"skrubview-constant-column" if column.value_is_constant else "" }}" id="{{ col_id }}" data-name-repr="{{ column.name.__repr__() }}">
     <div class="skrubview-card-header">
-        <h3>
+        <h3 class="skrubview-margin-r-t">
             <code class="skrubview-select-all">{{ column.name }}</code>
         </h3>
-        <input class="dataview-select-column-checkbox" type="checkbox" onchange="updateColSelection(event)" data-column-id="{{ col_id }}" data-report-id="{{ report_id }}" />
+        <input class="skrubview-select-column-checkbox" type="checkbox" onchange="updateColSelection(event)" data-column-id="{{ col_id }}" data-report-id="{{ report_id }}" />
         <code class="skrubview-float-end">{{ column.dtype }}</code>
     </div>
     <div class="skrubview-column-summary-content skrubview-wrapper">
