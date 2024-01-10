@@ -167,7 +167,7 @@ def _add_numeric_summary(summary, column, with_plots, order_by_column):
         return
     if order_by_column is None:
         summary["histogram_plot"] = _plotting.histogram(
-            column, "Value distribution", color=_plotting.COLORS[0]
+            column, title=None, color=_plotting.COLORS[0]
         )
     else:
         summary["line_plot"] = _plotting.line(order_by_column, column)

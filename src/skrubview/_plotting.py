@@ -24,6 +24,10 @@ COLORS = _SEABORN
 COLOR_0 = COLORS[0]
 
 
+def _despine(ax):
+    ax.spines[["top", "right"]].set_visible(False)
+
+
 def _serialize(fig, close=True):
     buffer = io.BytesIO()
     fig.savefig(buffer, format="svg", bbox_inches="tight")
@@ -43,6 +47,7 @@ def _rotate_ticklabels(ax):
 def histogram(col, title=None, color=COLOR_0):
     values = np.asarray(col.to_array())
     fig, ax = plt.subplots(figsize=(3, 1.5), layout="compressed")
+    _despine(ax)
     ax.hist(values, color=color)
     if title is not None:
         ax.set_title(title)
@@ -54,6 +59,7 @@ def line(x_col, y_col):
     x = np.asarray(x_col.to_array())
     y = np.asarray(y_col.to_array())
     fig, ax = plt.subplots(figsize=(3, 2), layout="compressed")
+    _despine(ax)
     ax.plot(x, y)
     ax.set_xlabel(x_col.name)
     ax.set_ylabel(y_col.name)
@@ -67,11 +73,12 @@ def value_counts(value_counts, n_unique, color=COLOR_0):
     height = 0.2 * (len(value_counts) + 1.1)
     if n_unique > len(value_counts):
         title = f"{len(value_counts)} most frequent out of {n_unique}"
-        height += .5
+        height += 0.5
     else:
         title = None
     width = 0.1 * max(len(str(v)) for v in values) + 2
     fig, ax = plt.subplots(figsize=(width, height), layout="compressed")
+    _despine(ax)
     ax.barh(list(map(str, values)), counts, color=color)
     if title is not None:
         ax.set_title(title)
