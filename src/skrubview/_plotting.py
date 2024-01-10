@@ -40,11 +40,12 @@ def _rotate_ticklabels(ax):
         ax.figure.set_size_inches((w, h + 0.3))
 
 
-def histogram(col, title, color=COLOR_0):
+def histogram(col, title=None, color=COLOR_0):
     values = np.asarray(col.to_array())
     fig, ax = plt.subplots(figsize=(3, 1.5), layout="compressed")
     ax.hist(values, color=color)
-    ax.set_title(title)
+    if title is not None:
+        ax.set_title(title)
     _rotate_ticklabels(ax)
     return _serialize(fig)
 
@@ -63,12 +64,15 @@ def line(x_col, y_col):
 def value_counts(value_counts, n_unique, color=COLOR_0):
     values = [_utils.ellide_string(s, 30) for s in value_counts.keys()][::-1]
     counts = list(value_counts.values())[::-1]
-    height = 0.23 * (len(value_counts) + 2)
+    height = 0.2 * (len(value_counts) + 1.1)
+    if n_unique > len(value_counts):
+        title = f"{len(value_counts)} most frequent out of {n_unique}"
+        height += .5
+    else:
+        title = None
     width = 0.1 * max(len(str(v)) for v in values) + 2
     fig, ax = plt.subplots(figsize=(width, height), layout="compressed")
     ax.barh(list(map(str, values)), counts, color=color)
-    title = "Value counts"
-    if n_unique > len(value_counts):
-        title += f"\n({len(value_counts)} most frequent out of {n_unique})"
-    ax.set_title(title)
+    if title is not None:
+        ax.set_title(title)
     return _serialize(fig)

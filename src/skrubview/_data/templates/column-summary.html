@@ -20,12 +20,25 @@
                 <dt>(constant) Value</dt>
                 <dd>{{ column.constant_value.__repr__() }}</dd>
                 {% else %}
-                {% for key in ["mean", "standard_deviation", "min", "max"] %}
-                {% if key in column %}
-                <dt>{{ key.replace("_", " ").capitalize() }}</dt>
-                <dd>{{ column[key] | format_number }}</dd>
+                {% if "mean" in column %}
+                <dt>Mean ± Std</dt>
+                <dd>{{ column["mean"] | format_number }} ± {{ column["standard_deviation"] | format_number }}</dd>
                 {% endif %}
-                {% endfor %}
+                {% if column.quantiles %}
+                <dt>Min — Max</dt>
+                <dd>
+                    {{ column.quantiles[0.0] | format_number }} —
+                    {{ column.quantiles[1.0] | format_number }}
+                </dd>
+                <dt>Median</dt>
+                <dd>{{ column.quantiles[0.5] | format_number }}</dd>
+                {% elif "min" in column %}
+                <dt>Min — Max</dt>
+                <dd>
+                    {{ column.min | format_number }} —
+                    {{ column.max | format_number }}
+                </dd>
+                {% endif %}
                 {% endif %}
 
                 {% if column.string_length_is_constant %}
@@ -41,26 +54,5 @@
         </div>
         {% endfor %}
 
-        {% if column.quantiles and not column.value_is_constant %}
-        <div>
-            <table class="pure-table">
-                <caption>value quantiles</caption>
-                <thead>
-                    <tr>
-                        {% for q in column.quantiles.keys() %}
-                        <th>{{ {0.0: "min", 1.0: "max"}.get(q, "{0:.0%}".format(q)) }}</th>
-                        {% endfor %}
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        {% for q in column.quantiles.values() %}
-                        <td>{{ q | format_number }}</td>
-                        {% endfor %}
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        {% endif %}
     </div>
 </div>

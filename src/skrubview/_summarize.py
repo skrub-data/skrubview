@@ -69,7 +69,6 @@ def _summarize_column(
         summary, column, with_plots=with_plots, order_by_column=order_by_column
     )
     _add_datetime_summary(summary, column, with_plots=with_plots)
-    _add_string_summary(summary, column, with_plots=with_plots)
     summary["plot_names"] = [k for k in summary.keys() if k.endswith("_plot")]
     return summary
 
@@ -104,7 +103,7 @@ def _add_sample_values(summary, column):
 def _add_value_counts(summary, column, *, dataframe_summary, with_plots):
     ns = column.__column_namespace__()
     dtype = _utils.get_dtype(column)
-    if ns.is_dtype(dtype, "floating") or isinstance(dtype, ns.Datetime):
+    if ns.is_dtype(dtype, "numeric") or isinstance(dtype, ns.Datetime):
         summary["high_cardinality"] = True
         return
     n_unique, value_counts = _utils.value_counts(
@@ -145,7 +144,7 @@ def _add_datetime_summary(summary, column, with_plots):
     summary["max"] = max_date.isoformat()
     if with_plots:
         summary["histogram_plot"] = _plotting.histogram(
-            column, "Value distribution", color=_plotting.COLORS[0]
+            column, None, color=_plotting.COLORS[0]
         )
 
 
@@ -172,25 +171,3 @@ def _add_numeric_summary(summary, column, with_plots, order_by_column):
         )
     else:
         summary["line_plot"] = _plotting.line(order_by_column, column)
-
-
-def _add_string_summary(summary, column, with_plots):
-    ns = column.__column_namespace__()
-    if (
-        not ns.is_dtype(_utils.get_dtype(column), "string")
-        or not summary["high_cardinality"]
-    ):
-        return
-    lengths = _utils.string_lengths(column)
-    quantiles = _utils.quantiles(lengths)
-    quantiles = {k: int(v) for k, v in quantiles.items()}
-    summary["string_length_quantiles"] = quantiles
-    if quantiles[0.0] == quantiles[1.0]:
-        summary["string_length_is_constant"] = True
-        summary["constant_string_length"] = quantiles[0.0]
-    else:
-        summary["string_length_is_constant"] = False
-        if with_plots:
-            summary["string_length_histogram_plot"] = _plotting.histogram(
-                lengths, "String length distribution", color=_plotting.COLORS[2]
-            )
