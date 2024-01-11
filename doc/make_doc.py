@@ -36,6 +36,8 @@ links_text = "\n".join(links)
 index = f"""
 <html>
 <head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>skrubview</title>
 </head>
 <h1>Skrubview example reports</h1>
