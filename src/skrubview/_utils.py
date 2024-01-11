@@ -1,3 +1,4 @@
+import base64
 import re
 from pathlib import Path
 
@@ -114,3 +115,7 @@ def format_percent(proportion):
     if 0.0 < proportion < 0.001:
         return "< 0.1%"
     return f"{proportion:0.1%}"
+
+def svg_to_img_src(svg):
+    encoded_svg = base64.b64encode(svg.encode("UTF-8")).decode("UTF-8")
+    return f"data:image/svg+xml;base64,{encoded_svg}"

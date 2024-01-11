@@ -16,6 +16,7 @@ def _get_jinja_env():
     )
     env.filters["format_number"] = _utils.format_number
     env.filters["format_percent"] = _utils.format_percent
+    env.filters["svg_to_img_src"] = _utils.svg_to_img_src
     return env
 
 

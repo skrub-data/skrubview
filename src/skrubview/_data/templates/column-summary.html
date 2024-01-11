@@ -49,9 +49,7 @@
         </div>
 
         {% for plot_name in column.plot_names %}
-        <div>
-            {{ column[plot_name] | safe }}
-        </div>
+        <img class="pure-img" src="{{ column[plot_name] | svg_to_img_src | safe }}" alt={{ plot_name }} />
         {% endfor %}
 
     </div>
