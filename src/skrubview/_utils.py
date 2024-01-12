@@ -37,7 +37,7 @@ def get_dtype_name(column):
     try:
         return column.dtype.__class__.__name__
     except Exception:
-        return str(column.column.dtype)
+        return column.column.dtype.__class__.__name__
 
 
 def _to_html_via_pandas(df):

@@ -129,6 +129,7 @@
     min-width: 1rem;
     max-width: 40rem;
     max-height: 10rem;
+    min-height: 1rem;
     overflow: auto;
     margin-block-start: var(--skrubview-tiny);
     margin-block-end: var(--skrubview-tiny);

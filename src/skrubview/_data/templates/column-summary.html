@@ -51,7 +51,7 @@
         {% for plot_name in column.plot_names %}
         <div>
         <img class="pure-img" src="{{ column[plot_name] | svg_to_img_src | safe }}" alt={{ plot_name }} />
-        {% if plot_name == "value_counts_plot"  and column.dtype == "String" %}
+        {% if plot_name == "value_counts_plot" %}
         <details>
             <summary>Most frequent values</summary>
             {% for value in column.value_counts %}
