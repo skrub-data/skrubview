@@ -61,7 +61,6 @@ def _summarize_column(
         "value_is_constant": False,
     }
     _add_nulls_summary(summary, column, dataframe_summary=dataframe_summary)
-    _add_sample_values(summary, column)
     _add_value_counts(
         summary, column, dataframe_summary=dataframe_summary, with_plots=with_plots
     )
@@ -84,20 +83,6 @@ def _add_nulls_summary(summary, column, dataframe_summary):
         summary["nulls_level"] = "critical"
     else:
         summary["nulls_level"] = "warning"
-
-
-def _add_sample_values(summary, column):
-    rng = np.random.default_rng(0)
-    non_missing = column.filter(~column.is_null())
-    n_non_missing = int(non_missing.len())
-    if n_non_missing == 0:
-        return
-    size = min(n_non_missing, 5)
-    sample_indices = sorted(rng.choice(range(n_non_missing), replace=False, size=size))
-    ns = column.__column_namespace__()
-    sample_indices = ns.column_from_sequence(sample_indices)
-    sample_values = np.asarray(non_missing.take(sample_indices).to_array()).tolist()
-    summary["sample_values"] = list(map(_utils.ellide_string, sample_values))
 
 
 def _add_value_counts(summary, column, *, dataframe_summary, with_plots):

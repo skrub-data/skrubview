@@ -113,6 +113,14 @@
     font-size: var(--skrubview-large);
 }
 
+{{ report_id_selector }}.skrubview-report .skrubview-box {
+    border: 1px solid #555555;
+    padding: var(--skrubview-tiny);
+    max-width: 40rem;
+    max-height: 10rem;
+    overflow: auto;
+}
+
 {{ report_id_selector }}.skrubview-report :is(.skrubview-ok, .skrubview-warning, .skrubview-critical) {
                                                  font-weight: bold;
                                              }

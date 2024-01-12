@@ -42,7 +42,7 @@ def _print_summary(summary, console):
 
 def _print_first_row(summary, console):
     console.print("First row:")
-    console.print(summary["first_row_dict"])
+    console.print({k: _utils.ellide_string(v) for (k, v) in summary["first_row_dict"].items()})
 
 def _print_constant_columns(summary, console):
     cols = [col for col in summary["columns"] if col.get("value_is_constant")]
@@ -72,10 +72,10 @@ def _print_column_summary(summary, console):
     text.append(f"[{color}]{summary['null_proportion']:0.2%}[/{color}]\n")
     if "n_unique" in summary:
         text.append(f"Unique values: {summary['n_unique']}\n")
-    if not summary["high_cardinality"]:
-        text.append(f"Value counts: {summary['value_counts']}\n")
-    elif summary["dtype"] == "String":
-        text.append(f"Sample values: {list(summary['sample_values'])}\n")
+    if "value_counts" in summary:
+        # TODO in theory ellide_string could create collisions
+        ellided = {_utils.ellide_string(k): v for (k, v) in summary["value_counts"].items()}
+        text.append(f"Most frequent value counts: {ellided}\n")
     if "mean" in summary:
         text.append(
             f"Mean: {summary['mean']:#0.3g} "
