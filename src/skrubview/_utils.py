@@ -69,6 +69,14 @@ def first_row_dict(dataframe):
     return {c: first_row.col(c).to_array().tolist()[0] for c in first_row.column_names}
 
 
+def to_row_list(dataframe):
+    columns = dataframe.dataframe.to_dict()
+    rows = []
+    for row_idx in range(dataframe.shape()[0]):
+        rows.append([col[row_idx] for col in columns.values()])
+    return {"header": list(columns.keys()), "data": rows}
+
+
 def value_counts(column, high_cardinality_threshold):
     series = column.column
     value_counts = series.value_counts()
@@ -99,10 +107,13 @@ def ellide_string(s, max_len=100):
         return s
     if len(s) <= max_len:
         return s
-    if max_len > 30:
+    if 30 <= max_len:
         truncated = len(s) - max_len
         return s[: (max_len - 30)] + f"[… {truncated} more chars]"
     return s[:max_len] + "…"
+
+def ellide_string_short(s):
+    return ellide_string(s, 29)
 
 
 def format_number(number):
@@ -115,6 +126,7 @@ def format_percent(proportion):
     if 0.0 < proportion < 0.001:
         return "< 0.1%"
     return f"{proportion:0.1%}"
+
 
 def svg_to_img_src(svg):
     encoded_svg = base64.b64encode(svg.encode("UTF-8")).decode("UTF-8")

@@ -1,13 +1,15 @@
 <div class="skrubview-wrapper">
-    <details>
-        <summary><h2>Sample</h2></summary>
+    <details open="">
+        <summary>
+            <h2>Sample</h2>
+        </summary>
         <h3>First 5 rows</h3>
-        <div class="skrubview-horizontal-scroll">
-            {{ summary.head_html | safe }}
-        </div>
+        {% set dataframe = summary.head %}
+        {% set dataframe_id = "{}_head".format(report_id) %}
+        {% include "dataframe-table.html" %}
         <h3>Last 5 rows</h3>
-        <div class="skrubview-horizontal-scroll">
-            {{ summary.tail_html | safe }}
-        </div>
+        {% set dataframe = summary.tail %}
+        {% set dataframe_id = "{}_tail".format(report_id) %}
+        {% include "dataframe-table.html" %}
     </details>
 </div>

@@ -23,8 +23,8 @@ def summarize_dataframe(
         "n_rows": int(shape[0]),
         "n_columns": int(shape[1]),
         "columns": [],
-        "head_html": _utils.to_html(df.slice_rows(0, 5, 1)),
-        "tail_html": _utils.to_html(df.slice_rows(-5, None, 1)),
+        "head": _utils.to_row_list(df.slice_rows(0, 5, 1)),
+        "tail": _utils.to_row_list(df.slice_rows(-5, None, 1)),
         "first_row_dict": _utils.first_row_dict(df),
     }
     if title is not None:
@@ -139,7 +139,8 @@ def _add_numeric_summary(summary, column, with_plots, order_by_column):
         return
     if not summary["high_cardinality"]:
         return
-    summary["standard_deviation"] = float(column.std())
+    std = column.std().scalar
+    summary["standard_deviation"] = float("nan") if std is None else float(std)
     summary["mean"] = float(column.mean())
     quantiles = _utils.quantiles(column)
     if quantiles[0.0] == quantiles[1.0]:

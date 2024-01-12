@@ -68,7 +68,7 @@ def line(x_col, y_col):
 
 
 def value_counts(value_counts, n_unique, color=COLOR_0):
-    values = [_utils.ellide_string(s, 30) for s in value_counts.keys()][::-1]
+    values = [_utils.ellide_string_short(s) for s in value_counts.keys()][::-1]
     counts = list(value_counts.values())[::-1]
     height = 0.2 * (len(value_counts) + 1.1)
     if n_unique > len(value_counts):

@@ -55,6 +55,11 @@
     font: inherit;
 }
 
+{{ report_id_selector }}.skrubview-report :is(td, th) {
+    white-space: nowrap;
+}
+
+
 {{ report_id_selector }}.skrubview-report .skrubview-horizontal-scroll {
     overflow-x: auto;
 }
@@ -76,6 +81,11 @@
 {{ report_id_selector }}.skrubview-report .skrubview-text {
     max-width: var(--skrubview-max-content-width);
 }
+
+{{ report_id_selector }}.skrubview-report .skrubview-flex {
+    display: flex;
+}
+
 
 
 {{ report_id_selector }}.skrubview-report .skrubview-card {
@@ -116,9 +126,25 @@
 {{ report_id_selector }}.skrubview-report .skrubview-box {
     border: 1px solid #555555;
     padding: var(--skrubview-tiny);
+    min-width: 1rem;
     max-width: 40rem;
     max-height: 10rem;
     overflow: auto;
+    margin-block-start: var(--skrubview-tiny);
+    margin-block-end: var(--skrubview-tiny);
+}
+
+{{ report_id_selector }}.skrubview-report .skrubview-table-value-box {
+    max-width: 100%;
+}
+
+{{ report_id_selector }}.skrubview-report .skrubview-table-value-box[data-shows-placeholder] {
+    color: #777777;
+}
+
+{{ report_id_selector }}.skrubview-report .skrubview-table-cell[data-is-selected] {
+    background-color: #ffffaa;
+    border: 1px solid black;
 }
 
 {{ report_id_selector }}.skrubview-report :is(.skrubview-ok, .skrubview-warning, .skrubview-critical) {

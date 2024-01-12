@@ -19,7 +19,9 @@ function updateSelectedColsSnippet(reportId) {
 function clearSelectedCols(reportId) {
     const reportElem = document.getElementById(reportId);
     reportElem.querySelectorAll("input.skrubview-select-column-checkbox[type='checkbox']").forEach(
-        box => {box.checked = false;}
+        box => {
+            box.checked = false;
+        }
     );
     updateSelectedColsSnippet(reportId);
 }
@@ -27,7 +29,9 @@ function clearSelectedCols(reportId) {
 function selectAllCols(reportId) {
     const reportElem = document.getElementById(reportId);
     reportElem.querySelectorAll("input.skrubview-select-column-checkbox[type='checkbox']").forEach(
-        box => {box.checked = true;}
+        box => {
+            box.checked = true;
+        }
     );
     updateSelectedColsSnippet(reportId);
 }
@@ -38,8 +42,7 @@ function copyTextToClipboard(elementID) {
     elem.setAttribute("data-is-being-copied", "");
     if (navigator.clipboard) {
         navigator.clipboard.writeText(elem.textContent || "");
-    }
-    else {
+    } else {
         const selection = window.getSelection();
         if (selection == null) {
             return;
@@ -55,4 +58,18 @@ function copyTextToClipboard(elementID) {
     setTimeout(() => {
         elem.removeAttribute("data-is-being-copied");
     }, 200);
+}
+
+function displayValue(event) {
+    const elem = event.target;
+    const table = document.getElementById(elem.dataset.parentTableId);
+    table.querySelectorAll(".skrubview-table-cell").forEach(cell => {
+        cell.removeAttribute("data-is-selected");
+    });
+    elem.setAttribute("data-is-selected", "");
+    const data = elem.dataset.cellValue;
+    const displayBoxId = elem.dataset.displayBoxId;
+    const displayBox = document.getElementById(displayBoxId);
+    displayBox.removeAttribute("data-shows-placeholder");
+    displayBox.textContent = data;
 }

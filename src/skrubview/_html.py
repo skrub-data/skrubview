@@ -14,9 +14,14 @@ def _get_jinja_env():
         ),
         autoescape=True,
     )
-    env.filters["format_number"] = _utils.format_number
-    env.filters["format_percent"] = _utils.format_percent
-    env.filters["svg_to_img_src"] = _utils.svg_to_img_src
+    for function_name in [
+        "format_number",
+        "format_percent",
+        "svg_to_img_src",
+        "ellide_string_short",
+        "ellide_string",
+    ]:
+        env.filters[function_name] = getattr(_utils, function_name)
     return env
 
 
