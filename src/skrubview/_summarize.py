@@ -103,9 +103,7 @@ def _add_value_counts(summary, column, *, dataframe_summary, with_plots):
         return
     if n_unique == 1:
         summary["value_is_constant"] = True
-        summary["constant_value"] = _utils.ellide_string(
-            next(iter(value_counts.keys()))
-        )
+        summary["constant_value"] = next(iter(value_counts.keys()))
     else:
         summary["value_is_constant"] = False
         if with_plots:

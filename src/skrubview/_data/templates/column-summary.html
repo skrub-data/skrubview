@@ -18,7 +18,7 @@
 
                 {% if column.value_is_constant %}
                 <dt>(constant) Value</dt>
-                <dd>{{ column.constant_value.__repr__() }}</dd>
+                <dd>{{ "{!r}".format(column.constant_value | ellide_string) }}</dd>
                 {% else %}
                 {% if "mean" in column %}
                 <dt>Mean ± Std</dt>

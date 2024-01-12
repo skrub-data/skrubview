@@ -40,16 +40,21 @@ def _print_summary(summary, console):
         _print_column_summary(column, console)
     console.print(overview)
 
+
 def _print_first_row(summary, console):
     console.print("First row:")
-    console.print({k: _utils.ellide_string(v) for (k, v) in summary["first_row_dict"].items()})
+    console.print(
+        {k: _utils.ellide_string(v) for (k, v) in summary["first_row_dict"].items()}
+    )
+
 
 def _print_constant_columns(summary, console):
     cols = [col for col in summary["columns"] if col.get("value_is_constant")]
     if not cols:
         return
     text = "\n".join(
-        f"[bold]{col['name']}:[/bold] {col['constant_value']!r}" for col in cols
+        f"[bold]{col['name']}:[/bold] {_utils.ellide_string(col['constant_value'])!r}"
+        for col in cols
     )
     panel = Panel(
         text,
@@ -74,7 +79,9 @@ def _print_column_summary(summary, console):
         text.append(f"Unique values: {summary['n_unique']}\n")
     if "value_counts" in summary:
         # TODO in theory ellide_string could create collisions
-        ellided = {_utils.ellide_string(k): v for (k, v) in summary["value_counts"].items()}
+        ellided = {
+            _utils.ellide_string(k): v for (k, v) in summary["value_counts"].items()
+        }
         text.append(f"Most frequent value counts: {ellided}\n")
     if "mean" in summary:
         text.append(

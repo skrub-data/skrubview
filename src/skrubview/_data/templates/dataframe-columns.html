@@ -30,7 +30,7 @@
                     {% for column in summary.columns %}
                     {% if column.value_is_constant %}
                     <dt class="skrubview-select-all">{{ column.name }}</dt>
-                    <dd>{{ column.constant_value.__repr__() }}</dd>
+                    <dd>{{ "{!r}".format(column.constant_value | ellide_string) }}</dd>
                     {% endif %}
                     {% endfor %}
                 </dl>
