@@ -67,7 +67,7 @@ function displayValue(event) {
         cell.removeAttribute("data-is-selected");
     });
     elem.setAttribute("data-is-selected", "");
-    const data = elem.dataset.cellValue;
+    const data = elem.textContent;
     const displayBoxId = elem.dataset.displayBoxId;
     const displayBox = document.getElementById(displayBoxId);
     displayBox.removeAttribute("data-shows-placeholder");

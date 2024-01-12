@@ -13,13 +13,12 @@
             {% for row in dataframe.data %}
             <tr>
                 {% for value in row %}
-                <td class="skrubview-table-cell"
+                <td class="skrubview-table-cell skrubview-ellided-short"
                     data-parent-table-id="{{ table_id }}"
-                    data-cell-value="{{ value.__str__() }}"
                     data-display-box-id="{{ dataframe_id }}_value_box"
                     onclick="displayValue(event)">
                     {%- if value is not none -%}
-                    {{ value | ellide_string_short }}
+                    {{ value }}
                     {%- endif -%}
                 </td>
                 {% endfor %}

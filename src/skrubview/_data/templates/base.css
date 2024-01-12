@@ -86,7 +86,19 @@
     display: flex;
 }
 
+{{ report_id_selector }}.skrubview-report .skrubview-ellided {
+    max-width: 100ch;
+    overflow-x: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
 
+{{ report_id_selector }}.skrubview-report .skrubview-ellided-short {
+    max-width: 30ch;
+    overflow-x: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
 
 {{ report_id_selector }}.skrubview-report .skrubview-card {
     padding: 0;
