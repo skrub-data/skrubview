@@ -39,7 +39,7 @@ function selectAllCols(reportId) {
 
 function copyTextToClipboard(elementID) {
     const elem = document.getElementById(elementID);
-    if (elem.hasAttribute("data-shows-placeholder")){
+    if (elem.hasAttribute("data-shows-placeholder")) {
         return;
     }
     elem.setAttribute("data-is-being-copied", "");
@@ -63,6 +63,30 @@ function copyTextToClipboard(elementID) {
     }, 200);
 }
 
+function pandasFilterSnippet(colName, value, valueIsNone) {
+    if (valueIsNone){
+        return `df.loc[df[${colName}].isnull()]`;
+    }
+    return `df.loc[df[${colName}] == ${value}]`;
+}
+
+function polarsFilterSnippet(colName, value, valueIsNone) {
+    if (valueIsNone){
+        return `df.filter(pl.col(${colName}).is_null())`;
+    }
+    return `df.filter(pl.col(${colName}) == ${value})`;
+}
+
+function filterSnippet(colName, value, valueIsNone, dataframeModule) {
+    if (dataframeModule === "polars") {
+        return polarsFilterSnippet(colName, value, valueIsNone);
+    }
+    if (dataframeModule === "pandas") {
+        return pandasFilterSnippet(colName, value, valueIsNone);
+    }
+    return `Unknown dataframe library: ${dataframeModule}`;
+}
+
 function displayValue(event) {
     const elem = event.target;
     const table = document.getElementById(elem.dataset.parentTableId);
@@ -70,12 +94,33 @@ function displayValue(event) {
         cell.removeAttribute("data-is-selected");
     });
     elem.setAttribute("data-is-selected", "");
-    const data = elem.textContent;
+
     const displayBoxId = elem.dataset.displayBoxId;
     const displayBox = document.getElementById(displayBoxId);
     displayBox.removeAttribute("data-shows-placeholder");
-    if (displayBox.hasAttribute("data-copybutton-id")){
+    if (displayBox.hasAttribute("data-copybutton-id")) {
         document.getElementById(displayBox.dataset.copybuttonId).removeAttribute("disabled");
     }
-    displayBox.textContent = data;
+    displayBox.textContent = elem.dataset.valueStr;
+
+
+    const reprBoxId = elem.dataset.valueReprBoxId;
+    const reprBox = document.getElementById(reprBoxId);
+    reprBox.removeAttribute("data-shows-placeholder");
+    if (reprBox.hasAttribute("data-copybutton-id")) {
+        document.getElementById(reprBox.dataset.copybuttonId).removeAttribute("disabled");
+    }
+    reprBox.textContent = elem.dataset.valueRepr;
+
+
+    const snippetBoxId = elem.dataset.filterSnippetBoxId;
+    const snippetBox = document.getElementById(snippetBoxId);
+    snippetBox.removeAttribute("data-shows-placeholder");
+    if (snippetBox.hasAttribute("data-copybutton-id")) {
+        document.getElementById(snippetBox.dataset.copybuttonId).removeAttribute("disabled");
+    }
+    snippetBox.textContent = filterSnippet(elem.dataset.columnNameRepr,
+                                           elem.dataset.valueRepr,
+                                           elem.hasAttribute("data-value-is-none"),
+                                           elem.dataset.dataframeModule);
 }

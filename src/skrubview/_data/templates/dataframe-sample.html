@@ -13,13 +13,10 @@
             <tbody>
                 {% for row in summary.head.data %}
                 <tr>
-                    {% for value in row %}
-                    <td class="skrubview-table-cell skrubview-ellided-short"
-                        data-parent-table-id="{{ table_id }}"
-                        data-display-box-id="{{ table_id }}_value_box"
-                        onclick="displayValue(event)">
-                        {%- if value is not none -%}
-                        {{ value }}
+                    {% for idx in range(row.__len__()) %}
+                    <td class="skrubview-table-cell skrubview-ellided-short" data-parent-table-id="{{ table_id }}" data-display-box-id="{{ table_id }}_value_box" data-filter-snippet-box-id="{{ table_id }}_filter_snippet_box" data-value-repr-box-id="{{ table_id }}_value_repr_box" data-column-name-repr="{{ summary.head.header[idx].__repr__() }}" data-value-str="{{ row[idx].__str__() }}" data-value-repr="{{ row[idx].__repr__() }}" {%- if row[idx] is none -%} data-value-is-none="" {%- endif -%} data-dataframe-module="{{ summary.dataframe_module }}" onclick="displayValue(event)">
+                        {%- if row[idx] is not none -%}
+                        {{ row[idx] }}
                         {%- endif -%}
                     </td>
                     {% endfor %}
@@ -36,13 +33,10 @@
             <tbody>
                 {% for row in summary.tail.data %}
                 <tr>
-                    {% for value in row %}
-                    <td class="skrubview-table-cell skrubview-ellided-short"
-                        data-parent-table-id="{{ table_id }}"
-                        data-display-box-id="{{ table_id }}_value_box"
-                        onclick="displayValue(event)">
-                        {%- if value is not none -%}
-                        {{ value }}
+                    {% for idx in range(row.__len__()) %}
+                    <td class="skrubview-table-cell skrubview-ellided-short" data-parent-table-id="{{ table_id }}" data-display-box-id="{{ table_id }}_value_box" data-filter-snippet-box-id="{{ table_id }}_filter_snippet_box" data-value-repr-box-id="{{ table_id }}_value_repr_box" data-column-name-repr="{{ summary.head.header[idx].__repr__() }}" data-value-str="{{ row[idx].__str__() }}" data-value-repr="{{ row[idx].__repr__() }}" {%- if row[idx] is none -%} data-value-is-none="" {%- endif -%} data-dataframe-module="{{ summary.dataframe_module }}" onclick="displayValue(event)">
+                        {%- if row[idx] is not none -%}
+                        {{ row[idx] }}
                         {%- endif -%}
                     </td>
                     {% endfor %}
@@ -54,13 +48,38 @@
     </div>
 
     <div class="skrubview-flex">
-        {% set value_box_id="{}_value_box".format(table_id) %}
-        {% set button_id="{}_copybutton".format(value_box_id) %}
-        <pre class="skrubview-box skrubview-table-value-box skrubview-margin-v-t"
-             id="{{ value_box_id }}"
-             data-copybutton-id="{{ button_id }}"
-             data-shows-placeholder>Select a cell to display its value</pre>
-        <button onclick='copyTextToClipboard("{{ value_box_id }}")' id="{{ button_id }}" disabled autocomplete="off">📋</button>
+        {% set box_id="{}_value_box".format(table_id) %}
+        {% set button_id="{}_copybutton".format(box_id) %}
+        <pre class="skrubview-box skrubview-table-value-box skrubview-margin-v-t" id="{{ box_id }}" data-copybutton-id="{{ button_id }}" data-shows-placeholder>Select a cell to display its value</pre>
+        <button onclick='copyTextToClipboard("{{ box_id }}")' id="{{ button_id }}" disabled autocomplete="off">📋</button>
     </div>
+
+    <details>
+        <summary>More copy-paste snippets</summary>
+
+        <div class="skrubview-margin-v-t">
+            <span>Python expression:</span>
+            <div class="skrubview-flex">
+                {% set box_id="{}_value_repr_box".format(table_id) %}
+                {% set button_id="{}_copybutton".format(box_id) %}
+                <pre class="skrubview-box skrubview-table-value-box skrubview-margin-v-t" id="{{ box_id }}" data-copybutton-id="{{ button_id }}" data-shows-placeholder>Select a cell to display its value as a Python expression</pre>
+                <button onclick='copyTextToClipboard("{{ box_id }}")' id="{{ button_id }}" disabled autocomplete="off">📋</button>
+            </div>
+        </div>
+
+        <div class="skrubview-margin-v-t">
+            <span>Filter dataframe:</span>
+            <div class="skrubview-flex">
+                {% set box_id="{}_filter_snippet_box".format(table_id) %}
+                {% set button_id="{}_copybutton".format(box_id) %}
+                <pre class="skrubview-box skrubview-table-value-box skrubview-margin-v-t" id="{{ box_id }}" data-copybutton-id="{{ button_id }}" data-shows-placeholder>Select a cell to display a snippet for filtering the dataframe</pre>
+                <button onclick='copyTextToClipboard("{{ box_id }}")' id="{{ button_id }}" disabled autocomplete="off">📋</button>
+            </div>
+        </div>
+
+
+    </details>
+
+
 
 </article>

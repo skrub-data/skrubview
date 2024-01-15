@@ -10,6 +10,7 @@ _HIGH_CARDINALITY_THRESHOLD = 10
 def summarize_dataframe(
     dataframe, *, order_by=None, file_path=None, with_plots=False, title=None
 ):
+    dataframe_module_name = dataframe.__class__.__module__.split(".")[0]
     # TODO: pandas support
     if not isinstance(dataframe, pl.DataFrame):
         dataframe = pl.DataFrame(dataframe)
@@ -19,6 +20,7 @@ def summarize_dataframe(
     df = df.persist()
     shape = df.shape()
     summary = {
+        "dataframe_module": dataframe_module_name,
         "n_rows": int(shape[0]),
         "n_columns": int(shape[1]),
         "columns": [],
