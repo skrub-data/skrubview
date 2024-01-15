@@ -1,6 +1,5 @@
 from pathlib import Path
 
-import numpy as np
 import polars as pl
 
 from . import _plotting, _utils
@@ -65,7 +64,11 @@ def _summarize_column(
         summary, column, dataframe_summary=dataframe_summary, with_plots=with_plots
     )
     _add_numeric_summary(
-        summary, column, with_plots=with_plots, order_by_column=order_by_column
+        summary,
+        column,
+        dataframe_summary=dataframe_summary,
+        with_plots=with_plots,
+        order_by_column=order_by_column,
     )
     _add_datetime_summary(summary, column, with_plots=with_plots)
     summary["plot_names"] = [k for k in summary.keys() if k.endswith("_plot")]
@@ -131,12 +134,16 @@ def _add_datetime_summary(summary, column, with_plots):
         )
 
 
-def _add_numeric_summary(summary, column, with_plots, order_by_column):
+def _add_numeric_summary(
+    summary, column, dataframe_summary, with_plots, order_by_column
+):
     ns = column.__column_namespace__()
     if not ns.is_dtype(_utils.get_dtype(column), "numeric"):
         return
     if not summary["high_cardinality"]:
         return
+    summary["n_zeros"] = int((column == 0).sum().scalar)
+    summary["zeros_proportion"] = summary["n_zeros"] / dataframe_summary["n_rows"]
     std = column.std().scalar
     summary["standard_deviation"] = float("nan") if std is None else float(std)
     summary["mean"] = float(column.mean())

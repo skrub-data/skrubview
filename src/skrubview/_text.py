@@ -74,7 +74,14 @@ def _print_column_summary(summary, console):
     text.append(f"[bold]{summary['dtype']}[/bold]\n")
     text.append("Null values: ")
     color = _COLORS[summary["nulls_level"]]
-    text.append(f"[{color}]{summary['null_proportion']:0.2%}[/{color}]\n")
+    text.append(
+        f"[{color}]{summary['null_count']} "
+        f"({summary['null_proportion']:0.2%})[/{color}]\n"
+    )
+    if "n_zeros" in summary:
+        text.append(
+            f"Zeros: {summary['n_zeros']} ({summary['zeros_proportion']:0.2%})\n"
+        )
     if "n_unique" in summary:
         text.append(f"Unique values: {summary['n_unique']}\n")
     if "value_counts" in summary:

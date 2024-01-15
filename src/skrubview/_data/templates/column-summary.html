@@ -11,15 +11,15 @@
             <dl>
                 <dt>Null values</dt>
                 <dd class="skrubview-{{ column.nulls_level }}">{{ column.null_count }} ({{ column.null_proportion | format_percent }})</dd>
+                {% if not column.value_is_constant %}
                 {% if column.n_unique %}
                 <dt>Unique values</dt>
                 <dd>{{ column.n_unique }} ({{ column.unique_proportion | format_percent }})</dd>
                 {% endif %}
-
-                {% if column.value_is_constant %}
-                <dt>(constant) Value</dt>
-                <dd class=".skrubview-ellided">{{ column.constant_value.__repr__() }}</dd>
-                {% else %}
+                {% if column.n_zeros %}
+                <dt>Zeros</dt>
+                <dd>{{ column.n_zeros }} ({{ column.zeros_proportion | format_percent }})</dd>
+                {% endif %}
                 {% if "mean" in column %}
                 <dt>Mean ± Std</dt>
                 <dd>{{ column["mean"] | format_number }} ± {{ column["standard_deviation"] | format_number }}</dd>
@@ -47,6 +47,17 @@
                 {% endif %}
             </dl>
         </div>
+
+        {% if column.value_is_constant %}
+        {% set val_id = "{}-constant-value".format(col_id) %}
+        <div class="skrubview-margin-v-t">
+        <strong>Constant value:</strong>
+        <div class="skrubview-copybutton-grid">
+        <pre class="skrubview-box" id="{{ val_id }}">{{ column.constant_value }}</pre>
+        <button onclick='copyTextToClipboard("{{ val_id }}")'>📋</button>
+        </div>
+        </div>
+        {% endif %}
 
         {% for plot_name in column.plot_names %}
         <div>
