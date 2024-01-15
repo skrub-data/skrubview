@@ -229,3 +229,7 @@
     color: white;
     background-color: #4c72b0;
 }
+
+{{ report_id_selector }}.skrubview-report .skrubview-select-displayed-siblings ~ *:not([data-is-selected]) {
+                                                                                          display: none;
+}

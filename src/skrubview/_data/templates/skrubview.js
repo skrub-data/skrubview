@@ -87,6 +87,21 @@ function filterSnippet(colName, value, valueIsNone, dataframeModule) {
     return `Unknown dataframe library: ${dataframeModule}`;
 }
 
+function updateSelectedSnippet(event){
+    const elem = event.target;
+    let sibling = elem.nextElementSibling;
+    while (sibling){
+        if(sibling.dataset.optionValue === elem.value) {
+            sibling.setAttribute("data-is-selected", "");
+        }
+        else {
+            sibling.removeAttribute("data-is-selected", "");
+        }
+        sibling = sibling.nextElementSibling;
+    }
+
+}
+
 function displayValue(event) {
     const elem = event.target;
     const table = document.getElementById(elem.dataset.parentTableId);

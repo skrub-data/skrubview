@@ -48,38 +48,31 @@
     </div>
 
     <div class="skrubview-flex">
+        <select class="skrubview-select-displayed-siblings" id="{{ '{}_select_snippet'.format(table_id) }}" onchange="updateSelectedSnippet(event)" autocomplete="off">
+            <option value="value">Value</option>
+            <option value="python-expression">Python expression</option>
+            <option value="filtered-dataframe">Filtered dataframe</option>
+        </select>
+
         {% set box_id="{}_value_box".format(table_id) %}
         {% set button_id="{}_copybutton".format(box_id) %}
-        <pre class="skrubview-box skrubview-table-value-box skrubview-margin-v-t" id="{{ box_id }}" data-copybutton-id="{{ button_id }}" data-shows-placeholder>Select a cell to display its value</pre>
-        <button onclick='copyTextToClipboard("{{ box_id }}")' id="{{ button_id }}" disabled autocomplete="off">📋</button>
+        <pre data-option-value="value" data-is-selected="" class="skrubview-box skrubview-table-value-box skrubview-margin-v-t" id="{{ box_id }}" data-copybutton-id="{{ button_id }}" data-shows-placeholder>Select a cell to display its value</pre>
+
+
+        <button data-option-value="value" data-is-selected="" onclick='copyTextToClipboard("{{ box_id }}")' id="{{ button_id }}" disabled autocomplete="off">📋</button>
+
+
+        {% set box_id="{}_value_repr_box".format(table_id) %}
+        {% set button_id="{}_copybutton".format(box_id) %}
+        <pre data-option-value="python-expression" class="skrubview-box skrubview-table-value-box skrubview-margin-v-t" id="{{ box_id }}" data-copybutton-id="{{ button_id }}" data-shows-placeholder>Select a cell to display its value as a Python expression</pre>
+        <button data-option-value="python-expression" onclick='copyTextToClipboard("{{ box_id }}")' id="{{ button_id }}" disabled autocomplete="off">📋</button>
+
+
+        {% set box_id="{}_filter_snippet_box".format(table_id) %}
+        {% set button_id="{}_copybutton".format(box_id) %}
+        <pre data-option-value="filtered-dataframe" class="skrubview-box skrubview-table-value-box skrubview-margin-v-t" id="{{ box_id }}" data-copybutton-id="{{ button_id }}" data-shows-placeholder>Select a cell to display a snippet for filtering the dataframe</pre>
+        <button data-option-value="filtered-dataframe" onclick='copyTextToClipboard("{{ box_id }}")' id="{{ button_id }}" disabled autocomplete="off">📋</button>
+
     </div>
-
-    <details>
-        <summary>More copy-paste snippets</summary>
-
-        <div class="skrubview-margin-v-t">
-            <span>Python expression:</span>
-            <div class="skrubview-flex">
-                {% set box_id="{}_value_repr_box".format(table_id) %}
-                {% set button_id="{}_copybutton".format(box_id) %}
-                <pre class="skrubview-box skrubview-table-value-box skrubview-margin-v-t" id="{{ box_id }}" data-copybutton-id="{{ button_id }}" data-shows-placeholder>Select a cell to display its value as a Python expression</pre>
-                <button onclick='copyTextToClipboard("{{ box_id }}")' id="{{ button_id }}" disabled autocomplete="off">📋</button>
-            </div>
-        </div>
-
-        <div class="skrubview-margin-v-t">
-            <span>Filter dataframe:</span>
-            <div class="skrubview-flex">
-                {% set box_id="{}_filter_snippet_box".format(table_id) %}
-                {% set button_id="{}_copybutton".format(box_id) %}
-                <pre class="skrubview-box skrubview-table-value-box skrubview-margin-v-t" id="{{ box_id }}" data-copybutton-id="{{ button_id }}" data-shows-placeholder>Select a cell to display a snippet for filtering the dataframe</pre>
-                <button onclick='copyTextToClipboard("{{ box_id }}")' id="{{ button_id }}" disabled autocomplete="off">📋</button>
-            </div>
-        </div>
-
-
-    </details>
-
-
 
 </article>
