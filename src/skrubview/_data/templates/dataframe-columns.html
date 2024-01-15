@@ -1,7 +1,5 @@
 {% from "utils.j2" import compact_id, collapse_const_id with context %}
-<div class="skrubview-wrapper">
-    <details open="">
-        <summary><h2>Columns</h2></summary>
+<article class="skrubview-wrapper">
     <div>
         <p>Selected columns:</p>
         <code class="skrubview-selected-columns" id="{{ report_id }}-selected-columns"></code>
@@ -43,5 +41,4 @@
         {% include "column-summary.html" %}
         {% endfor %}
     </div>
-    </details>
-</div>
+</article>

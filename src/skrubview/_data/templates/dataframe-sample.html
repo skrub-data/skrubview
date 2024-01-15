@@ -1,6 +1,6 @@
 {% set table_id = "{}_sample_table".format(report_id) %}
 
-<div class="skrubview-wrapper">
+<article class="skrubview-wrapper">
     <div class="skrubview-horizontal-scroll">
         <table class="pure-table pure-table-striped" id="{{ table_id }}">
             <thead>
@@ -63,4 +63,4 @@
         <button onclick='copyTextToClipboard("{{ value_box_id }}")' id="{{ button_id }}" disabled autocomplete="off">📋</button>
     </div>
 
-</div>
+</article>
