@@ -15,6 +15,14 @@
     margin-block-end: var(--skrubview-tiny);
 }
 
+{{ report_id_selector }}.skrubview-report code {
+    overflow-wrap: anywhere;
+}
+
+{{ report_id_selector }}.skrubview-report pre {
+    margin: 0;
+}
+
 {{ report_id_selector }}.skrubview-report .skrubview-margin-r-s {
     margin-inline-end: var(--skrubview-small);
 }
@@ -22,6 +30,13 @@
 {{ report_id_selector }}.skrubview-report .skrubview-margin-r-t {
     margin-inline-end: var(--skrubview-tiny);
 }
+
+{{ report_id_selector }}.skrubview-report .skrubview-margin-v-t {
+    margin-block-start: var(--skrubview-tiny);
+    margin-block-end: var(--skrubview-tiny);
+}
+
+
 
 {{ report_id_selector }}.skrubview-report :is(td, th) {
     padding: var(--skrubview-tiny);
@@ -82,8 +97,24 @@
     max-width: var(--skrubview-max-content-width);
 }
 
+{{ report_id_selector }}.skrubview-report .skrubview-copybutton-grid {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: var(--skrubview-tiny);
+    padding-block-start: var(--skrubview-tiny);
+    padding-block-end: var(--skrubview-tiny);
+}
+
+{{ report_id_selector }}.skrubview-report .skrubview-copybutton-grid > * {
+    margin-block-start: 0;
+    margin-block-end: 0;
+}
+
 {{ report_id_selector }}.skrubview-report .skrubview-flex {
     display: flex;
+    gap: var(--skrubview-tiny);
+    align-items: center;
 }
 
 {{ report_id_selector }}.skrubview-report .skrubview-ellided {
@@ -143,8 +174,6 @@
     max-height: 10rem;
     min-height: 1rem;
     overflow: auto;
-    margin-block-start: var(--skrubview-tiny);
-    margin-block-end: var(--skrubview-tiny);
 }
 
 {{ report_id_selector }}.skrubview-report .skrubview-table-value-box {

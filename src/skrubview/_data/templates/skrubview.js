@@ -39,6 +39,9 @@ function selectAllCols(reportId) {
 
 function copyTextToClipboard(elementID) {
     const elem = document.getElementById(elementID);
+    if (elem.hasAttribute("data-shows-placeholder")){
+        return;
+    }
     elem.setAttribute("data-is-being-copied", "");
     if (navigator.clipboard) {
         navigator.clipboard.writeText(elem.textContent || "");
@@ -71,5 +74,8 @@ function displayValue(event) {
     const displayBoxId = elem.dataset.displayBoxId;
     const displayBox = document.getElementById(displayBoxId);
     displayBox.removeAttribute("data-shows-placeholder");
+    if (displayBox.hasAttribute("data-copybutton-id")){
+        document.getElementById(displayBox.dataset.copybuttonId).removeAttribute("disabled");
+    }
     displayBox.textContent = data;
 }

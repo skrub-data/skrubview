@@ -28,7 +28,10 @@
     </table>
 </div>
 <div class="skrubview-flex">
-    <pre class="skrubview-box skrubview-table-value-box" id="{{ dataframe_id }}_value_box" data-shows-placeholder>
-Select a cell to display its value
-</pre>
+    {% set value_box_id="{}_value_box".format(dataframe_id) %}
+    {% set button_id="{}_copybutton".format(value_box_id) %}
+    <pre class="skrubview-box skrubview-table-value-box skrubview-margin-v-t" id="{{ value_box_id }}"
+         data-copybutton-id="{{ button_id }}"
+         data-shows-placeholder>Select a cell to display its value</pre>
+    <button onclick='copyTextToClipboard("{{ value_box_id }}")' id="{{ button_id }}" disabled autocomplete="off">📋</button>
 </div>

@@ -54,9 +54,13 @@
         {% if plot_name == "value_counts_plot" %}
         <details>
             <summary>Most frequent values</summary>
+            <div class="skrubview-copybutton-grid">
             {% for value in column.value_counts %}
-            <pre class="skrubview-box">{{ value }}</pre>
+            {% set val_id = "{}-freq-value-{}".format(col_id, loop.index0) %}
+            <pre class="skrubview-box" id="{{ val_id }}">{{ value }}</pre>
+            <button onclick='copyTextToClipboard("{{ val_id }}")'>📋</button>
             {% endfor %}
+            </div>
         </details>
         {% endif %}
         </div>
