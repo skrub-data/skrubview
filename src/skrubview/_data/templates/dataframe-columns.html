@@ -1,13 +1,11 @@
 {% from "utils.j2" import compact_id, collapse_const_id with context %}
 <article class="skrubview-wrapper">
-    <div>
-        <p>Selected columns:</p>
-        <code class="skrubview-selected-columns" id="{{ report_id }}-selected-columns"></code>
-        <p>
+    <strong>Column names</strong> (check/uncheck columns below to add/remove):
+    <div class="skrubview-flex skrubview-margin-v-t">
+        <pre class="skrubview-box skrubview-selected-columns" id="{{ report_id }}-selected-columns"></pre>
+        <button onclick='copyTextToClipboard("{{ report_id }}-selected-columns")'>📋</button>
             <button onclick='clearSelectedCols("{{ report_id }}")'>Clear</button>
             <button onclick='selectAllCols("{{ report_id }}")'>Select all</button>
-            <button onclick='copyTextToClipboard("{{ report_id }}-selected-columns")'>📋</button>
-        </p>
     </div>
     {% if summary.n_constant_columns %}
     <input type="checkbox" id="{{ collapse_const_id }}" checked="true" />

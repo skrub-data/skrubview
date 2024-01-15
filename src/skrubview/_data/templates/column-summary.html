@@ -3,7 +3,7 @@
         <h3 class="skrubview-margin-r-t">
             <code class="skrubview-select-all">{{ column.name }}</code>
         </h3>
-        <input class="skrubview-select-column-checkbox" type="checkbox" onchange="updateColSelection(event)" data-column-id="{{ col_id }}" data-report-id="{{ report_id }}" />
+        <input class="skrubview-select-column-checkbox" type="checkbox" onchange="updateColSelection(event)" data-column-id="{{ col_id }}" data-report-id="{{ report_id }}" checked />
         <code class="skrubview-float-end">{{ column.dtype }}</code>
     </div>
     <div class="skrubview-column-summary-content skrubview-wrapper">
@@ -71,6 +71,14 @@
             <pre class="skrubview-box" id="{{ val_id }}">{{ value }}</pre>
             <button onclick='copyTextToClipboard("{{ val_id }}")'>📋</button>
             {% endfor %}
+            {% set val_id = "{}-freq-value-all".format(col_id) %}
+            <strong>List:</strong><span></span>
+            <pre class="skrubview-box" id="{{ val_id }}">{{ "[" }}
+            {%- for value in column.value_counts -%}
+            {{ value.__repr__() }}{{", " if not loop.last }}
+            {%- endfor -%}
+            {{ "]" }}</pre>
+            <button onclick='copyTextToClipboard("{{ val_id }}")'>📋</button>
             </div>
         </details>
         {% endif %}
