@@ -1,15 +1,66 @@
+{% set table_id = "{}_sample_table".format(report_id) %}
+
 <div class="skrubview-wrapper">
-    <details open="">
-        <summary>
-            <h2>Sample</h2>
-        </summary>
-        <h3>First 5 rows</h3>
-        {% set dataframe = summary.head %}
-        {% set dataframe_id = "{}_head".format(report_id) %}
-        {% include "dataframe-table.html" %}
-        <h3>Last 5 rows</h3>
-        {% set dataframe = summary.tail %}
-        {% set dataframe_id = "{}_tail".format(report_id) %}
-        {% include "dataframe-table.html" %}
-    </details>
+    <div class="skrubview-horizontal-scroll">
+        <table class="pure-table pure-table-striped" id="{{ table_id }}">
+            <thead>
+                <tr>
+                    {% for column_name in summary.head.header %}
+                    <th>{{ column_name }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in summary.head.data %}
+                <tr>
+                    {% for value in row %}
+                    <td class="skrubview-table-cell skrubview-ellided-short"
+                        data-parent-table-id="{{ table_id }}"
+                        data-display-box-id="{{ table_id }}_value_box"
+                        onclick="displayValue(event)">
+                        {%- if value is not none -%}
+                        {{ value }}
+                        {%- endif -%}
+                    </td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+
+            <tr>
+                {% for column_name in summary.head.header %}
+                <td class="skrubview-ellided-table-part">⋮</td>
+                {% endfor %}
+            </tr>
+
+            <tbody>
+                {% for row in summary.tail.data %}
+                <tr>
+                    {% for value in row %}
+                    <td class="skrubview-table-cell skrubview-ellided-short"
+                        data-parent-table-id="{{ table_id }}"
+                        data-display-box-id="{{ table_id }}_value_box"
+                        onclick="displayValue(event)">
+                        {%- if value is not none -%}
+                        {{ value }}
+                        {%- endif -%}
+                    </td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+
+    <div class="skrubview-flex">
+        {% set value_box_id="{}_value_box".format(table_id) %}
+        {% set button_id="{}_copybutton".format(value_box_id) %}
+        <pre class="skrubview-box skrubview-table-value-box skrubview-margin-v-t"
+             id="{{ value_box_id }}"
+             data-copybutton-id="{{ button_id }}"
+             data-shows-placeholder>Select a cell to display its value</pre>
+        <button onclick='copyTextToClipboard("{{ value_box_id }}")' id="{{ button_id }}" disabled autocomplete="off">📋</button>
+    </div>
+
 </div>

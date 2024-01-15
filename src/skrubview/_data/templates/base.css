@@ -189,6 +189,15 @@
     border: 1px solid black;
 }
 
+{{ report_id_selector }}.skrubview-report .skrubview-ellided-table-part {
+    border: 1px solid white;
+    text-align: center;
+    border-top: 0;
+    border-bottom: 0;
+    background: inherit;
+}
+
+
 {{ report_id_selector }}.skrubview-report :is(.skrubview-ok, .skrubview-warning, .skrubview-critical) {
                                                  font-weight: bold;
                                              }
