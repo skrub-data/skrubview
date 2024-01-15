@@ -66,19 +66,49 @@
         <details>
             <summary>Most frequent values</summary>
             <div class="skrubview-copybutton-grid">
+            <select class="skrubview-grid-separator skrubview-select-displayed-siblings" id="{{ '{}_freq_value_select_snippet'.format(col_id) }}" onchange="updateSelectedSnippet(event)" autocomplete="off">
+                <option value="value">Display value</option>
+                <option value="python-expression">Python expression</option>
+                <option value="filtered-dataframe">Filtered dataframe</option>
+            </select>
+
             {% for value in column.value_counts %}
             {% set val_id = "{}-freq-value-{}".format(col_id, loop.index0) %}
-            <pre class="skrubview-box" id="{{ val_id }}">{{ value }}</pre>
-            <button onclick='copyTextToClipboard("{{ val_id }}")'>📋</button>
+            <pre class="skrubview-box" id="{{ val_id }}-value" data-option-value="value" data-is-selected>{{ value }}</pre>
+            <button onclick='copyTextToClipboard("{{ val_id }}-value")' data-option-value="value" data-is-selected>📋</button>
+
+            <pre class="skrubview-box" id="{{ val_id }}-repr" data-option-value="python-expression">{{ value.__repr__() }}</pre>
+            <button onclick='copyTextToClipboard("{{ val_id }}-repr")' data-option-value="python-expression">📋</button>
+
+            <pre class="skrubview-box" id="{{ val_id }}-snippet" data-option-value="filtered-dataframe">{{ value | filter_equal_snippet(column.name, summary.dataframe_module)}}</pre>
+            <button onclick='copyTextToClipboard("{{ val_id }}-snippet")' data-option-value="filtered-dataframe">📋</button>
+
             {% endfor %}
-            {% set val_id = "{}-freq-value-all".format(col_id) %}
-            <span>List:</span><span></span>
-            <pre class="skrubview-box" id="{{ val_id }}">{{ "[" }}
+            {% set val_id = "{}-freq-value-list".format(col_id) %}
+            <span class="skrubview-grid-separator">List:</span>
+
+            <pre class="skrubview-box" id="{{ val_id }}-value" data-option-value="value" data-is-selected>{{ "[" }}
             {%- for value in column.value_counts -%}
             {{ value.__repr__() }}{{", " if not loop.last }}
             {%- endfor -%}
             {{ "]" }}</pre>
-            <button onclick='copyTextToClipboard("{{ val_id }}")'>📋</button>
+            <button onclick='copyTextToClipboard("{{ val_id }}-value")' data-is-selected data-option-value="value">📋</button>
+
+
+            <pre class="skrubview-box" id="{{ val_id }}-repr" data-option-value="python-expression">{{ "[" }}
+            {%- for value in column.value_counts -%}
+            {{ value.__repr__() }}{{", " if not loop.last }}
+            {%- endfor -%}
+            {{ "]" }}</pre>
+            <button onclick='copyTextToClipboard("{{ val_id }}-repr")' data-option-value="python-expression">📋</button>
+
+
+
+            <pre class="skrubview-box" id="{{ val_id }}-filter" data-option-value="filtered-dataframe">{{ column.value_counts.keys() | filter_isin_snippet(column.name, summary.dataframe_module) }}</pre>
+            <button onclick='copyTextToClipboard("{{ val_id }}-filter")' data-option-value="filtered-dataframe">📋</button>
+
+
+
             </div>
         </details>
         {% endif %}

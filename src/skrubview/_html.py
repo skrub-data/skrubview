@@ -18,6 +18,8 @@ def _get_jinja_env():
         "format_number",
         "format_percent",
         "svg_to_img_src",
+        "filter_equal_snippet",
+        "filter_isin_snippet",
     ]:
         env.filters[function_name] = getattr(_utils, function_name)
     return env

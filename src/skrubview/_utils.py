@@ -112,6 +112,7 @@ def ellide_string(s, max_len=100):
         return s[: (max_len - 30)] + f"[… {truncated} more chars]"
     return s[:max_len] + "…"
 
+
 def ellide_string_short(s):
     return ellide_string(s, 29)
 
@@ -131,3 +132,39 @@ def format_percent(proportion):
 def svg_to_img_src(svg):
     encoded_svg = base64.b64encode(svg.encode("UTF-8")).decode("UTF-8")
     return f"data:image/svg+xml;base64,{encoded_svg}"
+
+
+def _pandas_filter_equal_snippet(value, column_name):
+    if value is None:
+        return f"df.loc[df[{column_name!r}].isnull()]"
+    return f"df.loc[df[{column_name!r}] == {value!r}]"
+
+
+def _pandas_filter_isin_snippet(values, column_name):
+    return f"df.loc[df[{column_name!r}].isin({list(values)!r})]"
+
+
+def _polars_filter_equal_snippet(value, column_name):
+    if value is None:
+        return f"df.filter(pl.col({column_name!r}).is_null())"
+    return f"df.filter(pl.col({column_name!r}) == {value!r})"
+
+
+def _polars_filter_isin_snippet(values, column_name):
+    return f"df.filter(pl.col({column_name!r}).is_in({list(values)!r}))"
+
+
+def filter_equal_snippet(value, column_name, dataframe_module="polars"):
+    if dataframe_module == "polars":
+        return _polars_filter_equal_snippet(value, column_name)
+    if dataframe_module == "pandas":
+        return _pandas_filter_equal_snippet(value, column_name)
+    return f"Unknown dataframe library: {dataframe_module}"
+
+
+def filter_isin_snippet(values, column_name, dataframe_module="polars"):
+    if dataframe_module == "polars":
+        return _polars_filter_isin_snippet(values, column_name)
+    if dataframe_module == "pandas":
+        return _pandas_filter_isin_snippet(values, column_name)
+    return f"Unknown dataframe library: {dataframe_module}"

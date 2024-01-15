@@ -111,6 +111,11 @@
     margin-block-end: 0;
 }
 
+{{ report_id_selector }}.skrubview-report .skrubview-grid-separator {
+    grid-column: 1/-1;
+    justify-self: left;
+}
+
 {{ report_id_selector }}.skrubview-report .skrubview-flex {
     display: flex;
     gap: var(--skrubview-tiny);
@@ -230,6 +235,6 @@
     background-color: #4c72b0;
 }
 
-{{ report_id_selector }}.skrubview-report .skrubview-select-displayed-siblings ~ *:not([data-is-selected]) {
-                                                                                          display: none;
+{{ report_id_selector }}.skrubview-report .skrubview-select-displayed-siblings ~ [data-option-value]:not([data-is-selected]) {
+    display: none;
 }
