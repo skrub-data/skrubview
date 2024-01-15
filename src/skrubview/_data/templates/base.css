@@ -117,6 +117,12 @@
     align-items: center;
 }
 
+{{ report_id_selector }}.skrubview-report .skrubview-flex-wrap {
+    flex-wrap: wrap;
+}
+
+
+
 {{ report_id_selector }}.skrubview-report .skrubview-ellided {
     max-width: 100ch;
     overflow-x: hidden;

@@ -72,7 +72,7 @@ def value_counts(value_counts, n_unique, color=COLOR_0):
     counts = list(value_counts.values())[::-1]
     height = 0.2 * (len(value_counts) + 1.1)
     if n_unique > len(value_counts):
-        title = f"{len(value_counts)} most frequent out of {n_unique}"
+        title = f"{len(value_counts)} most frequent"
         height += 0.5
     else:
         title = None

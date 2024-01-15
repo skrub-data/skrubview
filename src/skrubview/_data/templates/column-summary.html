@@ -72,7 +72,7 @@
             <button onclick='copyTextToClipboard("{{ val_id }}")'>📋</button>
             {% endfor %}
             {% set val_id = "{}-freq-value-all".format(col_id) %}
-            <strong>List:</strong><span></span>
+            <span>List:</span><span></span>
             <pre class="skrubview-box" id="{{ val_id }}">{{ "[" }}
             {%- for value in column.value_counts -%}
             {{ value.__repr__() }}{{", " if not loop.last }}
