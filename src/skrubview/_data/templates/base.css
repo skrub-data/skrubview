@@ -180,6 +180,7 @@
     max-height: 10rem;
     min-height: 1rem;
     overflow: auto;
+    white-space: nowrap;
 }
 
 {{ report_id_selector }}.skrubview-report .skrubview-table-value-box {

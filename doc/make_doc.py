@@ -3,7 +3,8 @@
 import shutil
 from pathlib import Path
 
-from skrub import datasets
+from skrub import datasets as skrub_data
+from sklearn import datasets as sklearn_data
 from skrubview import Report
 
 
@@ -15,11 +16,26 @@ build_dir.mkdir()
 reports_dir = build_dir / "reports"
 reports_dir.mkdir()
 
-dataset_names = [
+skrub_dataset_names = [
     "employee_salaries",
     "medical_charge",
 ]
-datasets = [(getattr(datasets, f"fetch_{name}")().X, name) for name in dataset_names]
+datasets = [
+    (getattr(skrub_data, f"fetch_{name}")().X, name) for name in skrub_dataset_names
+]
+
+sklearn_dataset_names = ["titanic"]
+datasets.extend(
+    [
+        (
+            sklearn_data.fetch_openml(
+                name, as_frame=True, parser="auto", version=1
+            ).frame,
+            name,
+        )
+        for name in sklearn_dataset_names
+    ]
+)
 
 
 def add_report(df, name):
