@@ -6,9 +6,6 @@
         {% if summary.file_path %}
         <p><span class="skrubview-select-none">File: </span><code>{{ summary.file_path }}</code></p>
         {% endif %}
-        <p>
-            <strong>{{ summary.n_rows }}</strong> rows, <strong>{{ summary.n_columns }}</strong> columns.
-        </p>
     </div>
     {% include "dataframe-sample.html" %}
     {% include "dataframe-columns.html" %}
