@@ -124,6 +124,12 @@
 
 {{ report_id_selector }}.skrubview-report .skrubview-flex-wrap {
     flex-wrap: wrap;
+    padding-block-start: var(--skrubview-tiny);
+    padding-block-end: var(--skrubview-tiny);
+}
+
+{{ report_id_selector }}.skrubview-report .skrubview-flex-wrap > * {
+    margin: 0;
 }
 
 
