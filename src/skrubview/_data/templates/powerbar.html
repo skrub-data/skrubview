@@ -2,7 +2,8 @@
     <select id="{{ powerbar_select_id }}" onchange="updateBarContent('{{ powerbar_display_id }}')" data-bar-id="{{ powerbar_display_id }}" autocomplete="off">
 
         <option value="selected-columns" data-placeholder="Selected column names">Selected columns</option>
-        <option value="table-cell-value"
+        <option selected
+                value="table-cell-value"
                 data-placeholder="Select a table cell to display its value">Cell value</option>
         <option value="table-cell-repr"
                 data-placeholder="Select a table cell to display its value as a Python expression">Cell as Python expression</option>

@@ -7,14 +7,16 @@ function isSelectedCol(columnElem) {
     return checkboxElem && checkboxElem.checked;
 }
 
-function updateSelectedColsSnippet(reportId) {
+function updateSelectedColsSnippet(reportId, updateBarMode=true) {
     const reportElem = document.getElementById(reportId);
     const allCols = reportElem.querySelectorAll(".skrubview-column-summary");
     const selectedCols = Array.from(allCols).filter(c => isSelectedCol(c));
     const snippet = selectedCols.map(col => col.dataset.nameRepr).join(", ");
     const bar = reportElem.querySelector(".skrubview-powerbar > .skrubview-box");
     bar.setAttribute("data-content-selected-columns", "[" + snippet + "]");
-    selectOneOf(bar.id, ["selected-columns"]);
+    if(updateBarMode){
+        selectOneOf(bar.id, ["selected-columns"]);
+    }
     updateBarContent(bar.id);
 }
 
