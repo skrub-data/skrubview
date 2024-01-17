@@ -1,3 +1,12 @@
+function highlightColCard(reportId, colIdx){
+    const reportElem = document.getElementById(reportId);
+    const allCols = reportElem.querySelectorAll(".skrubview-column-summary");
+    allCols.forEach(col => {col.removeAttribute("data-is-highlighted");});
+    const targetCol = document.getElementById(`${reportId}_col_${colIdx}`);
+    targetCol.dataset.isHighlighted = "";
+}
+
+
 function updateColSelection(event) {
     updateSelectedColsSnippet(event.target.dataset.reportId);
 }
@@ -125,7 +134,6 @@ function updateSiblingBarContents(event) {
 }
 
 
-
 function displayValue(event) {
     const elem = event.target;
     const table = document.getElementById(elem.dataset.parentTableId);
@@ -147,4 +155,6 @@ function displayValue(event) {
 
     selectOneOf(powerbarId, ["table-cell-value", "table-cell-repr", "table-cell-filter"]);
     updateBarContent(powerbarId);
+
+    highlightColCard(table.dataset.reportId, elem.dataset.columnIdx);
 }

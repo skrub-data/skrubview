@@ -2,7 +2,7 @@
 
 <article class="skrubview-wrapper">
     <div class="skrubview-horizontal-scroll">
-        <table class="pure-table pure-table-striped" id="{{ table_id }}" data-powerbar-id="{{ powerbar_display_id }}">
+        <table class="pure-table pure-table-striped" id="{{ table_id }}" data-powerbar-id="{{ powerbar_display_id }}" data-report-id="{{ report_id }}">
             <thead>
                 <tr>
                     {% for column_name in summary.head.header %}
@@ -14,7 +14,7 @@
                 {% for row in summary.head.data %}
                 <tr>
                     {% for idx in range(row.__len__()) %}
-                    <td class="skrubview-table-cell skrubview-ellided-short" data-parent-table-id="{{ table_id }}" data-display-box-id="{{ table_id }}_value_box" data-filter-snippet-box-id="{{ table_id }}_filter_snippet_box" data-value-repr-box-id="{{ table_id }}_value_repr_box" data-column-name-repr="{{ summary.head.header[idx].__repr__() }}" data-value-str="{{ row[idx].__str__() }}" data-value-repr="{{ row[idx].__repr__() }}" {%- if row[idx] is none -%} data-value-is-none="" {%- endif -%} data-dataframe-module="{{ summary.dataframe_module }}" onclick="displayValue(event)">
+                    <td class="skrubview-table-cell skrubview-ellided-short" data-parent-table-id="{{ table_id }}" data-display-box-id="{{ table_id }}_value_box" data-filter-snippet-box-id="{{ table_id }}_filter_snippet_box" data-value-repr-box-id="{{ table_id }}_value_repr_box" data-column-idx="{{ idx }}" data-column-name-repr="{{ summary.head.header[idx].__repr__() }}" data-value-str="{{ row[idx].__str__() }}" data-value-repr="{{ row[idx].__repr__() }}" {%- if row[idx] is none -%} data-value-is-none="" {%- endif -%} data-dataframe-module="{{ summary.dataframe_module }}" onclick="displayValue(event)">
                         {%- if row[idx] is not none -%}
                         {{ row[idx] }}
                         {%- endif -%}
@@ -34,7 +34,7 @@
                 {% for row in summary.tail.data %}
                 <tr>
                     {% for idx in range(row.__len__()) %}
-                    <td class="skrubview-table-cell skrubview-ellided-short" data-parent-table-id="{{ table_id }}" data-display-box-id="{{ table_id }}_value_box" data-filter-snippet-box-id="{{ table_id }}_filter_snippet_box" data-value-repr-box-id="{{ table_id }}_value_repr_box" data-column-name-repr="{{ summary.head.header[idx].__repr__() }}" data-value-str="{{ row[idx].__str__() }}" data-value-repr="{{ row[idx].__repr__() }}" {%- if row[idx] is none -%} data-value-is-none="" {%- endif -%} data-dataframe-module="{{ summary.dataframe_module }}" onclick="displayValue(event)">
+                    <td class="skrubview-table-cell skrubview-ellided-short" data-parent-table-id="{{ table_id }}" data-display-box-id="{{ table_id }}_value_box" data-filter-snippet-box-id="{{ table_id }}_filter_snippet_box" data-value-repr-box-id="{{ table_id }}_value_repr_box" data-column-idx="{{ idx }}" data-column-name-repr="{{ summary.head.header[idx].__repr__() }}" data-value-str="{{ row[idx].__str__() }}" data-value-repr="{{ row[idx].__repr__() }}" {%- if row[idx] is none -%} data-value-is-none="" {%- endif -%} data-dataframe-module="{{ summary.dataframe_module }}" onclick="displayValue(event)">
                         {%- if row[idx] is not none -%}
                         {{ row[idx] }}
                         {%- endif -%}

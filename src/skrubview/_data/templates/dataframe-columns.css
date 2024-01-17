@@ -1,5 +1,11 @@
 {% from "utils.j2" import compact_id, collapse_const_id with context %}
 
+{{ report_id_selector }}.skrubview-report .skrubview-column-summary[data-is-highlighted] .skrubview-card-header {
+    --header-color: var(--skrubview-yellowish);
+}
+
+
+
 {{ report_id_selector }}.skrubview-report .skrubview-float-end {
     margin-inline-start: auto;
     padding-inline-start: var(--skrubview-tiny);

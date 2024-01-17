@@ -4,6 +4,7 @@
     --skrubview-large: 1.2rem;
     --skrubview-huge: 1.5rem;
     --skrubview-max-content-width: 45rem;
+    --skrubview-yellowish: #ffffaa;
 }
 
 {{ report_id_selector }}.skrubview-report summary > * {
@@ -212,7 +213,7 @@
 }
 
 {{ report_id_selector }}.skrubview-report .skrubview-table-cell[data-is-selected] {
-    background-color: #ffffaa;
+    background-color: var(--skrubview-yellowish);
     border: 1px solid black;
 }
 
