@@ -150,6 +150,7 @@ def _add_numeric_summary(
     summary["standard_deviation"] = float("nan") if std is None else float(std)
     summary["mean"] = float(column.mean())
     quantiles = _utils.quantiles(column)
+    summary["inter_quartile_range"] = quantiles[.75] - quantiles[.25]
     if quantiles[0.0] == quantiles[1.0]:
         summary["value_is_constant"] = True
         summary["constant_value"] = quantiles[0.0]

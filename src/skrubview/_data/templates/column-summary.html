@@ -25,17 +25,18 @@
                 <dd>{{ column["mean"] | format_number }} ± {{ column["standard_deviation"] | format_number }}</dd>
                 {% endif %}
                 {% if column.quantiles %}
-                <dt>Min — Max</dt>
+                <dt>Median ± IQR</dt>
+                <dd>{{ column.quantiles[0.5] | format_number }} ± {{ column["inter_quartile_range"] | format_number}}</dd>
+
+                <dt>Min ; Max</dt>
                 <dd>
-                    {{ column.quantiles[0.0] | format_number }} —
+                    {{ column.quantiles[0.0] | format_number }} ;
                     {{ column.quantiles[1.0] | format_number }}
                 </dd>
-                <dt>Median</dt>
-                <dd>{{ column.quantiles[0.5] | format_number }}</dd>
                 {% elif "min" in column %}
-                <dt>Min — Max</dt>
+                <dt>Min ; Max</dt>
                 <dd>
-                    {{ column.min | format_number }} —
+                    {{ column.min | format_number }} ;
                     {{ column.max | format_number }}
                 </dd>
                 {% endif %}
