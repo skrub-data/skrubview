@@ -40,46 +40,60 @@ def _serialize(fig, close=True):
 def _rotate_ticklabels(ax):
     if len(ax.get_xticklabels()[0].get_text()) > 5:
         ax.set_xticks(ax.get_xticks(), ax.get_xticklabels(), rotation=45, ha="right")
-        w, h = ax.figure.get_size_inches()
-        ax.figure.set_size_inches((w, h + 0.3))
+
+
+def _get_adjusted_fig_size(fig, ax, direction, target_size):
+    size_display = getattr(ax.get_window_extent(), direction)
+    size = fig.dpi_scale_trans.inverted().transform((size_display, 0))[0]
+    dim = 0 if direction == "width" else 1
+    fig_size = fig.get_size_inches()[dim]
+    return target_size * (fig_size / size)
+
+
+def _adjust_fig_size(fig, ax, target_w, target_h):
+    w = _get_adjusted_fig_size(fig, ax, "width", target_w)
+    h = _get_adjusted_fig_size(fig, ax, "height", target_h)
+    fig.set_size_inches((w, h))
 
 
 def histogram(col, title=None, color=COLOR_0):
     values = np.asarray(col.to_array())
-    fig, ax = plt.subplots(figsize=(3, 1.5), layout="compressed")
+    fig, ax = plt.subplots()
     _despine(ax)
     ax.hist(values, color=color)
     if title is not None:
         ax.set_title(title)
     _rotate_ticklabels(ax)
+    _adjust_fig_size(fig, ax, 2.0, 1.0)
     return _serialize(fig)
 
 
 def line(x_col, y_col):
     x = np.asarray(x_col.to_array())
     y = np.asarray(y_col.to_array())
-    fig, ax = plt.subplots(figsize=(3, 2), layout="compressed")
+    fig, ax = plt.subplots()
     _despine(ax)
     ax.plot(x, y)
-    ax.set_xlabel(x_col.name)
-    ax.set_ylabel(y_col.name)
+    ax.set_xlabel(_utils.ellide_string_short(x_col.name))
     _rotate_ticklabels(ax)
+    _adjust_fig_size(fig, ax, 2.0, 1.0)
     return _serialize(fig)
 
 
 def value_counts(value_counts, n_unique, color=COLOR_0):
     values = [_utils.ellide_string_short(s) for s in value_counts.keys()][::-1]
     counts = list(value_counts.values())[::-1]
-    height = 0.18 * (len(value_counts) + 1.5)
     if n_unique > len(value_counts):
         title = f"{len(value_counts)} most frequent"
-        height += 0.55
     else:
         title = None
-    width = 0.085 * max(len(str(v)) for v in values) + 1.2
-    fig, ax = plt.subplots(figsize=(width, height), layout="compressed")
+    fig, ax = plt.subplots()
     _despine(ax)
-    ax.barh(list(map(str, values)), counts, color=color)
+    ax.barh(list(map(str, range(len(values)))), counts, color=color)
+    ax.set_yticks(ax.get_yticks())
+    ax.set_yticklabels(list(map(str, values)))
     if title is not None:
         ax.set_title(title)
+
+    _adjust_fig_size(fig, ax, 1.0, 0.2 * len(values))
     return _serialize(fig)
