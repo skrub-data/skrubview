@@ -7,6 +7,10 @@
         <p><span class="skrubview-select-none">File: </span><code>{{ summary.file_path }}</code></p>
         {% endif %}
     </div>
+    {% set powerbar_id = "{}-powerbar".format(report_id) %}
+    {% set powerbar_display_id = "{}-display".format(powerbar_id) %}
+    {% set powerbar_select_id = "{}-select".format(powerbar_id) %}
+    {% include "powerbar.html" %}
     {% include "dataframe-sample.html" %}
     {% include "dataframe-columns.html" %}
     <script>

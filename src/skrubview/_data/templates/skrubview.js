@@ -12,8 +12,10 @@ function updateSelectedColsSnippet(reportId) {
     const allCols = reportElem.querySelectorAll(".skrubview-column-summary");
     const selectedCols = Array.from(allCols).filter(c => isSelectedCol(c));
     const snippet = selectedCols.map(col => col.dataset.nameRepr).join(", ");
-    const selectedColsElem = reportElem.querySelector(".skrubview-selected-columns");
-    selectedColsElem.textContent = "[" + snippet + "]";
+    const bar = reportElem.querySelector(".skrubview-powerbar > .skrubview-box");
+    bar.setAttribute("data-content-selected-columns", "[" + snippet + "]");
+    selectOneOf(bar.id, ["selected-columns"]);
+    updateBarContent(bar.id);
 }
 
 function clearSelectedCols(reportId) {
@@ -102,6 +104,32 @@ function updateSelectedSnippet(event){
 
 }
 
+function selectOneOf(barId, options){
+    const bar = document.getElementById(barId);
+    const select = document.getElementById(bar.dataset.selectorId);
+    const selectedOptionValue = select.value;
+    if (options.includes(selectedOptionValue) ){
+        return;
+    }
+    select.value = options[0];
+}
+
+function updateBarContent(barId) {
+    const bar = document.getElementById(barId);
+    const select = document.getElementById(bar.dataset.selectorId);
+    const selectedOption = select.options[select.selectedIndex];
+    const selectedOptionValue = selectedOption.value;
+    const contentAttribute = `data-content-${selectedOptionValue}`;
+    if (!bar.hasAttribute(contentAttribute)){
+        bar.textContent = selectedOption.dataset.placeholder;
+        bar.dataset.showsPlaceholder="";
+    }
+    else {
+        bar.textContent = bar.getAttribute(contentAttribute);
+        bar.removeAttribute("data-shows-placeholder");
+    }
+}
+
 function displayValue(event) {
     const elem = event.target;
     const table = document.getElementById(elem.dataset.parentTableId);
@@ -110,32 +138,17 @@ function displayValue(event) {
     });
     elem.setAttribute("data-is-selected", "");
 
-    const displayBoxId = elem.dataset.displayBoxId;
-    const displayBox = document.getElementById(displayBoxId);
-    displayBox.removeAttribute("data-shows-placeholder");
-    if (displayBox.hasAttribute("data-copybutton-id")) {
-        document.getElementById(displayBox.dataset.copybuttonId).removeAttribute("disabled");
-    }
-    displayBox.textContent = elem.dataset.valueStr;
+    const powerbarId = table.dataset.powerbarId;
+    const bar = document.getElementById(powerbarId);
+    bar.setAttribute(`data-content-table-cell-value`, elem.dataset.valueStr) ;
+    bar.setAttribute(`data-content-table-cell-repr`, elem.dataset.valueRepr) ;
 
+    const snippet = filterSnippet(elem.dataset.columnNameRepr,
+                                  elem.dataset.valueRepr,
+                                  elem.hasAttribute("data-value-is-none"),
+                                  elem.dataset.dataframeModule);
+    bar.setAttribute(`data-content-table-cell-filter`, snippet) ;
 
-    const reprBoxId = elem.dataset.valueReprBoxId;
-    const reprBox = document.getElementById(reprBoxId);
-    reprBox.removeAttribute("data-shows-placeholder");
-    if (reprBox.hasAttribute("data-copybutton-id")) {
-        document.getElementById(reprBox.dataset.copybuttonId).removeAttribute("disabled");
-    }
-    reprBox.textContent = elem.dataset.valueRepr;
-
-
-    const snippetBoxId = elem.dataset.filterSnippetBoxId;
-    const snippetBox = document.getElementById(snippetBoxId);
-    snippetBox.removeAttribute("data-shows-placeholder");
-    if (snippetBox.hasAttribute("data-copybutton-id")) {
-        document.getElementById(snippetBox.dataset.copybuttonId).removeAttribute("disabled");
-    }
-    snippetBox.textContent = filterSnippet(elem.dataset.columnNameRepr,
-                                           elem.dataset.valueRepr,
-                                           elem.hasAttribute("data-value-is-none"),
-                                           elem.dataset.dataframeModule);
+    selectOneOf(powerbarId, ["table-cell-value", "table-cell-repr", "table-cell-filter"]);
+    updateBarContent(powerbarId);
 }

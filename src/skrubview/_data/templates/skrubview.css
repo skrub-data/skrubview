@@ -2,3 +2,4 @@
 
 {% include "base.css" %}
 {% include "dataframe-columns.css" %}
+{% include "powerbar.css" %}

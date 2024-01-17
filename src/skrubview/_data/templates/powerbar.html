@@ -1,0 +1,20 @@
+<div id="{{ powerbar_id }}" class="skrubview-flex skrubview-flex-wrap skrubview-wrapper skrubview-powerbar">
+    <select id="{{ powerbar_select_id }}" onchange="updateBarContent('{{ powerbar_display_id }}')" data-bar-id="{{ powerbar_display_id }}" autocomplete="off">
+
+        <option value="selected-columns" data-placeholder="Selected column names">Selected columns</option>
+        <option value="table-cell-value"
+                data-placeholder="Select a table cell to display its value">Cell value</option>
+        <option value="table-cell-repr"
+                data-placeholder="Select a table cell to display its value as a Python expression">Cell as Python expression</option>
+        <option value="table-cell-filter"
+                data-placeholder="Select a table cell to display a snippet for filtering the dataframe">Filter df by cell value</option>
+
+    </select>
+
+    <pre id="{{ powerbar_display_id }}" class="skrubview-box" data-selector-id="{{ powerbar_select_id }}"></pre>
+
+    <button onclick='copyTextToClipboard("{{ powerbar_display_id }}")'>📋</button>
+</div>
+<script>
+ updateBarContent('{{ powerbar_display_id }}');
+</script>

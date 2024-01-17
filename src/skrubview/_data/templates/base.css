@@ -145,14 +145,14 @@
 
 {{ report_id_selector }}.skrubview-report .skrubview-ellided {
     max-width: 100ch;
-    overflow-x: hidden;
+    overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
 
 {{ report_id_selector }}.skrubview-report .skrubview-ellided-short {
     max-width: 30ch;
-    overflow-x: hidden;
+    overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
@@ -200,14 +200,14 @@
     max-height: 10rem;
     min-height: 1rem;
     overflow: auto;
-    white-space: nowrap;
+    white-space: pre;
 }
 
 {{ report_id_selector }}.skrubview-report .skrubview-table-value-box {
     max-width: 100%;
 }
 
-{{ report_id_selector }}.skrubview-report .skrubview-table-value-box[data-shows-placeholder] {
+{{ report_id_selector }}.skrubview-report .skrubview-box[data-shows-placeholder] {
     color: #777777;
 }
 
