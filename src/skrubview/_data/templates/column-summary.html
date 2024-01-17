@@ -16,10 +16,6 @@
                 <dt>Unique values</dt>
                 <dd>{{ column.n_unique }} ({{ column.unique_proportion | format_percent }})</dd>
                 {% endif %}
-                {% if column.n_zeros %}
-                <dt>Zeros</dt>
-                <dd>{{ column.n_zeros }} ({{ column.zeros_proportion | format_percent }})</dd>
-                {% endif %}
                 {% if "mean" in column %}
                 <dt>Mean ± Std</dt>
                 <dd>{{ column["mean"] | format_number }} ± {{ column["standard_deviation"] | format_number }}</dd>
