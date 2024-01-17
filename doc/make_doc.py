@@ -16,9 +16,12 @@ build_dir.mkdir()
 reports_dir = build_dir / "reports"
 reports_dir.mkdir()
 
+
 skrub_dataset_names = [
     "employee_salaries",
     "medical_charge",
+    "traffic_violations",
+    "drug_directory"
 ]
 datasets = [
     (getattr(skrub_data, f"fetch_{name}")().X, name) for name in skrub_dataset_names
@@ -39,6 +42,7 @@ datasets.extend(
 
 
 def add_report(df, name):
+    print(f"making report for {name}")
     pretty_name = name.replace("_", " ").capitalize()
     report = Report(df, title=pretty_name)
     (reports_dir / f"{name}.html").write_text(report.html, "utf-8")
