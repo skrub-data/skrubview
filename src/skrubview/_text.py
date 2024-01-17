@@ -81,11 +81,10 @@ def _print_column_summary(summary, console):
     if "n_unique" in summary:
         text.append(f"Unique values: {summary['n_unique']}\n")
     if "value_counts" in summary:
-        # TODO in theory ellide_string could create collisions
-        ellided = {
-            _utils.ellide_string(k): v for (k, v) in summary["value_counts"].items()
-        }
-        text.append(f"Most frequent value counts: {ellided}\n")
+        text.append(f"Most frequent value counts:\n")
+        width = console.size[0] - 12
+        for k, v in summary["value_counts"].items():
+            text.append(f"    {_utils.ellide_string(k, width)!r}: {v}\n")
     if "mean" in summary:
         text.append(
             f"Mean: {summary['mean']:#0.3g} "

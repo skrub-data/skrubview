@@ -107,10 +107,11 @@ def ellide_string(s, max_len=100):
         return s
     if len(s) <= max_len:
         return s
-    if 30 <= max_len:
-        truncated = len(s) - max_len
-        return s[: (max_len - 30)] + f"[… {truncated} more chars]"
-    return s[:max_len] + "…"
+    if max_len < 30:
+        return s[:max_len] + "…"
+    shown_len = max_len - 30
+    truncated = len(s) - shown_len
+    return s[:shown_len] + f"[…{truncated} more chars]"
 
 
 def ellide_string_short(s):
