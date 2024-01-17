@@ -1,9 +1,27 @@
-function highlightColCard(reportId, colIdx){
+function highlightColCard(reportId, colIdx) {
     const reportElem = document.getElementById(reportId);
     const allCols = reportElem.querySelectorAll(".skrubview-column-summary");
-    allCols.forEach(col => {col.removeAttribute("data-is-highlighted");});
+    allCols.forEach(col => {
+        col.removeAttribute("data-is-highlighted");
+    });
     const targetCol = document.getElementById(`${reportId}_col_${colIdx}`);
     targetCol.dataset.isHighlighted = "";
+
+    const constantColsElem = reportElem.querySelector(".skrubview-constant-columns-summary");
+    if (!constantColsElem) {
+        return;
+    }
+    constantColsElem.removeAttribute("data-is-highlighted");
+    const allConstCols = constantColsElem.querySelectorAll("[data-col-index]");
+    allConstCols.forEach(col => {
+        if (col.dataset.colIndex === colIdx) {
+            col.dataset.isHighlighted = "";
+            constantColsElem.dataset.isHighlighted = "";
+        } else {
+            col.removeAttribute("data-is-highlighted");
+        }
+    });
+
 }
 
 
@@ -16,14 +34,14 @@ function isSelectedCol(columnElem) {
     return checkboxElem && checkboxElem.checked;
 }
 
-function updateSelectedColsSnippet(reportId, updateBarMode=true) {
+function updateSelectedColsSnippet(reportId, updateBarMode = true) {
     const reportElem = document.getElementById(reportId);
     const allCols = reportElem.querySelectorAll(".skrubview-column-summary");
     const selectedCols = Array.from(allCols).filter(c => isSelectedCol(c));
     const snippet = selectedCols.map(col => col.dataset.nameRepr).join(", ");
     const bar = reportElem.querySelector(".skrubview-powerbar > .skrubview-box");
     bar.setAttribute("data-content-selected-columns", "[" + snippet + "]");
-    if(updateBarMode){
+    if (updateBarMode) {
         selectOneOf(bar.id, ["selected-columns"]);
     }
     updateBarContent(bar.id);

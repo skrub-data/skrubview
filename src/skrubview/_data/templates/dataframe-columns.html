@@ -11,7 +11,7 @@
 
     <div class="skrubview-column-summary-group">
         {% if summary.n_constant_columns %}
-        <div class="skrubview-pseudocolumn skrubview-constant-columns-summary skrubview-card">
+        <div id="{{ report_id }}_constant_columns" class="skrubview-pseudocolumn skrubview-constant-columns-summary skrubview-card">
             <div class="skrubview-card-header">
                 <h3>Constant columns</h3>
             </div>
@@ -20,7 +20,7 @@
                 <dl>
                     {% for column in summary.columns %}
                     {% if column.value_is_constant %}
-                    <dt class="skrubview-select-all">{{ column.name }}</dt>
+                    <dt class="skrubview-select-all" data-col-index="{{ loop.index0 }}">{{ column.name }}</dt>
                     <dd>{{ column.constant_value.__repr__()  }}</dd>
                     {% endif %}
                     {% endfor %}
