@@ -66,14 +66,14 @@ function copyTextToClipboard(elementID) {
 }
 
 function pandasFilterSnippet(colName, value, valueIsNone) {
-    if (valueIsNone){
+    if (valueIsNone) {
         return `df.loc[df[${colName}].isnull()]`;
     }
     return `df.loc[df[${colName}] == ${value}]`;
 }
 
 function polarsFilterSnippet(colName, value, valueIsNone) {
-    if (valueIsNone){
+    if (valueIsNone) {
         return `df.filter(pl.col(${colName}).is_null())`;
     }
     return `df.filter(pl.col(${colName}) == ${value})`;
@@ -89,26 +89,11 @@ function filterSnippet(colName, value, valueIsNone, dataframeModule) {
     return `Unknown dataframe library: ${dataframeModule}`;
 }
 
-function updateSelectedSnippet(event){
-    const elem = event.target;
-    let sibling = elem.nextElementSibling;
-    while (sibling){
-        if(sibling.dataset.optionValue === elem.value) {
-            sibling.setAttribute("data-is-selected", "");
-        }
-        else {
-            sibling.removeAttribute("data-is-selected", "");
-        }
-        sibling = sibling.nextElementSibling;
-    }
-
-}
-
-function selectOneOf(barId, options){
+function selectOneOf(barId, options) {
     const bar = document.getElementById(barId);
     const select = document.getElementById(bar.dataset.selectorId);
     const selectedOptionValue = select.value;
-    if (options.includes(selectedOptionValue) ){
+    if (options.includes(selectedOptionValue)) {
         return;
     }
     select.value = options[0];
@@ -120,15 +105,24 @@ function updateBarContent(barId) {
     const selectedOption = select.options[select.selectedIndex];
     const selectedOptionValue = selectedOption.value;
     const contentAttribute = `data-content-${selectedOptionValue}`;
-    if (!bar.hasAttribute(contentAttribute)){
+    if (!bar.hasAttribute(contentAttribute)) {
         bar.textContent = selectedOption.dataset.placeholder;
-        bar.dataset.showsPlaceholder="";
-    }
-    else {
+        bar.dataset.showsPlaceholder = "";
+    } else {
         bar.textContent = bar.getAttribute(contentAttribute);
         bar.removeAttribute("data-shows-placeholder");
     }
 }
+
+function updateSiblingBarContents(event) {
+    const select = event.target;
+    select.parentElement.querySelectorAll(`*[data-selector-id=${select.id}]`).forEach(
+        elem => {
+            updateBarContent(elem.id);
+        })
+}
+
+
 
 function displayValue(event) {
     const elem = event.target;
@@ -140,14 +134,14 @@ function displayValue(event) {
 
     const powerbarId = table.dataset.powerbarId;
     const bar = document.getElementById(powerbarId);
-    bar.setAttribute(`data-content-table-cell-value`, elem.dataset.valueStr) ;
-    bar.setAttribute(`data-content-table-cell-repr`, elem.dataset.valueRepr) ;
+    bar.setAttribute(`data-content-table-cell-value`, elem.dataset.valueStr);
+    bar.setAttribute(`data-content-table-cell-repr`, elem.dataset.valueRepr);
 
     const snippet = filterSnippet(elem.dataset.columnNameRepr,
-                                  elem.dataset.valueRepr,
-                                  elem.hasAttribute("data-value-is-none"),
-                                  elem.dataset.dataframeModule);
-    bar.setAttribute(`data-content-table-cell-filter`, snippet) ;
+        elem.dataset.valueRepr,
+        elem.hasAttribute("data-value-is-none"),
+        elem.dataset.dataframeModule);
+    bar.setAttribute(`data-content-table-cell-filter`, snippet);
 
     selectOneOf(powerbarId, ["table-cell-value", "table-cell-repr", "table-cell-filter"]);
     updateBarContent(powerbarId);
