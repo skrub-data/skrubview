@@ -65,6 +65,7 @@
         {% if plot_name == "value_counts_plot" %}
         <details>
             <summary>Most frequent values</summary>
+            <div class="skrubview-shrink">
             <div class="skrubview-copybutton-grid">
             <select class="skrubview-grid-separator skrubview-select-displayed-siblings" id="{{ '{}_freq_value_select_snippet'.format(col_id) }}" onchange="updateSelectedSnippet(event)" autocomplete="off">
                 <option value="value">Display value</option>
@@ -107,8 +108,7 @@
             <pre class="skrubview-box" id="{{ val_id }}-filter" data-option-value="filtered-dataframe">{{ column.value_counts.keys() | filter_isin_snippet(column.name, summary.dataframe_module) }}</pre>
             <button onclick='copyTextToClipboard("{{ val_id }}-filter")' data-option-value="filtered-dataframe">📋</button>
 
-
-
+            </div>
             </div>
         </details>
         {% endif %}

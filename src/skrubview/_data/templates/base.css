@@ -97,6 +97,15 @@
     max-width: var(--skrubview-max-content-width);
 }
 
+{{ report_id_selector }}.skrubview-report .skrubview-shrink {
+    display: flex;
+}
+
+{{ report_id_selector }}.skrubview-report .skrubview-shrink > * {
+    width: 0;
+    flex-grow: 1;
+}
+
 {{ report_id_selector }}.skrubview-report .skrubview-copybutton-grid {
     display: grid;
     grid-template-columns: 1fr auto;
