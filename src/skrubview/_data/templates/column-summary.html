@@ -86,7 +86,6 @@
             <span class="skrubview-grid-separator">List:</span>
             {% set val_id = "{}-freq-value-list".format(col_id) %}
 
-
             <pre class="skrubview-box"
                  id="{{ val_id }}"
                  data-selector-id="{{ selector_id }}"
@@ -94,6 +93,7 @@
                  data-content-repr="{{ column.value_counts | list }}"
                  data-content-filter="{{ column.value_counts | list | filter_isin_snippet(column.name, summary.dataframe_module) }}"
             >{{ column.value_counts.keys() | list }}</pre>
+            <button onclick='copyTextToClipboard("{{ val_id }}")'>📋</button>
             </div>
             </div>
         </details>
