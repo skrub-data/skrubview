@@ -33,6 +33,7 @@ dependencies = [
   "matplotlib",
   "numpy",
   "dataframe-api-compat",
+  "scikit-learn",
 ]
 
 [project.optional-dependencies]

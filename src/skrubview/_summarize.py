@@ -2,9 +2,11 @@ from pathlib import Path
 
 import polars as pl
 
-from . import _plotting, _utils
+from . import _plotting, _utils, _interactions
 
 _HIGH_CARDINALITY_THRESHOLD = 10
+_SUBSAMPLE_SIZE = 3000
+_ASSOCIATION_THRESHOLD = 0.2
 
 
 def summarize_dataframe(
@@ -49,7 +51,21 @@ def summarize_dataframe(
     summary["n_constant_columns"] = sum(
         c["value_is_constant"] for c in summary["columns"]
     )
+    _add_interactions(df, summary)
     return summary
+
+
+def _add_interactions(df, dataframe_summary):
+    df = _utils.sample(df.dataframe, n=_SUBSAMPLE_SIZE)
+    associations = _interactions.stack_symmetric_associations(
+        _interactions.chramer_v(df),
+        df.__dataframe_consortium_standard__().column_names,
+    )[:20]
+    dataframe_summary["top_associations"] = [
+        dict(zip(("left_column", "right_column", "cramer_v"), a))
+        for a in associations
+        if a[2] > _ASSOCIATION_THRESHOLD
+    ]
 
 
 def _summarize_column(

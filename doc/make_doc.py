@@ -1,5 +1,6 @@
 #! /usr/bin/env python3
 
+import time
 import shutil
 from pathlib import Path
 
@@ -44,8 +45,19 @@ datasets.extend(
 def add_report(df, name):
     print(f"making report for {name}")
     pretty_name = name.replace("_", " ").capitalize()
-    report = Report(df, title=pretty_name)
-    (reports_dir / f"{name}.html").write_text(report.html, "utf-8")
+    start = time.time()
+    html = Report(df, title=pretty_name).html
+    stop = time.time()
+    addition = f"""
+    <div style="padding: 1rem; font-size: 0.9rem;">
+    <p>
+    Report generated in {stop - start:.2f} seconds by <a href="https://github.com/skrub-data/skrubview">skrubview</a>.
+    </p>
+    <p><a href="..">Back to homepage</a>
+    </div>
+    """
+    html = html.replace("</body>", f"{addition}\n</body>")
+    (reports_dir / f"{name}.html").write_text(html, "utf-8")
     return f"<li><a href='reports/{name}.html'>{pretty_name}</a></li>"
 
 

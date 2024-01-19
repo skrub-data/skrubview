@@ -40,6 +40,11 @@ def get_dtype_name(column):
         return column.column.dtype.__class__.__name__
 
 
+def sample(df, n, seed=0):
+    # TODO pandas
+    return df.sample(min(n, df.shape[0]), seed=seed)
+
+
 def _to_html_via_pandas(df):
     return df.to_pandas().to_html(index=False)
 

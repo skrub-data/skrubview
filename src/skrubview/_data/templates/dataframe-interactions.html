@@ -1,0 +1,32 @@
+<article class="skrubview-wrapper">
+    <h2>Column pairwise associations</h2>
+    <div style="font-size: 1.5rem; padding: var(--skrubview-small);"><strong>🚧 Work In Progress 🚨</strong></div>
+    {% if summary["top_associations"] %}
+    <table class="pure-table">
+        <thead>
+            <tr>
+                <th>Column 1</th>
+                <th>Column 2</th>
+                <th><a href="https://en.wikipedia.org/wiki/Cram%C3%A9r%27s_V">Cramér's V</a></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for association in summary["top_associations"] %}
+            <tr>
+                <td>{{ association["left_column"] }}</td>
+                <td>{{ association["right_column"] }}</td>
+                <td
+                    {% if association["cramer_v"] is gt 0.9 %}
+                    class="skrubview-critical"
+                    {%- endif -%}
+                    >
+                    {{ association["cramer_v"] | format_number }}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    No strong associations between any pair of columns were identified by a quick screening of a subsample of the dataframe.
+    {% endif %}
+</article>
