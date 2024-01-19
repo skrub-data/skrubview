@@ -1,7 +1,8 @@
 <article class="skrubview-wrapper">
     <h2>Column pairwise associations</h2>
-    <div style="font-size: 1.5rem; padding: var(--skrubview-small);"><strong>🚧 Work In Progress 🚨</strong></div>
+    <div style="font-size: 1.2rem; padding: var(--skrubview-small);"><strong>🚧 Work In Progress 🚨</strong></div>
     {% if summary["top_associations"] %}
+    <div class="skrubview-horizontal-scroll">
     <table class="pure-table">
         <thead>
             <tr>
@@ -26,6 +27,7 @@
         {% endfor %}
         </tbody>
     </table>
+    </div>
     {% else %}
     No strong associations between any pair of columns were identified by a quick screening of a subsample of the dataframe.
     {% endif %}
