@@ -4,6 +4,7 @@ import time
 import shutil
 from pathlib import Path
 
+import polars as pl
 from skrub import datasets as skrub_data
 from sklearn import datasets as sklearn_data
 from skrubview import Report
@@ -41,17 +42,19 @@ datasets.extend(
     ]
 )
 
-
 def add_report(df, name):
-    print(f"making report for {name}")
+    print(f"making report for {name}", end="", flush=True)
+    df = pl.from_pandas(df)
     pretty_name = name.replace("_", " ").capitalize()
     start = time.time()
     html = Report(df, title=pretty_name).html
     stop = time.time()
+    print(f": {stop - start:.2f}s")
     addition = f"""
     <div style="padding: 1rem; font-size: 0.9rem;">
     <p>
-    Report generated in {stop - start:.2f} seconds by <a href="https://github.com/skrub-data/skrubview">skrubview</a>.
+    Report generated in {stop - start:.2f} seconds by
+    <a href="https://github.com/skrub-data/skrubview">skrubview</a>.
     </p>
     <p><a href="..">Back to homepage</a>
     </div>
