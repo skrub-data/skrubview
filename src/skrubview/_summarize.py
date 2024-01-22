@@ -58,7 +58,7 @@ def summarize_dataframe(
 def _add_interactions(df, dataframe_summary):
     df = _utils.sample(df.dataframe, n=_SUBSAMPLE_SIZE)
     associations = _interactions.stack_symmetric_associations(
-        _interactions.chramer_v(df),
+        _interactions.cramer_v(df),
         df.__dataframe_consortium_standard__().column_names,
     )[:20]
     dataframe_summary["top_associations"] = [

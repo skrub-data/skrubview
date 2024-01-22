@@ -22,7 +22,7 @@ def stack_symmetric_associations(associations, column_names):
     ]
 
 
-def chramer_v(df):
+def cramer_v(df):
     df = df.__dataframe_consortium_standard__().persist()
     encoded = _onehot_encode(df, _N_BINS)
     table = _contingency_table(encoded)
