@@ -3,6 +3,8 @@ import warnings
 import numpy as np
 from sklearn.preprocessing import OneHotEncoder, KBinsDiscretizer
 
+from skrub import _dataframe as sbd
+
 _N_BINS = 10
 _CATEGORICAL_THRESHOLD = 30
 
@@ -23,18 +25,17 @@ def stack_symmetric_associations(associations, column_names):
 
 
 def cramer_v(df):
-    df = df.__dataframe_consortium_standard__().persist()
     encoded = _onehot_encode(df, _N_BINS)
     table = _contingency_table(encoded)
-    stats = _compute_cramer(table, df.shape()[0])
+    stats = _compute_cramer(table, sbd.shape(df)[0])
     return stats
 
 
 def _onehot_encode(df, n_bins):
-    n_rows, n_cols = df.shape()
+    n_rows, n_cols = sbd.shape(df)
     output = np.zeros((n_cols, n_bins, n_rows), dtype=bool)
-    for col_idx, col_name in enumerate(df.column_names):
-        values = np.asarray(df.col(col_name).to_array())
+    for col_idx, col_name in enumerate(sbd.column_names(df)):
+        values = np.asarray(sbd.to_numpy(sbd.col(df, col_name)))
         if values.dtype.kind in "bOSU" or len(set(values)) <= _CATEGORICAL_THRESHOLD:
             _onehot_encode_categories(values, n_bins, output[col_idx])
         else:

@@ -16,33 +16,8 @@ def read(file_path):
     raise ValueError(f"Cannot process file extension: {suffix}")
 
 
-def get_dtype(column):
-    """Workaround for dtypes missing from the dataframe API.
-
-    The dataframe API does not support many dtypes such as Categorical;
-    accessing .dtype on dataframes that contain them raises an exception.
-    """
-    try:
-        return column.dtype
-    except Exception:
-        return column.column.dtype
-
-
 def get_dtype_name(column):
-    """Workaround for dtypes missing from the dataframe API.
-
-    The dataframe API does not support many dtypes such as Categorical;
-    accessing .dtype on dataframes that contain them raises an exception.
-    """
-    try:
-        return column.dtype.__class__.__name__
-    except Exception:
-        return column.column.dtype.__class__.__name__
-
-
-def sample(df, n, seed=0):
-    # TODO pandas
-    return df.sample(min(n, df.shape[0]), seed=seed)
+    return column.dtype.__class__.__name__
 
 
 def _to_html_via_pandas(df):
@@ -59,31 +34,31 @@ def _to_html_polars_native(df):
 
 def to_html(dataframe):
     try:
-        html = _to_html_via_pandas(dataframe.dataframe)
+        html = _to_html_via_pandas(dataframe)
     except Exception:
         # TODO more precise exception list
         # - pandas not installed
         # - pyarrow casting µs to ns
-        html = _to_html_polars_native(dataframe.dataframe)
+        html = _to_html_polars_native(dataframe)
     html = html.replace('class="dataframe"', 'class="pure-table-striped pure-table"')
     return html
 
 
 def first_row_dict(dataframe):
-    first_row = dataframe.slice_rows(0, 1, 1)
-    return {c: first_row.col(c).to_array().tolist()[0] for c in first_row.column_names}
+    first_row = dataframe.slice(0, 1)
+    return {c: first_row[c].to_list()[0] for c in first_row.columns}
 
 
 def to_row_list(dataframe):
-    columns = dataframe.dataframe.to_dict()
+    columns = dataframe.to_dict()
     rows = []
-    for row_idx in range(dataframe.shape()[0]):
+    for row_idx in range(dataframe.shape[0]):
         rows.append([col[row_idx] for col in columns.values()])
     return {"header": list(columns.keys()), "data": rows}
 
 
 def value_counts(column, high_cardinality_threshold):
-    series = column.column
+    series = column
     value_counts = series.value_counts()
     col_1, col_2 = value_counts.columns
     n_unique = len(value_counts)
@@ -99,12 +74,11 @@ def value_counts(column, high_cardinality_threshold):
 
 
 def quantiles(column):
-    series = column.column
-    return {q: series.quantile(q) for q in [0.0, 0.25, 0.5, 0.75, 1.0]}
+    return {q: column.quantile(q) for q in [0.0, 0.25, 0.5, 0.75, 1.0]}
 
 
 def string_lengths(column):
-    return column.column.str.len_bytes().__column_consortium_standard__()
+    return column.str.len_bytes()
 
 
 def ellide_string(s, max_len=100):

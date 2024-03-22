@@ -1,8 +1,8 @@
 import io
 
-import numpy as np
 from matplotlib import pyplot as plt
 
+from skrub import _dataframe as sbd
 from . import _utils
 
 # from matplotlib import colormaps, colors
@@ -57,7 +57,7 @@ def _adjust_fig_size(fig, ax, target_w, target_h):
 
 
 def histogram(col, title=None, color=COLOR_0):
-    values = np.asarray(col.to_array())
+    values = sbd.to_numpy(col)
     fig, ax = plt.subplots()
     _despine(ax)
     ax.hist(values, color=color)
@@ -69,8 +69,8 @@ def histogram(col, title=None, color=COLOR_0):
 
 
 def line(x_col, y_col):
-    x = np.asarray(x_col.to_array())
-    y = np.asarray(y_col.to_array())
+    x = sbd.to_numpy(x_col)
+    y = sbd.to_numpy(y_col)
     fig, ax = plt.subplots()
     _despine(ax)
     ax.plot(x, y)

@@ -2,6 +2,8 @@ from pathlib import Path
 
 import polars as pl
 
+from skrub import _dataframe as sbd
+
 from . import _plotting, _utils, _interactions
 
 _HIGH_CARDINALITY_THRESHOLD = 10
@@ -12,22 +14,20 @@ _ASSOCIATION_THRESHOLD = 0.2
 def summarize_dataframe(
     dataframe, *, order_by=None, file_path=None, with_plots=False, title=None
 ):
-    dataframe_module_name = dataframe.__class__.__module__.split(".")[0]
-    # TODO: pandas support
-    if not isinstance(dataframe, pl.DataFrame):
-        dataframe = pl.DataFrame(dataframe)
     if file_path is not None:
         file_path = Path(file_path)
-    df = dataframe.__dataframe_consortium_standard__()
-    df = df.persist()
-    shape = df.shape()
+    df = dataframe
+    dataframe_module_name = sbd.dataframe_module_name(df)
+    if not sbd.is_polars(df):
+        df = pl.from_pandas(df)
+    shape = sbd.shape(df)
     summary = {
         "dataframe_module": dataframe_module_name,
         "n_rows": int(shape[0]),
         "n_columns": int(shape[1]),
         "columns": [],
-        "head": _utils.to_row_list(df.slice_rows(0, 5, 1)),
-        "tail": _utils.to_row_list(df.slice_rows(-5, None, 1)),
+        "head": _utils.to_row_list(df.slice(0, 5)),
+        "tail": _utils.to_row_list(df.slice(-5, None)),
         "first_row_dict": _utils.first_row_dict(df),
     }
     if title is not None:
@@ -38,14 +38,14 @@ def summarize_dataframe(
     if order_by is not None:
         df = df.sort(order_by)
         summary["order_by"] = order_by
-    for position, column_name in enumerate(df.column_names):
+    for position, column_name in enumerate(df.columns):
         summary["columns"].append(
             _summarize_column(
-                df.col(column_name),
+                sbd.col(df, column_name),
                 position,
                 dataframe_summary=summary,
                 with_plots=with_plots,
-                order_by_column=None if order_by is None else df.col(order_by),
+                order_by_column=None if order_by is None else sbd.col(df, order_by),
             )
         )
     summary["n_constant_columns"] = sum(
@@ -56,10 +56,10 @@ def summarize_dataframe(
 
 
 def _add_interactions(df, dataframe_summary):
-    df = _utils.sample(df.dataframe, n=_SUBSAMPLE_SIZE)
+    df = sbd.sample(df, n=min(sbd.shape(df)[0], _SUBSAMPLE_SIZE))
     associations = _interactions.stack_symmetric_associations(
         _interactions.cramer_v(df),
-        df.__dataframe_consortium_standard__().column_names,
+        df.columns,
     )[:20]
     dataframe_summary["top_associations"] = [
         dict(zip(("left_column", "right_column", "cramer_v"), a))
@@ -73,7 +73,7 @@ def _summarize_column(
 ):
     summary = {
         "position": position,
-        "name": column.name,
+        "name": sbd.name(column),
         "dtype": _utils.get_dtype_name(column),
         "value_is_constant": False,
     }
@@ -94,7 +94,7 @@ def _summarize_column(
 
 
 def _add_nulls_summary(summary, column, dataframe_summary):
-    null_count = int(column.is_null().sum())
+    null_count = sbd.is_null(column).sum()
     summary["null_count"] = null_count
     null_proportion = null_count / dataframe_summary["n_rows"]
     summary["null_proportion"] = null_proportion
@@ -107,9 +107,7 @@ def _add_nulls_summary(summary, column, dataframe_summary):
 
 
 def _add_value_counts(summary, column, *, dataframe_summary, with_plots):
-    ns = column.__column_namespace__()
-    dtype = _utils.get_dtype(column)
-    if ns.is_dtype(dtype, "numeric") or isinstance(dtype, ns.Datetime):
+    if sbd.is_numeric(column) or sbd.is_any_date(column):
         summary["high_cardinality"] = True
         return
     n_unique, value_counts = _utils.value_counts(
@@ -134,11 +132,10 @@ def _add_value_counts(summary, column, *, dataframe_summary, with_plots):
 
 
 def _add_datetime_summary(summary, column, with_plots):
-    ns = column.__column_namespace__()
-    if not isinstance(_utils.get_dtype(column), ns.Datetime):
+    if not sbd.is_any_date(column):
         return
-    min_date = column.min().scalar
-    max_date = column.max().scalar
+    min_date = column.min()
+    max_date = column.max()
     if min_date == max_date:
         summary["value_is_constant"] = True
         summary["constant_value"] = min_date.isoformat()
@@ -156,12 +153,11 @@ def _add_numeric_summary(
     summary, column, dataframe_summary, with_plots, order_by_column
 ):
     del dataframe_summary
-    ns = column.__column_namespace__()
-    if not ns.is_dtype(_utils.get_dtype(column), "numeric"):
+    if not sbd.is_numeric(column):
         return
     if not summary["high_cardinality"]:
         return
-    std = column.std().scalar
+    std = column.std()
     summary["standard_deviation"] = float("nan") if std is None else float(std)
     summary["mean"] = float(column.mean())
     quantiles = _utils.quantiles(column)

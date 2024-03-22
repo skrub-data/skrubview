@@ -2,6 +2,8 @@ from pathlib import Path
 import functools
 import json
 
+from skrub import _dataframe as sbd
+
 from ._summarize import summarize_dataframe
 from ._html import to_html
 from ._text import to_text
@@ -53,7 +55,7 @@ class Report:
     def __init__(self, data, order_by=None, title=None):
         self._summary_kwargs = {"order_by": order_by}
         self.title = title
-        if hasattr(data, "__dataframe__"):
+        if sbd.is_dataframe(data):
             self.dataframe = data
         else:
             self._file_path = Path(data)
