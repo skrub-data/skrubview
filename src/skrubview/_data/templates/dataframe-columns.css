@@ -1,4 +1,4 @@
-{% from "utils.j2" import compact_id, collapse_const_id with context %}
+{% from "utils.j2" import collapse_const_id with context %}
 
 {{ report_id_selector }}.skrubview-report .skrubview-card[data-is-highlighted] .skrubview-card-header {
     --header-color: var(--skrubview-yellowish);
@@ -35,26 +35,19 @@
     column-gap: var(--skrubview-tiny);
 }
 
-:is(#{{ compact_id }}, #{{ compact_id }} + label ){
-    display: none;
-}
-
 @media screen and (min-width: 60rem) {
-    {{ report_id_selector }}.skrubview-report #{{ compact_id }}:checked ~ .skrubview-column-summary-group {
+    {{ report_id_selector }}.skrubview-report .skrubview-column-summary-group {
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
         gap: var(--skrubview-small);
     }
 
-    {{ report_id_selector }}.skrubview-report #{{ compact_id }}:checked ~ * .skrubview-column-summary-content {
+    {{ report_id_selector }}.skrubview-report .skrubview-column-summary-content {
         display: flex;
         flex-direction: column;
     }
 
-    :is(#{{ compact_id }}, #{{ compact_id }} + label ) {
-        display: inline;
-    }
 }
 
 

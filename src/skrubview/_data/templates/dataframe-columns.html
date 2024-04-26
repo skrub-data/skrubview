@@ -1,11 +1,9 @@
-{% from "utils.j2" import compact_id, collapse_const_id with context %}
+{% from "utils.j2" import collapse_const_id with context %}
 <article class="skrubview-wrapper">
     {% if summary.n_constant_columns %}
     <input type="checkbox" id="{{ collapse_const_id }}" checked="true" />
     <label for="{{ collapse_const_id }}" class="skrubview-margin-r-s">Collapse constant columns</label>
     {% endif %}
-    <input type="checkbox" id="{{ compact_id }}" checked="true" />
-    <label for="{{ compact_id }}" class="skrubview-margin-r-s">Compact display</label>
     <button class="skrubview-margin-r-s" onclick='clearSelectedCols("{{ report_id }}")'>Deselect all</button>
     <button onclick='selectAllCols("{{ report_id }}")'>Select all</button>
 
