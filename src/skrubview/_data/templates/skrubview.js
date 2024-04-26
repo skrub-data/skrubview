@@ -1,30 +1,3 @@
-function highlightColCard(reportId, colIdx) {
-    const reportElem = document.getElementById(reportId);
-    const allCols = reportElem.querySelectorAll(".skrubview-column-summary");
-    allCols.forEach(col => {
-        col.removeAttribute("data-is-highlighted");
-    });
-    const targetCol = document.getElementById(`${reportId}_col_${colIdx}`);
-    targetCol.dataset.isHighlighted = "";
-
-    const constantColsElem = reportElem.querySelector(".skrubview-constant-columns-summary");
-    if (!constantColsElem) {
-        return;
-    }
-    constantColsElem.removeAttribute("data-is-highlighted");
-    const allConstCols = constantColsElem.querySelectorAll("[data-col-index]");
-    allConstCols.forEach(col => {
-        if (col.dataset.colIndex === colIdx) {
-            col.dataset.isHighlighted = "";
-            constantColsElem.dataset.isHighlighted = "";
-        } else {
-            col.removeAttribute("data-is-highlighted");
-        }
-    });
-
-}
-
-
 function updateColSelection(event) {
     updateSelectedColsSnippet(event.target.dataset.reportId);
 }
@@ -39,12 +12,12 @@ function updateSelectedColsSnippet(reportId, updateBarMode = true) {
     const allCols = reportElem.querySelectorAll(".skrubview-column-summary");
     const selectedCols = Array.from(allCols).filter(c => isSelectedCol(c));
     const snippet = selectedCols.map(col => col.dataset.nameRepr).join(", ");
-    const bar = reportElem.querySelector(".skrubview-powerbar > .skrubview-box");
-    bar.setAttribute("data-content-selected-columns", "[" + snippet + "]");
-    if (updateBarMode) {
-        selectOneOf(bar.id, ["selected-columns"]);
-    }
-    updateBarContent(bar.id);
+    // const bar = reportElem.querySelector(".skrubview-powerbar > .skrubview-box");
+    // bar.setAttribute("data-content-selected-columns", "[" + snippet + "]");
+    // if (updateBarMode) {
+    //     selectOneOf(bar.id, ["selected-columns"]);
+    // }
+    // updateBarContent(bar.id);
 }
 
 function clearSelectedCols(reportId) {
@@ -173,8 +146,6 @@ function displayValue(event) {
 
     selectOneOf(powerbarId, ["table-cell-value", "table-cell-repr", "table-cell-filter"]);
     updateBarContent(powerbarId);
-
-    highlightColCard(table.dataset.reportId, elem.dataset.columnIdx);
 }
 
 function displayTab(event) {
