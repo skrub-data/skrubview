@@ -137,6 +137,8 @@ function displayValue(event) {
     const bar = document.getElementById(powerbarId);
     bar.setAttribute(`data-content-table-cell-value`, elem.dataset.valueStr);
     bar.setAttribute(`data-content-table-cell-repr`, elem.dataset.valueRepr);
+    bar.setAttribute(`data-content-table-column-name`, elem.dataset.colNameStr);
+    bar.setAttribute(`data-content-table-column-name-repr`, elem.dataset.colNameRepr);
 
     const snippet = filterSnippet(elem.dataset.columnNameRepr,
         elem.dataset.valueRepr,
@@ -144,13 +146,15 @@ function displayValue(event) {
         elem.dataset.dataframeModule);
     bar.setAttribute(`data-content-table-cell-filter`, snippet);
 
-    selectOneOf(powerbarId, ["table-cell-value", "table-cell-repr", "table-cell-filter"]);
+    selectOneOf(powerbarId, ["table-cell-value", "table-cell-repr", "table-cell-filter", "table-column-name", "table-column-name-repr"]);
     updateBarContent(powerbarId);
 }
 
 function displayTab(event) {
     const elem = event.target;
-    elem.parentElement.querySelectorAll("button").forEach(elem => {elem.removeAttribute("data-is-selected");});
+    elem.parentElement.querySelectorAll("button").forEach(elem => {
+        elem.removeAttribute("data-is-selected");
+    });
     elem.setAttribute("data-is-selected", "");
     const tab = document.getElementById(elem.dataset.targetTab);
     tab.parentElement.querySelectorAll(".skrubview-tab").forEach(elem => {

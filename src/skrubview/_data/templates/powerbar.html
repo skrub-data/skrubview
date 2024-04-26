@@ -1,6 +1,11 @@
 <div id="{{ powerbar_id }}" class="skrubview-flex skrubview-flex-wrap skrubview-wrapper skrubview-powerbar">
     <select id="{{ powerbar_select_id }}" onchange="updateBarContent('{{ powerbar_display_id }}')" data-bar-id="{{ powerbar_display_id }}" autocomplete="off">
 
+        <option value="table-column-name"
+        data-placeholder="Select a table cell to display its column name">Column name</option>
+        <option value="table-column-name-repr"
+                data-placeholder="Select a table cell to display its column name as a Python expression">Column name as Python expression</option>
+
         <option selected
                 value="table-cell-value"
                 data-placeholder="Select a table cell to display its value">Cell value</option>
