@@ -21,6 +21,7 @@ jobs:
 
     - name: Install dependencies
       run: |
+        pip install "git+https://github.com/jeromedockes/skrub.git@pipeline"
         pip install -e ".[doc]"
 
     - name: Build the doc
