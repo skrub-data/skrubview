@@ -1,0 +1,24 @@
+{{ report_id_selector }}.skrubview-report .skrubview-tab {
+    display: none;
+}
+
+{{ report_id_selector }}.skrubview-report .skrubview-tabset-buttons {
+    padding-left: var(--skrubview-tiny);
+}
+
+{{ report_id_selector }}.skrubview-report .skrubview-tab[data-is-displayed] {
+    display: block;
+    border-top: 1px solid #ccc;
+    padding-top: var(--skrubview-tiny);
+}
+
+{{ report_id_selector }}.skrubview-report .skrubview-tabset-buttons button {
+    border: none;
+    padding: var(--skrubview-tiny);
+    font-size: var(--skrubview-small);
+    background-color: #f1f1f1;
+}
+
+{{ report_id_selector }}.skrubview-report .skrubview-tabset-buttons button[data-is-selected] {
+    background-color: #ccc; ;
+}

@@ -176,3 +176,14 @@ function displayValue(event) {
 
     highlightColCard(table.dataset.reportId, elem.dataset.columnIdx);
 }
+
+function displayTab(event) {
+    const elem = event.target;
+    elem.parentElement.querySelectorAll("button").forEach(elem => {elem.removeAttribute("data-is-selected");});
+    elem.setAttribute("data-is-selected", "");
+    const tab = document.getElementById(elem.dataset.targetTab);
+    tab.parentElement.querySelectorAll(".skrubview-tab").forEach(elem => {
+        elem.removeAttribute("data-is-displayed");
+    });
+    tab.setAttribute("data-is-displayed", "");
+}

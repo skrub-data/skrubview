@@ -1,6 +1,11 @@
 {% set table_id = "{}_sample_table".format(report_id) %}
 
 <article class="skrubview-wrapper">
+    {% set powerbar_id = "{}-powerbar".format(report_id) %}
+    {% set powerbar_display_id = "{}-display".format(powerbar_id) %}
+    {% set powerbar_select_id = "{}-select".format(powerbar_id) %}
+    {% include "powerbar.html" %}
+
     <div class="skrubview-horizontal-scroll">
         <table class="pure-table pure-table-striped" id="{{ table_id }}" data-powerbar-id="{{ powerbar_display_id }}" data-report-id="{{ report_id }}">
             <thead>

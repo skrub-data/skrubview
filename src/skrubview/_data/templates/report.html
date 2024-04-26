@@ -7,14 +7,28 @@
         <p><span class="skrubview-select-none">File: </span><code>{{ summary.file_path }}</code></p>
         {% endif %}
     </div>
-    {% set powerbar_id = "{}-powerbar".format(report_id) %}
-    {% set powerbar_display_id = "{}-display".format(powerbar_id) %}
-    {% set powerbar_select_id = "{}-select".format(powerbar_id) %}
-    {% include "powerbar.html" %}
-    {% include "dataframe-sample.html" %}
-    {% include "dataframe-columns.html" %}
-    {% include "dataframe-interactions.html" %}
+    {% set sample_tab_id = "{}-sample-tab".format(report_id) %}
+    {% set sample_tab_button_id = "{}-sample-tab-button".format(report_id) %}
+    {% set columns_tab_id = "{}-columns-tab".format(report_id) %}
+    {% set interactions_tab_id = "{}-interactions-tab".format(report_id) %}
+    <div class="skrubview-tabset">
+        <div class="skrubview-tabset-buttons">
+            <button data-target-tab="{{ sample_tab_id }}" id="{{ sample_tab_button_id }}" onclick="displayTab(event)">Sample</button>
+            <button data-target-tab="{{ columns_tab_id }}" onclick="displayTab(event)">Columns</button>
+            <button data-target-tab="{{ interactions_tab_id }}" onclick="displayTab(event)">Interactions</button>
+        </div>
+        <div class="skrubview-tab" id="{{ sample_tab_id }}">
+            {% include "dataframe-sample.html" %}
+        </div>
+        <div class="skrubview-tab" id="{{ columns_tab_id }}">
+            {% include "dataframe-columns.html" %}
+        </div>
+        <div class="skrubview-tab" id="{{ interactions_tab_id }}">
+            {% include "dataframe-interactions.html" %}
+        </div>
+    </div>
     <script>
-     updateSelectedColsSnippet("{{ report_id }}", false);
+        updateSelectedColsSnippet("{{ report_id }}", false);
+     document.getElementById("{{ sample_tab_button_id }}").click();
     </script>
 </div>
