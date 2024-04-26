@@ -10,6 +10,3 @@ var columnFiltersForReport{{ report_id }} = JSON.parse('{{ column_filters | tojs
         {% endfor %}
     </select>
 </div>
-<script type="text/javascript">
- onFilterChange("{{ col_filter_id }}");
-</script>
