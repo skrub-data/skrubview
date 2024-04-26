@@ -31,7 +31,6 @@ def _get_jinja_env():
 
 
 def _get_column_filters(dataframe):
-    print(dataframe)
     first_10 = sbd.column_names(dataframe)[:10]
     filters = {f"First {len(first_10)}": first_10}
     for selector in [
@@ -46,7 +45,6 @@ def _get_column_filters(dataframe):
         filters[re.sub(r"^\((.*)\)$", r"\1", repr(selector))] = selector.expand(
             dataframe
         )
-    print(filters)
     return filters
 
 
