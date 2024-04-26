@@ -21,6 +21,10 @@
     margin: 0;
 }
 
+{{ report_id_selector }}.skrubview-report .skrubview-column-summary-group.skrubview-columns-in-sample-tab > .skrubview-column-summary:not([data-is-selected-in-table]) {
+    display: none;
+}
+
 {{ report_id_selector }}.skrubview-report .skrubview-column-summary-content {
     display: flex;
     flex-wrap: wrap;

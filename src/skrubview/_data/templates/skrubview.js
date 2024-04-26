@@ -12,12 +12,6 @@ function updateSelectedColsSnippet(reportId, updateBarMode = true) {
     const allCols = reportElem.querySelectorAll(".skrubview-column-summary");
     const selectedCols = Array.from(allCols).filter(c => isSelectedCol(c));
     const snippet = selectedCols.map(col => col.dataset.nameRepr).join(", ");
-    // const bar = reportElem.querySelector(".skrubview-powerbar > .skrubview-box");
-    // bar.setAttribute("data-content-selected-columns", "[" + snippet + "]");
-    // if (updateBarMode) {
-    //     selectOneOf(bar.id, ["selected-columns"]);
-    // }
-    // updateBarContent(bar.id);
 }
 
 function clearSelectedCols(reportId) {
@@ -91,15 +85,6 @@ function filterSnippet(colName, value, valueIsNone, dataframeModule) {
     return `Unknown dataframe library: ${dataframeModule}`;
 }
 
-function selectOneOf(barId, options) {
-    const bar = document.getElementById(barId);
-    const select = document.getElementById(bar.dataset.selectorId);
-    const selectedOptionValue = select.value;
-    if (options.includes(selectedOptionValue)) {
-        return;
-    }
-    select.value = options[0];
-}
 
 function updateBarContent(barId) {
     const bar = document.getElementById(barId);
@@ -146,9 +131,22 @@ function displayValue(event) {
         elem.dataset.dataframeModule);
     bar.setAttribute(`data-content-table-cell-filter`, snippet);
 
-    selectOneOf(powerbarId, ["table-cell-value", "table-cell-repr", "table-cell-filter", "table-column-name", "table-column-name-repr"]);
+    revealColCard(table.dataset.reportId, elem.dataset.columnIdx);
+
     updateBarContent(powerbarId);
 }
+
+function revealColCard(reportId, colIdx) {
+    const reportElem = document.getElementById(reportId);
+    const allCols = reportElem.querySelectorAll(".skrubview-columns-in-sample-tab .skrubview-column-summary");
+    allCols.forEach(col => {
+        col.removeAttribute("data-is-selected-in-table");
+    });
+    const targetCol = document.getElementById(`${reportId}_col_${colIdx}_in_sample_tab`);
+    targetCol.dataset.isSelectedInTable = "";
+
+}
+
 
 function displayTab(event) {
     const elem = event.target;

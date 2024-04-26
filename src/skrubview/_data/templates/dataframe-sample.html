@@ -56,4 +56,13 @@
         <strong>{{ summary.n_rows }}</strong> rows ✕ <strong>{{ summary.n_columns }}</strong> columns.
     </p>
 
+
+        <div class="skrubview-column-summary-group skrubview-columns-in-sample-tab">
+            {% set in_sample_tab=True %}
+            {% for column in summary.columns %}
+            {% set col_id="{}_col_{}_in_sample_tab".format(report_id, loop.index0) %}
+            {% include "column-summary.html" %}
+            {% endfor %}
+            {% set in_sample_tab=False %}
+    </div>
 </article>
