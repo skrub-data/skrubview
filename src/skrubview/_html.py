@@ -41,6 +41,8 @@ def _get_column_filters(dataframe):
         ~s.string(),
         s.categorical(),
         ~s.categorical(),
+        s.any_date(),
+        ~s.any_date(),
     ]:
         filters[re.sub(r"^\((.*)\)$", r"\1", repr(selector))] = selector.expand(
             dataframe

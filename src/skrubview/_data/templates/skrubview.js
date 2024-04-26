@@ -180,4 +180,5 @@ function onFilterChange(colFilterId) {
             elem.dataset.isExcludedByFilter = "";
         }
     })
+    document.getElementById(`${reportId}_display_n_columns`).textContent = acceptedCols.length.toString();
 }
