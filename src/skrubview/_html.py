@@ -82,11 +82,13 @@ def to_html(summary, standalone=True, column_filters=None):
         template = jinja_env.get_template("standalone-report.html")
     else:
         template = jinja_env.get_template("inline-report.html")
+    default_filters = _get_column_filters(summary["dataframe"])
     return template.render(
         {
             "summary": summary,
-            "column_filters": _get_column_filters(summary["dataframe"])
-            | column_filters,
+            # prioritize user-provided filters and keep them at the beginning
+            "column_filters": column_filters
+            | {k: v for (k, v) in default_filters.items() if k not in column_filters},
             "report_id": f"report_{secrets.token_hex()[:8]}",
         }
     )
