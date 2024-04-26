@@ -43,12 +43,15 @@ def _get_column_filters(dataframe):
         s.categorical(),
         ~s.categorical(),
     ]:
-        filters[re.sub(r"^\((.*)\)$", r"\1", repr(selector))] = selector.expand(dataframe)
+        filters[re.sub(r"^\((.*)\)$", r"\1", repr(selector))] = selector.expand(
+            dataframe
+        )
     print(filters)
     return filters
 
 
-def to_html(summary, standalone=True):
+def to_html(summary, standalone=True, column_filters=None):
+    column_filters = column_filters if column_filters is not None else {}
     jinja_env = _get_jinja_env()
     if standalone:
         template = jinja_env.get_template("standalone-report.html")
@@ -57,7 +60,8 @@ def to_html(summary, standalone=True):
     return template.render(
         {
             "summary": summary,
-            "column_filters": _get_column_filters(summary["dataframe"]),
+            "column_filters": _get_column_filters(summary["dataframe"])
+            | column_filters,
             "report_id": f"report_{secrets.token_hex()[:8]}",
         }
     )

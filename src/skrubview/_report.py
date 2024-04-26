@@ -52,9 +52,10 @@ class Report:
         Same as ``summary_with_plots`` without the plots.
     """
 
-    def __init__(self, data, order_by=None, title=None):
+    def __init__(self, data, order_by=None, title=None, column_filters=None):
         self._summary_kwargs = {"order_by": order_by}
         self.title = title
+        self.column_filters = column_filters
         if sbd.is_dataframe(data):
             self.dataframe = data
         else:
@@ -86,11 +87,11 @@ class Report:
 
     @functools.cached_property
     def html(self):
-        return to_html(self.summary_with_plots, standalone=True)
+        return to_html(self.summary_with_plots, standalone=True, column_filters=self.column_filters)
 
     @functools.cached_property
     def html_snippet(self):
-        return to_html(self.summary_with_plots, standalone=False)
+        return to_html(self.summary_with_plots, standalone=False, column_filters=self.column_filters)
 
     @functools.cached_property
     def json(self):
