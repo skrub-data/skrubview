@@ -23,8 +23,8 @@
                 <dl>
                     {% for column in summary.columns %}
                     {% if column.value_is_constant %}
-                    <dt class="skrubview-select-all" data-col-index="{{ loop.index0 }}">{{ column.name }}</dt>
-                    <dd>{{ column.constant_value.__repr__()  }}</dd>
+                    <dt class="skrubview-select-all skrubview-filterable-column" data-col-index="{{ loop.index0 }}" data-column-name="{{ column.name }}">{{ column.name }}</dt>
+                    <dd class="skrubview-filterable-column" data-column-name="{{ column.name }}">{{ column.constant_value.__repr__()  }}</dd>
                     {% endif %}
                     {% endfor %}
                 </dl>

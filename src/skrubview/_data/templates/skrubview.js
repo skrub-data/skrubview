@@ -28,9 +28,12 @@ function clearSelectedCols(reportId) {
 
 function selectAllCols(reportId) {
     const reportElem = document.getElementById(reportId);
-    reportElem.querySelectorAll("input.skrubview-select-column-checkbox[type='checkbox']").forEach(
-        box => {
-            box.checked = true;
+    reportElem.querySelectorAll(".skrubview-column-summary").forEach(
+        elem => {
+            const box = elem.querySelector("input.skrubview-select-column-checkbox[type='checkbox']");
+            if (!(box === null)){
+                box.checked  = !elem.hasAttribute("data-is-excluded-by-filter");
+            }
         }
     );
     updateSelectedColsSnippet(reportId);
@@ -161,4 +164,20 @@ function displayTab(event) {
         elem.removeAttribute("data-is-displayed");
     });
     tab.setAttribute("data-is-displayed", "");
+}
+
+function onFilterChange(colFilterId) {
+    const selectElem = document.getElementById(colFilterId);
+    const reportId = selectElem.dataset.reportId;
+    const colFilters = window[`columnFiltersForReport${reportId}`];
+    const acceptedCols = colFilters[selectElem.value];
+    const reportElem = document.getElementById(reportId);
+    const colElements = reportElem.querySelectorAll(".skrubview-filterable-column");
+    colElements.forEach(elem => {
+        if (acceptedCols.includes(elem.dataset.columnName)) {
+            elem.removeAttribute("data-is-excluded-by-filter");
+        } else {
+            elem.dataset.isExcludedByFilter = "";
+        }
+    })
 }

@@ -22,6 +22,7 @@ def summarize_dataframe(
         df = pl.from_pandas(df)
     shape = sbd.shape(df)
     summary = {
+        "dataframe": dataframe,
         "dataframe_module": dataframe_module_name,
         "n_rows": int(shape[0]),
         "n_columns": int(shape[1]),

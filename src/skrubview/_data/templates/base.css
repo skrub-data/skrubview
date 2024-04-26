@@ -258,3 +258,7 @@
 {{ report_id_selector }}.skrubview-report .skrubview-select-displayed-siblings ~ [data-option-value]:not([data-is-selected]) {
     display: none;
 }
+
+{{ report_id_selector }}.skrubview-report .skrubview-filterable-column[data-is-excluded-by-filter] {
+    display: none;
+}

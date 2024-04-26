@@ -1,7 +1,12 @@
 import pathlib
+import re
 import secrets
 
 import jinja2
+from polars import dataframe
+
+from skrub import _selectors as s
+from skrub import _dataframe as sbd
 
 from . import _utils
 
@@ -25,6 +30,24 @@ def _get_jinja_env():
     return env
 
 
+def _get_column_filters(dataframe):
+    print(dataframe)
+    first_10 = sbd.column_names(dataframe)[:10]
+    filters = {f"First {len(first_10)}": first_10}
+    for selector in [
+        s.all(),
+        s.numeric(),
+        ~s.numeric(),
+        s.string(),
+        ~s.string(),
+        s.categorical(),
+        ~s.categorical(),
+    ]:
+        filters[re.sub(r"^\((.*)\)$", r"\1", repr(selector))] = selector.expand(dataframe)
+    print(filters)
+    return filters
+
+
 def to_html(summary, standalone=True):
     jinja_env = _get_jinja_env()
     if standalone:
@@ -34,6 +57,7 @@ def to_html(summary, standalone=True):
     return template.render(
         {
             "summary": summary,
+            "column_filters": _get_column_filters(summary["dataframe"]),
             "report_id": f"report_{secrets.token_hex()[:8]}",
         }
     )

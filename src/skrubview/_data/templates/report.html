@@ -7,6 +7,9 @@
         <p><span class="skrubview-select-none">File: </span><code>{{ summary.file_path }}</code></p>
         {% endif %}
     </div>
+
+    {% include "column-filters.html" %}
+
     {% set sample_tab_id = "{}-sample-tab".format(report_id) %}
     {% set sample_tab_button_id = "{}-sample-tab-button".format(report_id) %}
     {% set columns_tab_id = "{}-columns-tab".format(report_id) %}
