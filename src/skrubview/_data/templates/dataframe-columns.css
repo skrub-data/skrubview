@@ -55,3 +55,6 @@
     display: none;
 }
 
+{{ report_id_selector }}.skrubview-report .skrubview-constant-columns-summary:not(:has(dt:not([data-is-excluded-by-filter]))){
+    display: none;
+}
