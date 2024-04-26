@@ -78,11 +78,12 @@ index = f"""
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>skrubview</title>
 </head>
+<body>
 <h1>Skrubview example reports</h1>
 <ul>
 {links_text}
 </ul>
-<body>
+See also the <a href="https://github.com/skrub-data/skrubview">GitHub repository</a>
 </body>
 </html>
 """

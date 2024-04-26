@@ -3,9 +3,14 @@ import re
 import secrets
 
 import jinja2
-from polars import dataframe
 
-from skrub import _selectors as s
+try:
+    from skrub import _selectors as s
+
+    _SELECTORS_AVAILABLE = True
+except ImportError:
+    _SELECTORS_AVAILABLE = False
+
 from skrub import _dataframe as sbd
 
 from . import _utils
@@ -31,6 +36,8 @@ def _get_jinja_env():
 
 
 def _get_column_filters(dataframe):
+    if not _SELECTORS_AVAILABLE:
+        return _get_column_filters_no_selectors(dataframe)
     first_10 = sbd.column_names(dataframe)[:10]
     filters = {f"First {len(first_10)}": first_10}
     for selector in [
@@ -47,6 +54,24 @@ def _get_column_filters(dataframe):
         filters[re.sub(r"^\((.*)\)$", r"\1", repr(selector))] = selector.expand(
             dataframe
         )
+    return filters
+
+
+def _get_column_filters_no_selectors(dataframe):
+    # temporary manual filtering until selectors PR is merged
+    first_10 = sbd.column_names(dataframe)[:10]
+    filters = {f"First {len(first_10)}": first_10}
+    col_names = sbd.column_names(dataframe)
+    filters["all()"] = col_names
+
+    def add_filt(f, name):
+        filters[name] = [c for c in col_names if f(sbd.col(dataframe, c))]
+        filters[f"~{name}"] = [c for c in col_names if c not in filters[name]]
+
+    add_filt(sbd.is_numeric, "numeric()")
+    add_filt(sbd.is_string, "string()")
+    add_filt(sbd.is_categorical, "categorical()")
+    add_filt(sbd.is_any_date, "any_date()")
     return filters
 
 

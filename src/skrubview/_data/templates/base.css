@@ -216,6 +216,10 @@
     color: #777777;
 }
 
+{{ report_id_selector }}.skrubview-report .skrubview-table-cell {
+    cursor: pointer;
+}
+
 {{ report_id_selector }}.skrubview-report .skrubview-table-cell[data-is-selected] {
     background-color: var(--skrubview-yellowish);
     border: 1px solid black;
