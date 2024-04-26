@@ -5,6 +5,7 @@ import shutil
 from pathlib import Path
 
 import polars as pl
+import pandas as pd
 from skrub import datasets as skrub_data
 from sklearn import datasets as sklearn_data
 from skrubview import Report
@@ -18,16 +19,17 @@ build_dir.mkdir()
 reports_dir = build_dir / "reports"
 reports_dir.mkdir()
 
-
+AMES_HOUSING_CSV = "https://www.openml.org/data/get_csv/20649135/file2ed11cebe25.arff"
+datasets = [(pd.read_csv(AMES_HOUSING_CSV), "AMES Housing")]
 skrub_dataset_names = [
     "employee_salaries",
     "medical_charge",
     "traffic_violations",
-    "drug_directory"
+    "drug_directory",
 ]
-datasets = [
-    (getattr(skrub_data, f"fetch_{name}")().X, name) for name in skrub_dataset_names
-]
+datasets.extend(
+    [(getattr(skrub_data, f"fetch_{name}")().X, name) for name in skrub_dataset_names]
+)
 
 sklearn_dataset_names = ["titanic"]
 datasets.extend(
@@ -41,6 +43,7 @@ datasets.extend(
         for name in sklearn_dataset_names
     ]
 )
+
 
 def add_report(df, name):
     print(f"making report for {name}", end="", flush=True)
