@@ -10,11 +10,12 @@
     {% set sample_tab_id = "{}-sample-tab".format(report_id) %}
     {% set sample_tab_button_id = "{}-sample-tab-button".format(report_id) %}
     {% set columns_tab_id = "{}-columns-tab".format(report_id) %}
+    {% set columns_tab_button_id = "{}-columns-tab-button".format(report_id) %}
     {% set interactions_tab_id = "{}-interactions-tab".format(report_id) %}
     <div class="skrubview-tabset">
         <div class="skrubview-tabset-buttons">
             <button data-target-tab="{{ sample_tab_id }}" id="{{ sample_tab_button_id }}" onclick="displayTab(event)">Sample</button>
-            <button data-target-tab="{{ columns_tab_id }}" onclick="displayTab(event)">Columns</button>
+            <button data-target-tab="{{ columns_tab_id }}" id="{{ columns_tab_button_id }}" onclick="displayTab(event)">Columns</button>
             <button data-target-tab="{{ interactions_tab_id }}" onclick="displayTab(event)">Interactions</button>
         </div>
         <div class="skrubview-tab" id="{{ sample_tab_id }}">
@@ -28,7 +29,7 @@
         </div>
     </div>
     <script>
-        updateSelectedColsSnippet("{{ report_id }}", false);
-     document.getElementById("{{ sample_tab_button_id }}").click();
+     updateSelectedColsSnippet("{{ report_id }}", false);
+     document.getElementById("{{ columns_tab_button_id }}").click();
     </script>
 </div>

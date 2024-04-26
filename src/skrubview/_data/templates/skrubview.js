@@ -7,11 +7,13 @@ function isSelectedCol(columnElem) {
     return checkboxElem && checkboxElem.checked;
 }
 
-function updateSelectedColsSnippet(reportId, updateBarMode = true) {
+function updateSelectedColsSnippet(reportId) {
     const reportElem = document.getElementById(reportId);
     const allCols = reportElem.querySelectorAll(".skrubview-column-summary");
     const selectedCols = Array.from(allCols).filter(c => isSelectedCol(c));
     const snippet = selectedCols.map(col => col.dataset.nameRepr).join(", ");
+    const bar = reportElem.querySelector(".selected-columns-box");
+    bar.textContent = "[" + snippet + "]";
 }
 
 function clearSelectedCols(reportId) {

@@ -94,6 +94,10 @@
     padding-block-end: var(--skrubview-tiny);
 }
 
+{{ report_id_selector }}.skrubview-report .skrubview-wrapper-vert {
+    padding-block-end: var(--skrubview-tiny);
+}
+
 {{ report_id_selector }}.skrubview-report .skrubview-text {
     max-width: var(--skrubview-max-content-width);
 }
