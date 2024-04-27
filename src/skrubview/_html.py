@@ -38,8 +38,9 @@ def _get_jinja_env():
 def _get_column_filters(dataframe):
     if not _SELECTORS_AVAILABLE:
         return _get_column_filters_no_selectors(dataframe)
-    first_10 = sbd.column_names(dataframe)[:10]
-    filters = {f"First {len(first_10)}": first_10}
+    filters = {}
+    if sbd.shape(dataframe)[1] > 10:
+        filters["First 10"] = sbd.column_names(dataframe)[:10]
     for selector in [
         s.all(),
         s.numeric(),
