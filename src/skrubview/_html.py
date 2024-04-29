@@ -41,17 +41,16 @@ def _get_column_filters(dataframe):
     filters = {}
     if sbd.shape(dataframe)[1] > 10:
         filters["First 10"] = sbd.column_names(dataframe)[:10]
+    all_selectors = [s.all()]
     for selector in [
-        s.all(),
+        s.has_nulls(),
         s.numeric(),
-        ~s.numeric(),
         s.string(),
-        ~s.string(),
         s.categorical(),
-        ~s.categorical(),
         s.any_date(),
-        ~s.any_date(),
     ]:
+        all_selectors.extend([selector, ~selector])
+    for selector in all_selectors:
         filters[re.sub(r"^\((.*)\)$", r"\1", repr(selector))] = selector.expand(
             dataframe
         )
