@@ -1,5 +1,9 @@
 {% set report_id_selector="#{}".format(report_id) if report_id else "" %}
 
+{{ report_id_selector }}.skrubview-report table {
+    border: 1px solid #cbcbcb00;
+}
+
 {{ report_id_selector }}.skrubview-report dt {
     float: none;
     margin: 0;
