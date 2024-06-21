@@ -1,5 +1,5 @@
-<div id="{{ powerbar_id }}" class="skrubview-flex skrubview-flex-wrap skrubview-wrapper skrubview-powerbar">
-    <select id="{{ powerbar_select_id }}" onchange="updateBarContent('{{ powerbar_display_id }}')" data-bar-id="{{ powerbar_display_id }}" autocomplete="off">
+<div id="{{ top_bar_id }}" class="skrubview-flex skrubview-flex-wrap skrubview-wrapper skrubview-top-bar">
+    <select id="{{ top_bar_select_id }}" onchange="updateBarContent('{{ top_bar_display_id }}')" data-bar-id="{{ top_bar_display_id }}" autocomplete="off">
 
         <option value="table-column-name"
         data-placeholder="Select a table cell to display its column name">Column name</option>
@@ -16,11 +16,11 @@
 
     </select>
 
-    <pre id="{{ powerbar_display_id }}" class="skrubview-box" data-selector-id="{{ powerbar_select_id }}"></pre>
+    <pre id="{{ top_bar_display_id }}" class="skrubview-box" data-selector-id="{{ top_bar_select_id }}"></pre>
 
-    <button onclick='copyTextToClipboard("{{ powerbar_display_id }}")'>📋</button>
+    <button onclick='copyTextToClipboard("{{ top_bar_display_id }}")'>📋</button>
 </div>
 
 <script>
- updateBarContent('{{ powerbar_display_id }}');
+ updateBarContent('{{ top_bar_display_id }}');
 </script>

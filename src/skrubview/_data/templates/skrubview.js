@@ -123,8 +123,8 @@ function displayValue(event) {
     });
     elem.setAttribute("data-is-selected", "");
 
-    const powerbarId = table.dataset.powerbarId;
-    const bar = document.getElementById(powerbarId);
+    const topBarId = table.dataset.topBarId;
+    const bar = document.getElementById(topBarId);
     bar.setAttribute(`data-content-table-cell-value`, elem.dataset.valueStr);
     bar.setAttribute(`data-content-table-cell-repr`, elem.dataset.valueRepr);
     bar.setAttribute(`data-content-table-column-name`, elem.dataset.colNameStr);
@@ -138,7 +138,7 @@ function displayValue(event) {
 
     revealColCard(table.dataset.reportId, elem.dataset.columnIdx);
 
-    updateBarContent(powerbarId);
+    updateBarContent(topBarId);
 }
 
 function revealColCard(reportId, colIdx) {

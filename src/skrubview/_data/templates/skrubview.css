@@ -3,4 +3,4 @@
 {% include "base.css" %}
 {% include "tabs.css" %}
 {% include "dataframe-columns.css" %}
-{% include "powerbar.css" %}
+{% include "top-bar.css" %}
