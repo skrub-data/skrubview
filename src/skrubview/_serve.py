@@ -9,7 +9,7 @@ import webbrowser
 BROWSER_TIMEOUT_SECONDS = 3
 
 
-def open_html_in_browser(content):
+def open_in_browser(content):
     encoded_content = content.encode("UTF-8")
     queue = Queue()
 

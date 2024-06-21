@@ -1,7 +1,7 @@
 from urllib.request import urlopen
 import webbrowser
 
-from skrubview._serve import open_html_in_browser
+from skrubview._serve import open_in_browser
 
 
 class UrlOpener:
@@ -13,5 +13,5 @@ class UrlOpener:
 def test_open_in_browser_file(monkeypatch):
     opener = UrlOpener()
     monkeypatch.setattr(webbrowser, "open", opener)
-    open_html_in_browser("hello")
+    open_in_browser("hello")
     assert opener.content == b"hello"

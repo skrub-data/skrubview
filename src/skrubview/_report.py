@@ -8,7 +8,7 @@ from ._summarize import summarize_dataframe
 from ._html import to_html
 from ._text import to_text
 from ._utils import read
-from ._serve import open_html_in_browser, open_file_in_browser
+from ._serve import open_in_browser, open_file_in_browser
 
 
 class Report:
@@ -101,7 +101,7 @@ class Report:
         del include, exclude
         return {"text/html": self.html_snippet, "text/plain": self.text}
 
-    def open_html(self, file_path=None):
+    def open(self, file_path=None):
         """Open the HTML report in a web browser.
 
         Parameters
@@ -114,7 +114,7 @@ class Report:
             in a "Not found" error.
         """
         if file_path is None:
-            open_html_in_browser(self.html)
+            open_in_browser(self.html)
             return
         file_path = Path(file_path).resolve()
         file_path.write_text(self.html, "UTF-8")

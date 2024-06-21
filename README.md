@@ -30,7 +30,7 @@ from sklearn.datasets import load_iris
 from skrubview import Report
 
 df = load_iris(as_frame=True)["frame"]
-Report(df).open_html()
+Report(df).open()
 ```
 
 ![screenshot](doc/screenshot.png)

@@ -51,7 +51,7 @@ def run():
     input_file = Path(args.input_file).resolve()
     report = Report(input_file, order_by=args.order_by)
     if args.open:
-        report.open_html()
+        report.open()
     elif args.dict:
         rprint(report.summary_without_plots)
     elif args.json:
