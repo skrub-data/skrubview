@@ -1,7 +1,3 @@
-from pathlib import Path
-
-import polars as pl
-
 from skrub import _dataframe as sbd
 
 from . import _plotting, _utils, _interactions
@@ -12,34 +8,25 @@ _ASSOCIATION_THRESHOLD = 0.2
 
 
 def summarize_dataframe(
-    dataframe, *, order_by=None, file_path=None, with_plots=False, title=None
+    df, *, order_by=None, with_plots=False, title=None
 ):
-    if file_path is not None:
-        file_path = Path(file_path)
-    df = dataframe
-    dataframe_module_name = sbd.dataframe_module_name(df)
-    if not sbd.is_polars(df):
-        df = pl.from_pandas(df)
     shape = sbd.shape(df)
     summary = {
-        "dataframe": dataframe,
-        "dataframe_module": dataframe_module_name,
-        "n_rows": int(shape[0]),
-        "n_columns": int(shape[1]),
+        "dataframe": df,
+        "dataframe_module": sbd.dataframe_module_name(df),
+        "n_rows": shape[0],
+        "n_columns": shape[1],
         "columns": [],
-        "head": _utils.to_row_list(df.slice(0, 5)),
-        "tail": _utils.to_row_list(df.slice(-5, None)),
+        "head": _utils.to_row_list(_utils.slice(df, 5)),
+        "tail": _utils.to_row_list(_utils.slice(df, -5, None)),
         "first_row_dict": _utils.first_row_dict(df),
     }
     if title is not None:
         summary["title"] = title
-    if file_path is not None:
-        summary["file_path"] = str(file_path.resolve())
-        summary["file_name"] = file_path.name
     if order_by is not None:
-        df = df.sort(order_by)
+        df = _utils.sort(df, by=order_by)
         summary["order_by"] = order_by
-    for position, column_name in enumerate(df.columns):
+    for position, column_name in enumerate(sbd.column_names(df)):
         summary["columns"].append(
             _summarize_column(
                 sbd.col(df, column_name),
@@ -95,7 +82,7 @@ def _summarize_column(
 
 
 def _add_nulls_summary(summary, column, dataframe_summary):
-    null_count = sbd.is_null(column).sum()
+    null_count = _utils.sum(sbd.is_null(column))
     summary["null_count"] = null_count
     null_proportion = null_count / dataframe_summary["n_rows"]
     summary["null_proportion"] = null_proportion
@@ -111,9 +98,9 @@ def _add_value_counts(summary, column, *, dataframe_summary, with_plots):
     if sbd.is_numeric(column) or sbd.is_any_date(column):
         summary["high_cardinality"] = True
         return
-    n_unique, value_counts = _utils.value_counts(
-        column.filter(~column.is_null()),
-        high_cardinality_threshold=_HIGH_CARDINALITY_THRESHOLD,
+    n_unique, value_counts = _utils.top_k_value_counts(
+        sbd.filter(column, ~sbd.is_null(column)),
+        k=10
     )
     summary["n_unique"] = n_unique
     summary["unique_proportion"] = n_unique / dataframe_summary["n_rows"]
@@ -135,8 +122,8 @@ def _add_value_counts(summary, column, *, dataframe_summary, with_plots):
 def _add_datetime_summary(summary, column, with_plots):
     if not sbd.is_any_date(column):
         return
-    min_date = column.min()
-    max_date = column.max()
+    min_date = sbd.min(column)
+    max_date = sbd.max(column)
     if min_date == max_date:
         summary["value_is_constant"] = True
         summary["constant_value"] = min_date.isoformat()
@@ -158,9 +145,9 @@ def _add_numeric_summary(
         return
     if not summary["high_cardinality"]:
         return
-    std = column.std()
+    std = _utils.std(column)
     summary["standard_deviation"] = float("nan") if std is None else float(std)
-    summary["mean"] = float(column.mean())
+    summary["mean"] = float(_utils.mean(column))
     quantiles = _utils.quantiles(column)
     summary["inter_quartile_range"] = quantiles[0.75] - quantiles[0.25]
     if quantiles[0.0] == quantiles[1.0]:

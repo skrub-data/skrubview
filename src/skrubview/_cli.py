@@ -4,6 +4,7 @@ from pathlib import Path
 from rich import print as rprint
 
 from ._report import Report
+from . import _utils
 
 
 def run():
@@ -49,7 +50,8 @@ def run():
     args = parser.parse_args()
 
     input_file = Path(args.input_file).resolve()
-    report = Report(input_file, order_by=args.order_by)
+    dataframe = _utils.read(input_file)
+    report = Report(dataframe, order_by=args.order_by, title=input_file.name)
     if args.open:
         report.open()
     elif args.dict:

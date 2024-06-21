@@ -20,12 +20,8 @@ class Report:
 
     Parameters
     ----------
-    data : pandas or polars DataFrame or file path.
-        The dataframe to summarize. If a ``str`` or ``pathlib.Path`` is
-        provided, it must be the path to a CSV or Parquet file containing the
-        dataframe. The filename extension must be ``.csv`` or ``.parquet``. CSV
-        files will be parsed with Polars' default configuration; providing a
-        dataframe or a parquet file instead is recommended.
+    dataframe : pandas or polars DataFrame
+        The dataframe to summarize.
     order_by : str
         Column name to use for sorting. Other numerical columns will be plotted
         as function of the sorting column. Must be of numerical or datetime
@@ -52,16 +48,11 @@ class Report:
         Same as ``summary_with_plots`` without the plots.
     """
 
-    def __init__(self, data, order_by=None, title=None, column_filters=None):
+    def __init__(self, dataframe, order_by=None, title=None, column_filters=None):
         self._summary_kwargs = {"order_by": order_by}
         self.title = title
         self.column_filters = column_filters
-        if sbd.is_dataframe(data):
-            self.dataframe = data
-        else:
-            self._file_path = Path(data)
-            self.dataframe = read(self._file_path)
-            self._summary_kwargs["file_path"] = self._file_path
+        self.dataframe = dataframe
 
     @functools.cached_property
     def summary_with_plots(self):
