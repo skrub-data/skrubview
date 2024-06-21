@@ -35,12 +35,12 @@ def _get_jinja_env():
     return env
 
 
-def _get_column_filters(dataframe):
+def _get_column_filters(df):
     if not _SELECTORS_AVAILABLE:
-        return _get_column_filters_no_selectors(dataframe)
+        return _get_column_filters_no_selectors(df)
     filters = {}
-    if sbd.shape(dataframe)[1] > 10:
-        filters["First 10"] = sbd.column_names(dataframe)[:10]
+    if sbd.shape(df)[1] > 10:
+        filters["First 10"] = sbd.column_names(df)[:10]
     all_selectors = [s.all()]
     for selector in [
         s.has_nulls(),
@@ -52,20 +52,20 @@ def _get_column_filters(dataframe):
         all_selectors.extend([selector, ~selector])
     for selector in all_selectors:
         filters[re.sub(r"^\((.*)\)$", r"\1", repr(selector))] = selector.expand(
-            dataframe
+            df
         )
     return filters
 
 
-def _get_column_filters_no_selectors(dataframe):
+def _get_column_filters_no_selectors(df):
     # temporary manual filtering until selectors PR is merged
-    first_10 = sbd.column_names(dataframe)[:10]
+    first_10 = sbd.column_names(df)[:10]
     filters = {f"First {len(first_10)}": first_10}
-    col_names = sbd.column_names(dataframe)
+    col_names = sbd.column_names(df)
     filters["all()"] = col_names
 
     def add_filt(f, name):
-        filters[name] = [c for c in col_names if f(sbd.col(dataframe, c))]
+        filters[name] = [c for c in col_names if f(sbd.col(df, c))]
         filters[f"~{name}"] = [c for c in col_names if c not in filters[name]]
 
     add_filt(sbd.is_numeric, "numeric()")
