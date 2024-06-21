@@ -9,4 +9,5 @@ def test_to_html(make_dataframe):
     summary = summarize_dataframe(df)
     html = to_html(summary)
     doc = BeautifulSoup(html, "html.parser")
-    assert len(doc.select(".skrubview-column-summary")) == df.shape[1]
+    # * 2 bc they appear in the 'sample' and in the 'columns' sections
+    assert len(doc.select(".skrubview-column-summary")) == df.shape[1] * 2

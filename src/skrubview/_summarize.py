@@ -122,8 +122,8 @@ def _add_value_counts(summary, column, *, dataframe_summary, with_plots):
 def _add_datetime_summary(summary, column, with_plots):
     if not sbd.is_any_date(column):
         return
-    min_date = sbd.min(column)
-    max_date = sbd.max(column)
+    min_date = _utils.min(column)
+    max_date = _utils.max(column)
     if min_date == max_date:
         summary["value_is_constant"] = True
         summary["constant_value"] = min_date.isoformat()
