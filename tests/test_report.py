@@ -14,3 +14,5 @@ def test_report():
     report.html_snippet
     report.json
     report.text
+    report._any_summary
+    report._repr_mimebundle_()
