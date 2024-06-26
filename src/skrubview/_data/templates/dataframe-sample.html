@@ -15,16 +15,16 @@
                     {% endfor %}
                 </tr>
             </thead>
-            {% set table_rows = summary.head.data %}
-            {% include "dataframe-sample-part.html" %}
+            {% set table_part = "head" %}
+            {% include "table-part.html" %}
             <tr>
                 {% for column_name in summary.head.header %}
                 <td class="skrubview-ellided-table-part skrubview-filterable-column" data-column-name="{{ column_name }}">⋮</td>
                 {% endfor %}
             </tr>
 
-            {% set table_rows = summary.tail.data %}
-            {% include "dataframe-sample-part.html" %}
+            {% set table_part = "tail" %}
+            {% include "table-part.html" %}
 
         </table>
     </div>
