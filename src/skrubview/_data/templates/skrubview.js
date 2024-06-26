@@ -31,14 +31,13 @@ function selectAllCols(reportId) {
     reportElem.querySelectorAll(".skrubview-column-summary").forEach(
         elem => {
             const box = elem.querySelector("input.skrubview-select-column-checkbox[type='checkbox']");
-            if (!(box === null)){
-                box.checked  = !elem.hasAttribute("data-is-excluded-by-filter");
+            if (!(box === null)) {
+                box.checked = !elem.hasAttribute("data-is-excluded-by-filter");
             }
         }
     );
     updateSelectedColsSnippet(reportId);
 }
-
 
 function copyTextToClipboard(elementID) {
     const elem = document.getElementById(elementID);
@@ -90,7 +89,6 @@ function filterSnippet(colName, value, valueIsNone, dataframeModule) {
     return `Unknown dataframe library: ${dataframeModule}`;
 }
 
-
 function updateBarContent(barId) {
     const bar = document.getElementById(barId);
     const select = document.getElementById(bar.dataset.selectorId);
@@ -113,7 +111,6 @@ function updateSiblingBarContents(event) {
             updateBarContent(elem.id);
         })
 }
-
 
 function displayValue(event) {
     const elem = event.target;
@@ -151,7 +148,6 @@ function revealColCard(reportId, colIdx) {
     targetCol.dataset.isSelectedInTable = "";
 
 }
-
 
 function displayTab(event) {
     const elem = event.target;
