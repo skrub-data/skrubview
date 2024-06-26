@@ -6,7 +6,7 @@ var columnFiltersForReport{{ report_id }} = JSON.parse('{{ column_filters | tojs
     <label for="{{ col_filter_id }}">Filter columns: </label>
     <select id="{{ col_filter_id }}" onchange='onFilterChange("{{ col_filter_id }}")' data-report-id="{{ report_id }}" autocomplete="off">
         {% for filter_name in column_filters %}
-        <option value="{{ filter_name }}" {{ "selected" if filter_name == "all()" }}>{{ filter_name }}</option>
+        <option value="{{ filter_name }}" {{ "selected" if filter_name in ["All", "all()"] }}>{{ filter_name }}</option>
         {% endfor %}
     </select>
 </div>
