@@ -1,6 +1,9 @@
 import base64
 import builtins
 from pathlib import Path
+import json
+
+import numpy as np
 
 
 from skrub import _dataframe as sbd
@@ -247,3 +250,14 @@ def filter_isin_snippet(values, column_name, dataframe_module="polars"):
     if dataframe_module == "pandas":
         return _pandas_filter_isin_snippet(values, column_name)
     return f"Unknown dataframe library: {dataframe_module}"
+
+class JSONEncoder(json.JSONEncoder):
+    def default(self, value):
+        try:
+            return super().default(value)
+        except TypeError:
+            if isinstance(value, np.int_):
+                return int(value)
+            if isinstance(value, np.float_):
+                return float(value)
+            raise

@@ -2,12 +2,10 @@ from pathlib import Path
 import functools
 import json
 
-from skrub import _dataframe as sbd
-
 from ._summarize import summarize_dataframe
 from ._html import to_html
 from ._text import to_text
-from ._utils import read
+from ._utils import JSONEncoder
 from ._serve import open_in_browser, open_file_in_browser
 
 
@@ -86,7 +84,9 @@ class Report:
 
     @functools.cached_property
     def json(self):
-        return json.dumps(self.summary_without_plots)
+        to_remove = ['dataframe', 'head', 'tail', 'first_row_dict']
+        data = {k: v for k, v in self.summary_without_plots.items() if k not in to_remove}
+        return json.dumps(data, cls=JSONEncoder)
 
     def _repr_mimebundle_(self, include=None, exclude=None):
         del include, exclude

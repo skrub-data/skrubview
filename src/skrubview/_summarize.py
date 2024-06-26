@@ -14,8 +14,8 @@ def summarize_dataframe(
     summary = {
         "dataframe": df,
         "dataframe_module": sbd.dataframe_module_name(df),
-        "n_rows": shape[0],
-        "n_columns": shape[1],
+        "n_rows": int(shape[0]),
+        "n_columns": int(shape[1]),
         "columns": [],
         "head": _utils.to_row_list(_utils.slice(df, 5)),
         "tail": _utils.to_row_list(_utils.slice(df, -5, None)),
