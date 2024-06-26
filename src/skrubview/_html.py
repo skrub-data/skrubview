@@ -15,6 +15,20 @@ from skrub import _dataframe as sbd
 
 from . import _utils
 
+_FILTER_NAMES = {
+    "all()": "All",
+    "has_nulls()": "With null values",
+    "(~has_nulls())": "Without null values",
+    "numeric()": "Numeric",
+    "(~numeric())": "Not numeric",
+    "string()": "String",
+    "(~string())": "Not string",
+    "categorical()": "Categorical",
+    "(~categorical())": "Not categorical",
+    "any_date()": "Datetime",
+    "(~any_date())": "Not datetime",
+}
+
 
 def _get_jinja_env():
     env = jinja2.Environment(
@@ -51,9 +65,13 @@ def _get_column_filters(df):
     ]:
         all_selectors.extend([selector, ~selector])
     for selector in all_selectors:
-        filters[re.sub(r"^\((.*)\)$", r"\1", repr(selector))] = selector.expand(
-            df
-        )
+        selector_name = repr(selector)
+        if selector_name in _FILTER_NAMES:
+            selector_name = _FILTER_NAMES[selector_name]
+        else:
+            selector_name = re.sub(r"^\((.*)\)$", r"\1", repr(selector))
+            selector_name = selector_name.replace("~", "NOT ").replace("()", "")
+        filters[selector_name] = selector.expand(df)
     return filters
 
 
