@@ -6,6 +6,7 @@
     display: flex;
     column-gap: var(--skrubview-tiny);
     padding-left: var(--skrubview-tiny);
+    padding-right: var(--skrubview-tiny);
 }
 
 {{ report_id_selector }}.skrubview-report .skrubview-tab[data-is-displayed] {
