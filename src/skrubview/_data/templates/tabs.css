@@ -8,7 +8,7 @@
 
 {{ report_id_selector }}.skrubview-report .skrubview-tab[data-is-displayed] {
     display: block;
-    border-top: 1px solid #ccc;
+    border-top: 1px solid var(--skrubview-darkg);
     padding-top: var(--skrubview-tiny);
 }
 
@@ -16,11 +16,17 @@
     border: none;
     padding: var(--skrubview-tiny);
     font-size: var(--skrubview-small);
-    background-color: #f1f1f1;
+    background-color: var(--skrubview-lightg);
+    border-radius: var(--skrubview-radius) var(--skrubview-radius) 0 0;
 }
 
 {{ report_id_selector }}.skrubview-report .skrubview-tabset-buttons button[data-is-selected] {
-    background-color: #ccc; ;
+    border-top: 1px solid var(--skrubview-darkg);
+    border-left: 1px solid var(--skrubview-darkg);
+    border-right: 1px solid var(--skrubview-darkg);
+    border-bottom: 1px solid white;
+    margin-bottom: -1px;
+    background-color: white;
 }
 
 {{ report_id_selector }}.skrubview-report .skrubview-tabset-buttons button[data-has-warning] {
