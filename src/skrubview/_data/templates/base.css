@@ -213,7 +213,7 @@
     align-items: stretch;
     border: 1px solid var(--skrubview-darkg);
     padding: 0;
-    min-width: 1rem;
+    min-width: 4rem;
     max-width: 40rem;
     max-height: 10rem;
     min-height: 1.8rem;
@@ -235,6 +235,8 @@
 }
 
 {{ report_id_selector }}.skrubview-report .skrubview-copybutton {
+    margin-left: -2rem;
+    min-width: 2rem;
     display: none;
     padding: var(--skrubview-micro);
     padding-left: var(--skrubview-tiny);
@@ -244,14 +246,14 @@
 }
 
 {{ report_id_selector }}.skrubview-report .skrubview-box:hover .skrubview-copybutton {
-                                                                   display: inline;
-                                                               }
-
-{{ report_id_selector }}.skrubview-report .skrubview-copybutton:hover {
-                                                                        display: inline;
-                                                                        background: var(--skrubview-mediumg);
+    display: inline;
+    background: var(--skrubview-lightg);
 }
 
+{{ report_id_selector }}.skrubview-report:hover .skrubview-copybutton:hover {
+    display: inline;
+    background: var(--skrubview-mediumg);
+}
 
 
 {{ report_id_selector }}.skrubview-report .skrubview-table-cell {
