@@ -22,3 +22,7 @@
 {{ report_id_selector }}.skrubview-report .skrubview-tabset-buttons button[data-is-selected] {
     background-color: #ccc; ;
 }
+
+{{ report_id_selector }}.skrubview-report .skrubview-tabset-buttons button[data-has-warning] {
+    color: red;
+}

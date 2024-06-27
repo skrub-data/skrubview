@@ -7,6 +7,10 @@
     --skrubview-yellowish: #ffffaa;
 }
 
+{{ report_id_selector }} button {
+    cursor: pointer;
+}
+
 {{ report_id_selector }}.skrubview-report summary > * {
     display: inline;
 }

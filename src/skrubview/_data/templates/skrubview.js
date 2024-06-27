@@ -160,6 +160,9 @@ function displayTab(event) {
         elem.removeAttribute("data-is-displayed");
     });
     tab.setAttribute("data-is-displayed", "");
+    if (elem.hasAttribute("data-has-warning")){
+        elem.removeAttribute("data-has-warning");
+    }
 }
 
 function onFilterChange(colFilterId) {
