@@ -115,6 +115,7 @@ function updateSiblingBarContents(event) {
 function displayValue(event) {
     const elem = event.target;
     const table = document.getElementById(elem.dataset.parentTableId);
+    table.setAttribute("data-selected-column", elem.dataset.colNameStr);
     table.querySelectorAll(".skrubview-table-cell").forEach(cell => {
         cell.removeAttribute("data-is-selected");
     });
@@ -122,10 +123,10 @@ function displayValue(event) {
 
     const topBarId = table.dataset.topBarId;
     const bar = document.getElementById(topBarId);
-    bar.setAttribute(`data-content-table-cell-value`, elem.dataset.valueStr);
-    bar.setAttribute(`data-content-table-cell-repr`, elem.dataset.valueRepr);
-    bar.setAttribute(`data-content-table-column-name`, elem.dataset.colNameStr);
-    bar.setAttribute(`data-content-table-column-name-repr`, elem.dataset.colNameRepr);
+    bar.setAttribute("data-content-table-cell-value", elem.dataset.valueStr);
+    bar.setAttribute("data-content-table-cell-repr", elem.dataset.valueRepr);
+    bar.setAttribute("data-content-table-column-name", elem.dataset.colNameStr);
+    bar.setAttribute("data-content-table-column-name-repr", elem.dataset.colNameRepr);
 
     const snippet = filterSnippet(elem.dataset.columnNameRepr,
         elem.dataset.valueRepr,
@@ -135,6 +136,19 @@ function displayValue(event) {
 
     revealColCard(table.dataset.reportId, elem.dataset.columnIdx);
 
+    updateBarContent(topBarId);
+}
+
+function clearTableCellSelection(tableElem){
+    tableElem.querySelectorAll(".skrubview-table-cell").forEach(cell => {cell.removeAttribute("data-is-selected");});
+    tableElem.removeAttribute("data-selected-cell");
+    const topBarId = tableElem.dataset.topBarId;
+    const bar = document.getElementById(topBarId);
+    bar.removeAttribute("data-content-table-cell-value");
+    bar.removeAttribute("data-content-table-cell-repr");
+    bar.removeAttribute("data-content-table-column-name");
+    bar.removeAttribute("data-content-table-column-name-repr");
+    bar.removeAttribute("data-content-table-cell-filter");
     updateBarContent(topBarId);
 }
 
@@ -189,4 +203,8 @@ function onFilterChange(colFilterId) {
         }
     })
     document.getElementById(`${reportId}_display_n_columns`).textContent = acceptedCols.length.toString();
+    const tableElem = reportElem.querySelector(".skrubview-dataframe-sample-table");
+    if (!acceptedCols.includes(tableElem.dataset.selectedColumn)){
+        clearTableCellSelection(tableElem);
+    }
 }

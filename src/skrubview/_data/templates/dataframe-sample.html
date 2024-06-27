@@ -7,7 +7,7 @@
     {% include "top-bar.html" %}
 
     <div class="skrubview-horizontal-scroll">
-        <table class="pure-table pure-table-striped" id="{{ table_id }}" data-top-bar-id="{{ top_bar_display_id }}" data-report-id="{{ report_id }}">
+        <table class="pure-table pure-table-striped skrubview-dataframe-sample-table" id="{{ table_id }}" data-top-bar-id="{{ top_bar_display_id }}" data-report-id="{{ report_id }}">
             <thead>
                 <tr>
                     {% for idx in range(summary.head.header.__len__()) %}
