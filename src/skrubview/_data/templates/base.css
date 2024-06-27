@@ -213,7 +213,7 @@
     align-items: stretch;
     border: 1px solid var(--skrubview-darkg);
     padding: 0;
-    min-width: 5rem;
+    min-width: 1rem;
     max-width: 40rem;
     max-height: 10rem;
     min-height: 1.8rem;
