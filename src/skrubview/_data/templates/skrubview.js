@@ -138,6 +138,15 @@ function displayValue(event) {
     updateBarContent(topBarId);
 }
 
+function displayFirstCellValue(event){
+    const header = event.target;
+    const idx = header.dataset.columnIdx;
+    const firstCell = header.closest("table").querySelector(`.skrubview-table-cell[data-column-idx="${idx}"]`);
+    if (firstCell){
+        firstCell.click();
+    }
+}
+
 function revealColCard(reportId, colIdx) {
     const reportElem = document.getElementById(reportId);
     const allCols = reportElem.querySelectorAll(".skrubview-columns-in-sample-tab .skrubview-column-summary");
