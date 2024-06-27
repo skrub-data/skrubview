@@ -1,6 +1,10 @@
 <article class="skrubview-wrapper">
-    <br/>
     {% if summary["top_associations"] %}
+    <div class="skrubview-text skrubview-wrapper-vert-l">
+        The table below shows the strength of association between the most similar columns in the dataframe.
+        <a href="https://en.wikipedia.org/wiki/Cram%C3%A9r%27s_V">Cramér's V</a> statistic is a number between 0 and 1, when it is very close to 1 the columns contain the same information — they are redundant and for some models such as linear models it might be beneficial to remove one of them.
+    </div>
+
     <div class="skrubview-horizontal-scroll">
     <table class="pure-table">
         <thead>
