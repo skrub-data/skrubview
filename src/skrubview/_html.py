@@ -16,17 +16,17 @@ from skrub import _dataframe as sbd
 from . import _utils
 
 _FILTER_NAMES = {
-    "all()": "All",
-    "has_nulls()": "With null values",
-    "(~has_nulls())": "Without null values",
-    "numeric()": "Numeric",
-    "(~numeric())": "Not numeric",
-    "string()": "String",
-    "(~string())": "Not string",
-    "categorical()": "Categorical",
-    "(~categorical())": "Not categorical",
-    "any_date()": "Datetime",
-    "(~any_date())": "Not datetime",
+    "all()": "All columns",
+    "has_nulls()": "Columns with null values",
+    "(~has_nulls())": "Columns without null values",
+    "numeric()": "Numeric columns",
+    "(~numeric())": "Non-numeric columns",
+    "string()": "String columns",
+    "(~string())": "Non-string columns",
+    "categorical()": "Categorical columns",
+    "(~categorical())": "Non-categorical columns",
+    "any_date()": "Datetime columns",
+    "(~any_date())": "Non-datetime columns",
 }
 
 
@@ -54,7 +54,10 @@ def _get_column_filters(df):
         return _get_column_filters_no_selectors(df)
     filters = {}
     if sbd.shape(df)[1] > 10:
-        filters["First 10"] = sbd.column_names(df)[:10]
+        filters["first_10"] = {
+            "display_name": "First 10 columns",
+            "columns": sbd.column_names(df)[:10],
+        }
     all_selectors = [s.all()]
     for selector in [
         s.has_nulls(),
@@ -67,24 +70,35 @@ def _get_column_filters(df):
     for selector in all_selectors:
         selector_name = repr(selector)
         if selector_name in _FILTER_NAMES:
-            selector_name = _FILTER_NAMES[selector_name]
+            display_name = _FILTER_NAMES[selector_name]
         else:
-            selector_name = re.sub(r"^\((.*)\)$", r"\1", repr(selector))
-            selector_name = selector_name.replace("~", "NOT ").replace("()", "")
-        filters[selector_name] = selector.expand(df)
+            display_name = re.sub(r"^\((.*)\)$", r"\1", repr(selector))
+            display_name = selector_name.replace("~", "NOT ").replace("()", "")
+        filters[selector_name] = {
+            "display_name": display_name,
+            "columns": selector.expand(df),
+        }
     return filters
 
 
 def _get_column_filters_no_selectors(df):
     # temporary manual filtering until selectors PR is merged
-    first_10 = sbd.column_names(df)[:10]
-    filters = {f"First {len(first_10)}": first_10}
+    filters = {}
+    if sbd.shape(df)[1] > 10:
+        first_10 = sbd.column_names(df)[:10]
+        filters["first_10"] = {"display_name": "First 10 columns", "columns": first_10}
     col_names = sbd.column_names(df)
-    filters["all()"] = col_names
+    filters["all()"] = {"display_name": "All columns", "columns": col_names}
 
     def add_filt(f, name):
-        filters[name] = [c for c in col_names if f(sbd.col(df, c))]
-        filters[f"~{name}"] = [c for c in col_names if c not in filters[name]]
+        filters[name] = {
+            "display_name": name,
+            "columns": [c for c in col_names if f(sbd.col(df, c))],
+        }
+        filters[f"~{name}"] = {
+            "display_name": f"~{name}",
+            "columns": [c for c in col_names if c not in filters[name]],
+        }
 
     add_filt(sbd.is_numeric, "numeric()")
     add_filt(sbd.is_string, "string()")

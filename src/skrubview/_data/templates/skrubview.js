@@ -169,7 +169,7 @@ function onFilterChange(colFilterId) {
     const selectElem = document.getElementById(colFilterId);
     const reportId = selectElem.dataset.reportId;
     const colFilters = window[`columnFiltersForReport${reportId}`];
-    const acceptedCols = colFilters[selectElem.value];
+    const acceptedCols = colFilters[selectElem.value]["columns"];
     const reportElem = document.getElementById(reportId);
     const colElements = reportElem.querySelectorAll(".skrubview-filterable-column");
     colElements.forEach(elem => {
