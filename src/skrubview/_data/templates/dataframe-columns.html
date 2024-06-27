@@ -2,8 +2,10 @@
 <article class="skrubview-wrapper">
     {% set selected_cols_id = "{}_selected_cols_box".format(report_id) %}
     <div class="skrubview-flex skrubview-wrapper-vert">
-        <pre class="skrubview-box selected-columns-box" id="{{ selected_cols_id }}"></pre>
-        <button onclick='copyTextToClipboard("{{ selected_cols_id }}")'>📋</button>
+        <div class="skrubview-box">
+        <pre class="selected-columns-box" id="{{ selected_cols_id }}"></pre>
+        <button class="skrubview-copybutton" onclick='copyTextToClipboard("{{ selected_cols_id }}")'>📋</button>
+        </div>
     </div>
     {% if summary.n_constant_columns %}
     <input type="checkbox" id="{{ collapse_const_id }}" checked="true" />
