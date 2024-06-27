@@ -213,7 +213,7 @@
     align-items: stretch;
     border: 1px solid var(--skrubview-darkg);
     padding: 0;
-    min-width: 1rem;
+    min-width: 5rem;
     max-width: 40rem;
     max-height: 10rem;
     min-height: 1.8rem;
@@ -237,6 +237,8 @@
 {{ report_id_selector }}.skrubview-report .skrubview-copybutton {
     display: none;
     padding: var(--skrubview-micro);
+    padding-left: var(--skrubview-tiny);
+    padding-right: var(--skrubview-tiny);
     border: none;
     background: rgba(0, 0, 0, 0);
 }

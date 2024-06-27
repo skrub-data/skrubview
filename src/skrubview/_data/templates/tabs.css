@@ -3,6 +3,8 @@
 }
 
 {{ report_id_selector }}.skrubview-report .skrubview-tabset-buttons {
+    display: flex;
+    column-gap: var(--skrubview-tiny);
     padding-left: var(--skrubview-tiny);
 }
 
