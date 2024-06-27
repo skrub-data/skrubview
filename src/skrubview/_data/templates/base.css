@@ -1,4 +1,5 @@
 :root {
+    --skrubview-micro: 0.25rem;
     --skrubview-tiny: 0.5rem;
     --skrubview-small: 1.0rem;
     --skrubview-large: 1.2rem;
@@ -125,18 +126,14 @@
 }
 
 {{ report_id_selector }}.skrubview-report .skrubview-copybutton-grid {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    align-items: center;
+    display: flex;
+    flex-direction: column;
     gap: var(--skrubview-tiny);
     padding-block-start: var(--skrubview-tiny);
     padding-block-end: var(--skrubview-tiny);
 }
 
-{{ report_id_selector }}.skrubview-report .skrubview-copybutton-grid > * {
-    margin-block-start: 0;
-    margin-block-end: 0;
-}
+
 
 {{ report_id_selector }}.skrubview-report .skrubview-grid-separator {
     grid-column: 1/-1;
@@ -211,23 +208,49 @@
 }
 
 {{ report_id_selector }}.skrubview-report .skrubview-box {
-    border: 1px solid #555555;
-    padding: var(--skrubview-tiny);
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    border: 1px solid var(--skrubview-darkg);
+    padding: 0;
     min-width: 1rem;
     max-width: 40rem;
     max-height: 10rem;
-    min-height: 1rem;
-    overflow: auto;
+    min-height: 1.8rem;
     white-space: pre;
+}
+
+{{ report_id_selector }}.skrubview-report .skrubview-box pre {
+    overflow-x: auto;
+    padding: var(--skrubview-tiny);
+    flex-grow: 1;
 }
 
 {{ report_id_selector }}.skrubview-report .skrubview-table-value-box {
     max-width: 100%;
 }
 
-{{ report_id_selector }}.skrubview-report .skrubview-box[data-shows-placeholder] {
+{{ report_id_selector }}.skrubview-report *[data-shows-placeholder] {
     color: #777777;
 }
+
+{{ report_id_selector }}.skrubview-report .skrubview-copybutton {
+    display: none;
+    padding: var(--skrubview-micro);
+    border: none;
+    background: rgba(0, 0, 0, 0);
+}
+
+{{ report_id_selector }}.skrubview-report .skrubview-box:hover .skrubview-copybutton {
+                                                                   display: inline;
+                                                               }
+
+{{ report_id_selector }}.skrubview-report .skrubview-copybutton:hover {
+                                                                        display: inline;
+                                                                        background: var(--skrubview-mediumg);
+}
+
+
 
 {{ report_id_selector }}.skrubview-report .skrubview-table-cell {
     cursor: pointer;

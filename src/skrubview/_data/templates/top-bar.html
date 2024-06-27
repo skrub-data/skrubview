@@ -16,9 +16,11 @@
 
     </select>
 
-    <pre id="{{ top_bar_display_id }}" class="skrubview-box" data-selector-id="{{ top_bar_select_id }}"></pre>
+    <div class="skrubview-box" >
+        <pre id="{{ top_bar_display_id }}" data-selector-id="{{ top_bar_select_id }}"></pre>
+        <button class="skrubview-copybutton" onclick='copyTextToClipboard("{{ top_bar_display_id }}")'>📋</button>
+    </div>
 
-    <button onclick='copyTextToClipboard("{{ top_bar_display_id }}")'>📋</button>
 </div>
 
 <script>
