@@ -154,8 +154,8 @@ function displayValue(event) {
     updateBarContent(topBarId);
 }
 
-function clearTableCellSelection(tableElem){
-    tableElem.querySelectorAll(".skrubview-table-cell").forEach(
+function clearTableCellSelection(tableElem) {
+    tableElem.querySelectorAll("th, td").forEach(
         cell => {
             cell.removeAttribute("data-is-selected");
             cell.removeAttribute("data-is-in-selected-column");
@@ -171,13 +171,14 @@ function clearTableCellSelection(tableElem){
     bar.removeAttribute("data-content-table-column-name-repr");
     bar.removeAttribute("data-content-table-cell-filter");
     updateBarContent(topBarId);
+    revealColCard(tableElem.closest(".skrubview-report").id, null);
 }
 
-function displayFirstCellValue(event){
+function displayFirstCellValue(event) {
     const header = event.target;
     const idx = header.dataset.columnIdx;
     const firstCell = header.closest("table").querySelector(`.skrubview-table-cell[data-column-idx="${idx}"]`);
-    if (firstCell){
+    if (firstCell) {
         firstCell.click();
     }
 }
@@ -188,6 +189,9 @@ function revealColCard(reportId, colIdx) {
     allCols.forEach(col => {
         col.removeAttribute("data-is-selected-in-table");
     });
+    if (colIdx === null) {
+        return;
+    }
     const targetCol = document.getElementById(`${reportId}_col_${colIdx}_in_sample_tab`);
     targetCol.dataset.isSelectedInTable = "";
 
@@ -204,7 +208,7 @@ function displayTab(event) {
         elem.removeAttribute("data-is-displayed");
     });
     tab.setAttribute("data-is-displayed", "");
-    if (elem.hasAttribute("data-has-warning")){
+    if (elem.hasAttribute("data-has-warning")) {
         elem.removeAttribute("data-has-warning");
     }
 }
@@ -226,12 +230,12 @@ function onFilterChange(colFilterId) {
     })
     document.getElementById(`${reportId}_display_n_columns`).textContent = acceptedCols.length.toString();
     const tableElem = reportElem.querySelector(".skrubview-dataframe-sample-table");
-    if (!acceptedCols.includes(tableElem.dataset.selectedColumn)){
+    if (!acceptedCols.includes(tableElem.dataset.selectedColumn)) {
         clearTableCellSelection(tableElem);
     }
-    for (let toggleSelector of [".skrubview-table-sample-toggle", ".skrubview-column-summaries-toggle"]){
+    for (let toggleSelector of [".skrubview-table-sample-toggle", ".skrubview-column-summaries-toggle"]) {
         const toggle = reportElem.querySelector(toggleSelector);
-        toggle.dataset.predicate = acceptedCols.length === 0 ? "false": "true";
+        toggle.dataset.predicate = acceptedCols.length === 0 ? "false" : "true";
         const filterDisplay = toggle.querySelector(".skrubview-selected-filter-display");
         filterDisplay.textContent = '"' + colFilters[filterName]["display_name"] + '"';
     }
