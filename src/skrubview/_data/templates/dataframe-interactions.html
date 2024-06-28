@@ -2,7 +2,9 @@
     {% if summary["top_associations"] %}
     <div class="skrubview-text skrubview-wrapper-vert-l">
         The table below shows the strength of association between the most similar columns in the dataframe.
-        <a href="https://en.wikipedia.org/wiki/Cram%C3%A9r%27s_V">Cramér's V</a> statistic is a number between 0 and 1, when it is very close to 1 the columns contain the same information — they are redundant and for some models such as linear models it might be beneficial to remove one of them.
+        <a href="https://en.wikipedia.org/wiki/Cram%C3%A9r%27s_V">Cramér's V</a> statistic is a number between 0 and 1.
+        When it is close to 1 the columns are strongly associated — they contain similar information.
+        In this case, one of them may be redundant and for some models (such as linear models) it might be beneficial to remove it.
     </div>
 
     <div class="skrubview-horizontal-scroll">
