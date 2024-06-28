@@ -341,3 +341,11 @@
 {{ report_id_selector }}.skrubview-report .skrubview-filterable-column[data-is-excluded-by-filter] {
     display: none;
 }
+
+{{ report_id_selector }}.skrubview-report .skrubview-if-else[data-predicate="false"] > :first-child{
+    display: none;
+}
+
+{{ report_id_selector }}.skrubview-report .skrubview-if-else[data-predicate="true"] > :last-child{
+    display: none;
+}

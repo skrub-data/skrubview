@@ -136,8 +136,8 @@ function displayValue(event) {
 
     const topBarId = table.dataset.topBarId;
     const bar = document.getElementById(topBarId);
-    document.querySelector(".skrubview-top-bar").removeAttribute("data-hidden");
-    document.querySelector(".skrubview-top-bar-placeholder").setAttribute("data-hidden", "");
+    const barToggle = bar.closest(".skrubview-top-bar-toggle");
+    barToggle.setAttribute("data-predicate", "true");
     bar.setAttribute("data-content-table-cell-value", elem.dataset.valueStr);
     bar.setAttribute("data-content-table-cell-repr", elem.dataset.valueRepr);
     bar.setAttribute("data-content-table-column-name", elem.dataset.colNameStr);
@@ -163,8 +163,8 @@ function clearTableCellSelection(tableElem){
     tableElem.removeAttribute("data-selected-cell");
     const topBarId = tableElem.dataset.topBarId;
     const bar = document.getElementById(topBarId);
-    document.querySelector(".skrubview-top-bar").setAttribute("data-hidden", "");
-    document.querySelector(".skrubview-top-bar-placeholder").removeAttribute("data-hidden");
+    const barToggle = bar.closest(".skrubview-top-bar-toggle");
+    barToggle.setAttribute("data-predicate", "false");
     bar.removeAttribute("data-content-table-cell-value");
     bar.removeAttribute("data-content-table-cell-repr");
     bar.removeAttribute("data-content-table-column-name");
