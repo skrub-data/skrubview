@@ -233,7 +233,7 @@ function onFilterChange(colFilterId) {
         } else {
             elem.dataset.isExcludedByFilter = "";
         }
-    })
+    });
     document.getElementById(`${reportId}_display_n_columns`).textContent = acceptedCols
         .length.toString();
     const tableElem = reportElem.querySelector(".skrubview-dataframe-sample-table");
@@ -249,4 +249,11 @@ function onFilterChange(colFilterId) {
             ".skrubview-selected-filter-display");
         filterDisplay.textContent = '"' + colFilters[filterName]["display_name"] + '"';
     }
+}
+
+function clearColFilter(event){
+    const reportElem = event.target.closest(".skrubview-report");
+    const selectElem = reportElem.querySelector(".skrubview-col-filter-select");
+    selectElem.value = "all()";
+    onFilterChange(selectElem.id);
 }
