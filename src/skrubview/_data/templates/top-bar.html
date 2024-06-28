@@ -1,4 +1,7 @@
-<div id="{{ top_bar_id }}" class="skrubview-flex skrubview-flex-wrap skrubview-wrapper skrubview-top-bar">
+<div class="skrubview-top-bar-placeholder skrubview-text">
+    Click on a table cell below to display more information.
+</div>
+<div id="{{ top_bar_id }}" class="skrubview-flex skrubview-flex-wrap skrubview-wrapper skrubview-top-bar" data-hidden="">
     <select id="{{ top_bar_select_id }}" onchange="updateBarContent('{{ top_bar_display_id }}')" data-bar-id="{{ top_bar_display_id }}" autocomplete="off">
 
         <option value="table-column-name"

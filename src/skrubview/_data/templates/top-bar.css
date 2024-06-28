@@ -2,3 +2,17 @@
     flex-grow: 1;
     max-width: 70rem;
 }
+
+{{ report_id_selector }}.skrubview-report .skrubview-top-bar[data-hidden]  {
+    display: none;
+}
+
+{{ report_id_selector }}.skrubview-report .skrubview-top-bar-placeholder  {
+    font-size: var(--skrubview-large);
+    padding-block-start: var(--skrubview-huge);
+    padding-block-end: var(--skrubview-huge);
+}
+
+{{ report_id_selector }}.skrubview-report .skrubview-top-bar-placeholder[data-hidden]  {
+    display: none;
+}
