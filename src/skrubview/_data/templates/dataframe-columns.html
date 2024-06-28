@@ -1,6 +1,8 @@
 {% from "utils.j2" import collapse_const_id with context %}
+{% set selected_cols_id = "{}_selected_cols_box".format(report_id) %}
+
+<div class="skrubview-if-else skrubview-column-summaries-toggle" data-predicate="true">
 <article class="skrubview-wrapper">
-    {% set selected_cols_id = "{}_selected_cols_box".format(report_id) %}
     <div class="skrubview-flex skrubview-wrapper-vert">
         <div class="skrubview-box">
         <pre class="selected-columns-box" id="{{ selected_cols_id }}"></pre>
@@ -40,3 +42,7 @@
         {% endfor %}
     </div>
 </article>
+<div class="skrubview-text skrubview-announcement skrubview-wrapper">
+    No columns match the selected filter: <strong class="skrubview-selected-filter-display"></strong>. Change the column filter in the dropdown menu above to display some columns.
+</div>
+</div>

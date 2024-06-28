@@ -229,8 +229,10 @@ function onFilterChange(colFilterId) {
     if (!acceptedCols.includes(tableElem.dataset.selectedColumn)){
         clearTableCellSelection(tableElem);
     }
-    const tableToggle = reportElem.querySelector(".skrubview-table-sample-toggle");
-    tableToggle.dataset.predicate = acceptedCols.length === 0 ? "false": "true";
-    const filterDisplay = tableToggle.querySelector(".skrubview-selected-filter-display");
-    filterDisplay.textContent = '"' + colFilters[filterName]["display_name"] + '"';
+    for (let toggleSelector of [".skrubview-table-sample-toggle", ".skrubview-column-summaries-toggle"]){
+        const toggle = reportElem.querySelector(toggleSelector);
+        toggle.dataset.predicate = acceptedCols.length === 0 ? "false": "true";
+        const filterDisplay = toggle.querySelector(".skrubview-selected-filter-display");
+        filterDisplay.textContent = '"' + colFilters[filterName]["display_name"] + '"';
+    }
 }
