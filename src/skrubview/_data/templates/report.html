@@ -11,6 +11,7 @@
         {% endif %}
     </div>
 
+    {% if summary.n_rows > 0 and summary.n_columns > 0 %}
     <div class="skrubview-flex-reverse">
         <div class="skrubview-tabset-buttons">
             <button data-target-tab="{{ sample_tab_id }}" id="{{ sample_tab_button_id }}" onclick="displayTab(event)">Table preview</button>
@@ -34,4 +35,9 @@
         document.getElementById("{{ sample_tab_button_id }}").click();
         onFilterChange("{{ report_id }}_col_filter");
     </script>
+    {% else %}
+    <div class="skrubview-text skrubview-announcement skrubview-wrapper">
+        The dataframe is empty.
+    </div>
+    {% endif %}
 </div>
