@@ -27,8 +27,7 @@
 
 {{ report_id_selector }}.skrubview-report .skrubview-column-summary-content {
     display: flex;
-    flex-wrap: wrap;
-    column-gap: var(--skrubview-tiny);
+    flex-direction: column;
 }
 
 @media screen and (min-width: 60rem) {
@@ -37,11 +36,6 @@
         flex-direction: row;
         flex-wrap: wrap;
         gap: var(--skrubview-small);
-    }
-
-    {{ report_id_selector }}.skrubview-report .skrubview-column-summary-content {
-        display: flex;
-        flex-direction: column;
     }
 
 }
