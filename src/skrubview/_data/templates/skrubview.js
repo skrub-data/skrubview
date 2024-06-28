@@ -213,7 +213,8 @@ function onFilterChange(colFilterId) {
     const selectElem = document.getElementById(colFilterId);
     const reportId = selectElem.dataset.reportId;
     const colFilters = window[`columnFiltersForReport${reportId}`];
-    const acceptedCols = colFilters[selectElem.value]["columns"];
+    const filterName = selectElem.value;
+    const acceptedCols = colFilters[filterName]["columns"];
     const reportElem = document.getElementById(reportId);
     const colElements = reportElem.querySelectorAll(".skrubview-filterable-column");
     colElements.forEach(elem => {
@@ -228,4 +229,8 @@ function onFilterChange(colFilterId) {
     if (!acceptedCols.includes(tableElem.dataset.selectedColumn)){
         clearTableCellSelection(tableElem);
     }
+    const tableToggle = reportElem.querySelector(".skrubview-table-sample-toggle");
+    tableToggle.dataset.predicate = acceptedCols.length === 0 ? "false": "true";
+    const filterDisplay = tableToggle.querySelector(".skrubview-selected-filter-display");
+    filterDisplay.textContent = '"' + colFilters[filterName]["display_name"] + '"';
 }

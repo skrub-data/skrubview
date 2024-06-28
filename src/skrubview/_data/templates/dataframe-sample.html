@@ -1,9 +1,11 @@
 {% set table_id = "{}_sample_table".format(report_id) %}
+{% set top_bar_id = "{}-top-bar".format(report_id) %}
+{% set top_bar_display_id = "{}-display".format(top_bar_id) %}
+{% set top_bar_select_id = "{}-select".format(top_bar_id) %}
 
+
+<div class="skrubview-if-else skrubview-table-sample-toggle" data-predicate="true">
 <article class="skrubview-wrapper">
-    {% set top_bar_id = "{}-top-bar".format(report_id) %}
-    {% set top_bar_display_id = "{}-display".format(top_bar_id) %}
-    {% set top_bar_select_id = "{}-select".format(top_bar_id) %}
     {% include "top-bar.html" %}
 
     <div class="skrubview-horizontal-scroll">
@@ -45,3 +47,7 @@
             {% set in_sample_tab=False %}
     </div>
 </article>
+<div class="skrubview-text skrubview-announcement skrubview-wrapper">
+    No columns match the selected filter: <strong class="skrubview-selected-filter-display"></strong>. Change the column filter in the dropdown menu above to display some columns.
+</div>
+</div>

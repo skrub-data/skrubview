@@ -349,3 +349,9 @@
 {{ report_id_selector }}.skrubview-report .skrubview-if-else[data-predicate="true"] > :last-child{
     display: none;
 }
+
+{{ report_id_selector }}.skrubview-report .skrubview-announcement  {
+    font-size: var(--skrubview-large);
+    padding-block-start: var(--skrubview-huge);
+    padding-block-end: var(--skrubview-huge);
+}
