@@ -118,6 +118,19 @@ function displayValue(event) {
     table.setAttribute("data-selected-column", elem.dataset.colNameStr);
     table.querySelectorAll(".skrubview-table-cell").forEach(cell => {
         cell.removeAttribute("data-is-selected");
+        if (cell.dataset.columnIdx === elem.dataset.columnIdx) {
+            cell.setAttribute("data-is-in-selected-column", "");
+        } else {
+
+            cell.removeAttribute("data-is-in-selected-column");
+        }
+    });
+    table.querySelectorAll("th").forEach(head => {
+        if (head.dataset.columnIdx === elem.dataset.columnIdx) {
+            head.setAttribute("data-is-in-selected-column", "");
+        } else {
+            head.removeAttribute("data-is-in-selected-column");
+        }
     });
     elem.setAttribute("data-is-selected", "");
 
@@ -140,7 +153,11 @@ function displayValue(event) {
 }
 
 function clearTableCellSelection(tableElem){
-    tableElem.querySelectorAll(".skrubview-table-cell").forEach(cell => {cell.removeAttribute("data-is-selected");});
+    tableElem.querySelectorAll(".skrubview-table-cell").forEach(
+        cell => {
+            cell.removeAttribute("data-is-selected");
+            cell.removeAttribute("data-is-in-selected-column");
+        });
     tableElem.removeAttribute("data-selected-cell");
     const topBarId = tableElem.dataset.topBarId;
     const bar = document.getElementById(topBarId);
