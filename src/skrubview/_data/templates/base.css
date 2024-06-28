@@ -232,13 +232,13 @@
     max-width: 40rem;
     max-height: 10rem;
     min-height: 1.8rem;
-    white-space: pre;
 }
 
 {{ report_id_selector }}.skrubview-report .skrubview-box pre {
     overflow-x: auto;
     padding: var(--skrubview-tiny);
     flex-grow: 1;
+    white-space: pre;
 }
 
 {{ report_id_selector }}.skrubview-report .skrubview-table-value-box {
