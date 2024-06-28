@@ -3,7 +3,8 @@ function updateColSelection(event) {
 }
 
 function isSelectedCol(columnElem) {
-    const checkboxElem = columnElem.querySelector("input.skrubview-select-column-checkbox[type='checkbox']");
+    const checkboxElem = columnElem.querySelector(
+        "input.skrubview-select-column-checkbox[type='checkbox']");
     return checkboxElem && checkboxElem.checked;
 }
 
@@ -18,7 +19,8 @@ function updateSelectedColsSnippet(reportId) {
 
 function clearSelectedCols(reportId) {
     const reportElem = document.getElementById(reportId);
-    reportElem.querySelectorAll("input.skrubview-select-column-checkbox[type='checkbox']").forEach(
+    reportElem.querySelectorAll(
+        "input.skrubview-select-column-checkbox[type='checkbox']").forEach(
         box => {
             box.checked = false;
         }
@@ -30,7 +32,8 @@ function selectAllCols(reportId) {
     const reportElem = document.getElementById(reportId);
     reportElem.querySelectorAll(".skrubview-column-summary").forEach(
         elem => {
-            const box = elem.querySelector("input.skrubview-select-column-checkbox[type='checkbox']");
+            const box = elem.querySelector(
+                "input.skrubview-select-column-checkbox[type='checkbox']");
             if (!(box === null)) {
                 box.checked = !elem.hasAttribute("data-is-excluded-by-filter");
             }
@@ -177,7 +180,8 @@ function clearTableCellSelection(tableElem) {
 function displayFirstCellValue(event) {
     const header = event.target;
     const idx = header.dataset.columnIdx;
-    const firstCell = header.closest("table").querySelector(`.skrubview-table-cell[data-column-idx="${idx}"]`);
+    const firstCell = header.closest("table").querySelector(
+        `.skrubview-table-cell[data-column-idx="${idx}"]`);
     if (firstCell) {
         firstCell.click();
     }
@@ -185,14 +189,16 @@ function displayFirstCellValue(event) {
 
 function revealColCard(reportId, colIdx) {
     const reportElem = document.getElementById(reportId);
-    const allCols = reportElem.querySelectorAll(".skrubview-columns-in-sample-tab .skrubview-column-summary");
+    const allCols = reportElem.querySelectorAll(
+        ".skrubview-columns-in-sample-tab .skrubview-column-summary");
     allCols.forEach(col => {
         col.removeAttribute("data-is-selected-in-table");
     });
     if (colIdx === null) {
         return;
     }
-    const targetCol = document.getElementById(`${reportId}_col_${colIdx}_in_sample_tab`);
+    const targetCol = document.getElementById(
+        `${reportId}_col_${colIdx}_in_sample_tab`);
     targetCol.dataset.isSelectedInTable = "";
 
 }
@@ -228,15 +234,19 @@ function onFilterChange(colFilterId) {
             elem.dataset.isExcludedByFilter = "";
         }
     })
-    document.getElementById(`${reportId}_display_n_columns`).textContent = acceptedCols.length.toString();
+    document.getElementById(`${reportId}_display_n_columns`).textContent = acceptedCols
+        .length.toString();
     const tableElem = reportElem.querySelector(".skrubview-dataframe-sample-table");
     if (!acceptedCols.includes(tableElem.dataset.selectedColumn)) {
         clearTableCellSelection(tableElem);
     }
-    for (let toggleSelector of [".skrubview-table-sample-toggle", ".skrubview-column-summaries-toggle"]) {
+    for (let toggleSelector of [".skrubview-table-sample-toggle",
+            ".skrubview-column-summaries-toggle"
+        ]) {
         const toggle = reportElem.querySelector(toggleSelector);
         toggle.dataset.predicate = acceptedCols.length === 0 ? "false" : "true";
-        const filterDisplay = toggle.querySelector(".skrubview-selected-filter-display");
+        const filterDisplay = toggle.querySelector(
+            ".skrubview-selected-filter-display");
         filterDisplay.textContent = '"' + colFilters[filterName]["display_name"] + '"';
     }
 }
