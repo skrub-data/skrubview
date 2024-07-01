@@ -3,6 +3,7 @@ import re
 import secrets
 
 import jinja2
+import pandas as pd
 
 try:
     from skrub import _selectors as s
@@ -46,6 +47,7 @@ def _get_jinja_env():
         "filter_isin_snippet",
     ]:
         env.filters[function_name] = getattr(_utils, function_name)
+    env.filters["is_null"] = pd.isna
     return env
 
 
