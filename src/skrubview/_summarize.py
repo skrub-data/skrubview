@@ -115,7 +115,7 @@ def _add_value_counts(summary, column, *, dataframe_summary, with_plots):
         summary["value_is_constant"] = False
         if with_plots:
             summary["value_counts_plot"] = _plotting.value_counts(
-                value_counts, n_unique, color=_plotting.COLORS[1]
+                value_counts, n_unique, dataframe_summary["n_rows"], color=_plotting.COLORS[1]
             )
 
 
