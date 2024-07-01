@@ -47,7 +47,8 @@ datasets.extend(
 
 def add_report(df, name):
     print(f"making report for {name}", end="", flush=True)
-    df = pl.from_pandas(df)
+    # TODO: from_pandas failing due to bug in polars; restore when it is fixed.
+    # df = pl.from_pandas(df)
     pretty_name = name.replace("_", " ").capitalize()
     start = time.time()
     html = Report(df, title=pretty_name).html
