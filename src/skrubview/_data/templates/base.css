@@ -355,3 +355,11 @@
     padding-block-start: var(--skrubview-huge);
     padding-block-end: var(--skrubview-huge);
 }
+
+{{ report_id_selector }}.skrubview-report .skrubview-important-note {
+    background-color: var(--skrubview-lightgreen);
+    padding: var(--skrubview-small);
+    border-radius: var(--skrubview-radius);
+    margin-top: var(--skrubview-tiny);
+    margin-bottom: var(--skrubview-small);
+}
