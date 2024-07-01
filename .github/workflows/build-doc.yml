@@ -23,6 +23,7 @@ jobs:
       run: |
         pip install "git+https://github.com/skrub-data/skrub.git@main"
         pip install -e ".[doc]"
+        pip install pyarrow
 
     - name: Build the doc
       run: |
