@@ -1,3 +1,8 @@
+# This repository has been archived
+
+The functionality has now been integrated into the [skrub](https://github.com/skrub-data/skrub) Python library.
+See the `skrub` documentation and in particular the `TableReport` class.
+
 # Prototyping dataframe visualization tools
 
 This package exists to experiment with ideas and features that could be included in [skrub](https://github.com/skrub-data/skrub).
